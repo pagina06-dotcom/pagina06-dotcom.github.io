@@ -1,0 +1,27 @@
+{
+  "_nota": "Reglas para sugerir la línea de cada publicación (título + temas de OpenAlex). 'confirmadas' guarda las decisiones de Tomás: id de la obra -> línea (o null para dejarla sin línea).",
+  "reglas": [
+    [
+      "found",
+      "interdisciplin|transdisciplin|epistem|philosoph|education|educaci|acreditaci|complexity and evolution|cybernetics",
+      "i"
+    ],
+    [
+      "wicked",
+      "conflict|epidem|covid|seir|hospitali|social|resilien|wicked|war\\b|peace|policy|entrepren|minds",
+      "i"
+    ],
+    [
+      "cot",
+      "organi[sz]ation|reaction network|autopoie|self-?maint|goal-?direct|ecolog|chemi|qu[ií]mica|metabol|origin|closure|sustainab|synthetic biology|diffusion",
+      "i"
+    ],
+    [
+      "qc",
+      "quantum|concept|entangle|conjunction|cognit|meaning|language|semantic|decision|hilbert|contextual|guppy|interference",
+      "i"
+    ]
+  ],
+  "confirmadas": {},
+  "ocultas": []
+}

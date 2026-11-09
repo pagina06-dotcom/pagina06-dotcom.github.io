@@ -1,0 +1,26 @@
+{
+  "_nota": "Residencias y eventos para el mapa. Las afiliaciones salen solas de OpenAlex (ver correcciones.json).",
+  "actualizado": "2026-10-19",
+  "lugares": [
+    {
+      "n": "BCAM — Goal-Directedness Workshop",
+      "c": "Bilbao, Spain",
+      "ll": [
+        43.263,
+        -2.935
+      ],
+      "y": "2024",
+      "k": "ev"
+    },
+    {
+      "n": "UM6P Institute for Advanced Studies",
+      "c": "Ben Guerir, Morocco",
+      "ll": [
+        32.22,
+        -7.94
+      ],
+      "y": "2025–2026",
+      "k": "ev"
+    }
+  ]
+}

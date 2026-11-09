@@ -1,0 +1,47 @@
+{
+ "generado": "2026-11-01",
+ "estado": {
+  "orcid": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 114
+  },
+  "openalex": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 91,
+   "cites": 900,
+   "h": 20
+  },
+  "crossref": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 66
+  },
+  "datacite": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 9
+  },
+  "s2": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 82
+  },
+  "dblp": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 44
+  },
+  "zbmath": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 19
+  },
+  "arxiv": {
+   "estado": "ok",
+   "fecha": "2026-11-01",
+   "resultado": 40
+  }
+ }
+}

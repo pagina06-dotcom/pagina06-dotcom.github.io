@@ -1,0 +1,6 @@
+# Finales de línea LF en el repositorio (GitHub Actions corre en Linux)
+* text=auto eol=lf
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.pdf binary

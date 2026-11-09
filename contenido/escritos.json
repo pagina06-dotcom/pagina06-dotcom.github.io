@@ -1,0 +1,48 @@
+{
+  "_nota": "Ensayos, revista y videos.",
+  "actualizado": "2026-10-19",
+  "escritos": [
+    {
+      "k": [
+        "Essay · Medium",
+        "Ensayo · Medium"
+      ],
+      "t": "The Three Transformations of the AI-spirit",
+      "y": "2023",
+      "s": "inter.phil",
+      "u": "https://medium.com/@tveloz/the-three-transformations-of-the-ai-spitrit-2aba1f5ad2a1",
+      "d": [
+        "On play, bracketing and immersion in the age of AI.",
+        "Sobre el juego, el paréntesis y la inmersión en la era de la IA."
+      ]
+    },
+    {
+      "k": [
+        "Magazine · DICTA",
+        "Revista · DICTA"
+      ],
+      "t": "INTERDISCIPLINARIA",
+      "y": "2024",
+      "s": "inter.phil",
+      "u": "https://dicta.cl",
+      "d": [
+        "Relaunched magazine on interdisciplinary profiles and social impact.",
+        "Revista relanzada sobre perfiles interdisciplinarios e impacto social."
+      ]
+    },
+    {
+      "k": [
+        "Video seminar · CLEA",
+        "Seminario en video · CLEA"
+      ],
+      "t": "COT × Music — Introduction",
+      "y": "2023",
+      "s": "inter.art",
+      "u": "https://clea.research.vub.be/cot-x-music-1-introduction-dr-tomas-veloz",
+      "d": [
+        "Chemical Organization Theory explained through music.",
+        "La Teoría de Organizaciones Químicas explicada con música."
+      ]
+    }
+  ]
+}

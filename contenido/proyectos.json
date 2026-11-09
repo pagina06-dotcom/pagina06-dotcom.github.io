@@ -1,0 +1,87 @@
+{
+  "_nota": "Proyectos y fondos. ORCID no tiene 'Funding' cargado, por eso vienen del formulario.",
+  "actualizado": "2026-10-19",
+  "proyectos": [
+    {
+      "k": [
+        "Research grant",
+        "Fondo de investigación"
+      ],
+      "t": "The Origins of Goal-Directedness",
+      "o": "John Templeton Foundation",
+      "y": "2020–2023",
+      "st": "done",
+      "s": "research.cot",
+      "also": [
+        "cooperation.acad"
+      ],
+      "d": [
+        "Co-PI with Francis Heylighen in an international multi-institution project.",
+        "Co-investigador principal junto a Francis Heylighen en un proyecto internacional multi-institucional."
+      ]
+    },
+    {
+      "k": [
+        "Research grant",
+        "Fondo de investigación"
+      ],
+      "t": "Epidemiological modeling during COVID-19",
+      "o": "US Air Force",
+      "y": "2020",
+      "st": "done",
+      "s": "research.wicked",
+      "d": [
+        "Research leader of the modeling team.",
+        "Líder de investigación del equipo de modelamiento."
+      ]
+    },
+    {
+      "k": [
+        "Research project",
+        "Proyecto de investigación"
+      ],
+      "t": "Metasystem transitions",
+      "o": "UM6P Institute for Advanced Studies",
+      "y": "2025–2026",
+      "st": "on",
+      "s": "research.cot",
+      "d": [
+        "Evolutionary transitions and emergence in complex systems.",
+        "Transiciones evolutivas y emergencia en sistemas complejos."
+      ]
+    },
+    {
+      "k": [
+        "Foundation",
+        "Fundación"
+      ],
+      "t": "DICTA Foundation",
+      "o": "Chile",
+      "y": [
+        "Since founding",
+        "Desde su fundación"
+      ],
+      "st": "on",
+      "s": "inter.edu",
+      "d": [
+        "Interdisciplinary projects with social impact.",
+        "Proyectos interdisciplinarios con impacto social."
+      ]
+    },
+    {
+      "k": [
+        "Magazine",
+        "Revista"
+      ],
+      "t": "INTERDISCIPLINARIA",
+      "o": "DICTA",
+      "y": "2024",
+      "st": "on",
+      "s": "inter.phil",
+      "d": [
+        "Relaunched magazine on interdisciplinary profiles and social impact.",
+        "Revista relanzada sobre perfiles interdisciplinarios e impacto social."
+      ]
+    }
+  ]
+}

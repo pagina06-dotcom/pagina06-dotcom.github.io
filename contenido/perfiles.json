@@ -1,0 +1,192 @@
+{
+  "_nota": "Perfil principal + hasta 3 perfiles. Cada contenido pertenece a UNA subárea ('perfil.subarea'); 'also' lo muestra en otras solo si Tomás lo decide.",
+  "actualizado": "2026-10-19",
+  "perfiles": {
+    "research": {
+      "main": true,
+      "t": [
+        "Researcher",
+        "Investigador"
+      ],
+      "r": [
+        "Main profile",
+        "Perfil principal"
+      ],
+      "sub": [
+        "Advancing interdisciplinary science through mathematical modeling and complex systems.",
+        "Avanzando la ciencia interdisciplinaria mediante modelamiento matemático y sistemas complejos."
+      ],
+      "subs": [
+        {
+          "id": "cot",
+          "t": [
+            "Chemical Organization Theory",
+            "Teoría de Organizaciones Químicas"
+          ],
+          "d": [
+            "Mathematical frameworks for self-organizing systems using reaction networks.",
+            "Marcos matemáticos para sistemas auto-organizados mediante redes de reacción."
+          ]
+        },
+        {
+          "id": "qc",
+          "t": [
+            "Quantum Cognition",
+            "Cognición cuántica"
+          ],
+          "d": [
+            "Quantum structures to model cognitive and linguistic phenomena.",
+            "Estructuras cuánticas para modelar fenómenos cognitivos y lingüísticos."
+          ]
+        },
+        {
+          "id": "wicked",
+          "t": [
+            "Modeling wicked problems",
+            "Modelamiento de problemas complejos"
+          ],
+          "d": [
+            "Complex societal challenges through systems thinking and mathematics.",
+            "Desafíos sociales complejos con pensamiento sistémico y matemáticas."
+          ]
+        },
+        {
+          "id": "found",
+          "t": [
+            "Foundations of inter/transdisciplinarity",
+            "Fundamentos de la inter/transdisciplina"
+          ],
+          "d": [
+            "Theoretical and practical foundations of collaboration across fields.",
+            "Fundamentos teóricos y prácticos de la colaboración entre disciplinas."
+          ]
+        }
+      ]
+    },
+    "cooperation": {
+      "t": [
+        "International cooperation",
+        "Cooperación internacional"
+      ],
+      "r": [
+        "Bridge-builder across continents",
+        "Puente entre continentes"
+      ],
+      "sub": [
+        "Building bridges across continents to advance science, sustainability and human development.",
+        "Construyendo puentes entre continentes para impulsar la ciencia, la sostenibilidad y el desarrollo humano."
+      ],
+      "subs": [
+        {
+          "id": "acad",
+          "t": [
+            "Academic cooperation",
+            "Cooperación académica"
+          ],
+          "d": [
+            "Joint research, student exchanges and collaborative publications.",
+            "Investigación conjunta, intercambio de estudiantes y publicaciones colaborativas."
+          ]
+        },
+        {
+          "id": "sust",
+          "t": [
+            "Sustainability",
+            "Sostenibilidad"
+          ],
+          "d": [
+            "Environmental modeling and sustainable development research.",
+            "Modelamiento ambiental e investigación en desarrollo sostenible."
+          ]
+        },
+        {
+          "id": "cult",
+          "t": [
+            "Culture",
+            "Cultura"
+          ],
+          "d": [
+            "Arts–science collaborations and exchange of traditional knowledge.",
+            "Colaboraciones arte–ciencia e intercambio de saberes tradicionales."
+          ]
+        },
+        {
+          "id": "south",
+          "t": [
+            "Global South",
+            "Sur Global"
+          ],
+          "d": [
+            "Capacity building and South–South collaboration for equitable development.",
+            "Fortalecimiento de capacidades y colaboración Sur–Sur para un desarrollo equitativo."
+          ]
+        }
+      ]
+    },
+    "inter": {
+      "t": [
+        "Interdisciplinarity",
+        "Interdisciplinariedad"
+      ],
+      "r": [
+        "Educator, philosopher & artist",
+        "Educador, filósofo y artista"
+      ],
+      "sub": [
+        "Bridging knowledge domains through education, philosophy and the arts.",
+        "Uniendo dominios del conocimiento a través de la educación, la filosofía y las artes."
+      ],
+      "subs": [
+        {
+          "id": "edu",
+          "t": [
+            "Education",
+            "Educación"
+          ],
+          "d": [
+            "Pedagogies that integrate mathematical thinking with humanistic inquiry.",
+            "Pedagogías que integran el pensamiento matemático con la indagación humanista."
+          ]
+        },
+        {
+          "id": "phil",
+          "t": [
+            "Philosophy",
+            "Filosofía"
+          ],
+          "d": [
+            "Epistemology and the ontology of complex systems.",
+            "Epistemología y ontología de los sistemas complejos."
+          ]
+        },
+        {
+          "id": "art",
+          "t": [
+            "Art",
+            "Arte"
+          ],
+          "d": [
+            "Artistic practices as a way of understanding complex phenomena.",
+            "Prácticas artísticas como forma de comprender fenómenos complejos."
+          ]
+        }
+      ]
+    },
+    "free": {
+      "free": true,
+      "t": [
+        "Free profile",
+        "Perfil libre"
+      ],
+      "r": [
+        "Chosen by Tomás",
+        "Lo elige Tomás"
+      ],
+      "sub": [
+        "Space for a fourth profile.",
+        "Espacio para un cuarto perfil."
+      ],
+      "subs": []
+    }
+  }
+}

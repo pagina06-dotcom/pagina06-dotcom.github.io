@@ -1,0 +1,91 @@
+{
+  "_nota": "Charlas y eventos. En el piloto se completan por formulario hasta que ORCID tenga esta sección.",
+  "actualizado": "2026-10-19",
+  "eventos": [
+    {
+      "when": "Jul 2025 – 2026",
+      "y": 2025,
+      "s": "cooperation.acad",
+      "also": [
+        "research.cot"
+      ],
+      "kind": [
+        "Research residency",
+        "Residencia de investigación"
+      ],
+      "title": "UM6P Institute for Advanced Studies",
+      "place": "Ben Guerir, Morocco",
+      "d": [
+        "Residency on goal-directedness and metasystem transitions.",
+        "Residencia sobre direccionalidad a metas y transiciones metasistémicas."
+      ]
+    },
+    {
+      "when": "2024",
+      "y": 2024,
+      "s": "research.qc",
+      "also": [
+        "cooperation.acad"
+      ],
+      "kind": [
+        "Conference organization",
+        "Organización de congreso"
+      ],
+      "title": "Quantum Structures 2024 (IQSA)",
+      "place": "VUB, Brussels",
+      "d": [
+        "Main organizer of the biennial conference of the International Quantum Structures Association.",
+        "Organizador principal del congreso bienal de la International Quantum Structures Association."
+      ]
+    },
+    {
+      "when": "2024",
+      "y": 2024,
+      "s": "research.cot",
+      "kind": [
+        "Workshop",
+        "Taller"
+      ],
+      "title": "Goal-Directedness Workshop",
+      "place": "BCAM, Bilbao",
+      "d": [
+        "Theoretical and experimental approaches to goal-directed behaviour, funded by the John Templeton Foundation.",
+        "Enfoques teóricos y experimentales del comportamiento dirigido a metas, financiado por la John Templeton Foundation."
+      ]
+    },
+    {
+      "when": "2024 – 2025",
+      "y": 2024,
+      "s": "cooperation.acad",
+      "kind": [
+        "Academic tour",
+        "Gira académica"
+      ],
+      "title": "5 months, 4 continents",
+      "place": "Europe · Asia · Americas",
+      "d": [
+        "Visits to collaborators and institutions worldwide.",
+        "Visitas a colaboradores e instituciones en todo el mundo."
+      ]
+    },
+    {
+      "when": "2023",
+      "y": 2023,
+      "s": "inter.art",
+      "also": [
+        "research.cot"
+      ],
+      "kind": [
+        "Seminar series",
+        "Ciclo de seminarios"
+      ],
+      "title": "COT × Music",
+      "place": "CLEA, VUB",
+      "d": [
+        "Introducing Chemical Organization Theory through music.",
+        "Introducción a la Teoría de Organizaciones Químicas a través de la música."
+      ],
+      "link": "https://clea.research.vub.be/cot-x-music-1-introduction-dr-tomas-veloz"
+    }
+  ]
+}

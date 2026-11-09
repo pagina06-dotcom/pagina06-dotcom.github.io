@@ -1,0 +1,25 @@
+{
+  "_nota": "Correcciones a los datos de las fuentes. Nunca se inventan datos: solo se excluyen, unen o renombran.",
+  "tipos_excluidos": [
+    "erratum",
+    "peer-review",
+    "paratext",
+    "retraction",
+    "journal-issue"
+  ],
+  "obras_excluidas": [],
+  "afiliaciones_unir": {
+    "I4387154295": "I4210144223",
+    "I141945490": "I4405260628"
+  },
+  "afiliaciones_excluir": [],
+  "afiliaciones_nombres": {
+    "I4210144223": "Universidad Tecnológica Metropolitana",
+    "I13469542": "Vrije Universiteit Brussel · CLEA",
+    "I4405260628": "University of British Columbia (Okanagan)",
+    "I4210131560": "UM6P Institute for Advanced Studies",
+    "I69737025": "Universidad de Chile"
+  },
+  "titulos_excluidos": "^(correction to|preface|authors'? response|special issue)",
+  "_nota_titulos": "Expresión regular: títulos que no son obras propias (correcciones, prefacios, números especiales)."
+}

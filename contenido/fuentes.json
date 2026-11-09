@@ -1,0 +1,253 @@
+{
+  "_nota": "Catálogo de fuentes. El estado real de cada sincronización lo escribe el recolector en datos/fuentes.json.",
+  "fuentes": [
+    {
+      "n": "ORCID",
+      "st": "ok",
+      "what": [
+        "Publications, positions, education, grants, awards and talks.",
+        "Publicaciones, cargos, formación, fondos, premios y charlas."
+      ],
+      "how": [
+        "Public ORCID API, queried weekly with his ORCID iD. He keeps his ORCID up to date and the site follows.",
+        "API pública de ORCID, consultada cada semana con su ORCID iD. Él mantiene su ORCID al día y el sitio lo sigue."
+      ],
+      "id": "orcid"
+    },
+    {
+      "n": "OpenAlex",
+      "st": "ok",
+      "what": [
+        "Citations, h-index, co-authors, institutions with location, topics.",
+        "Citas, índice h, coautores, instituciones con ubicación, temas."
+      ],
+      "how": [
+        "Open API, no key needed. Works are matched to his author profile and merged with ORCID by DOI.",
+        "API abierta, sin clave. Los trabajos se asocian a su perfil de autor y se unen con ORCID por DOI."
+      ],
+      "id": "openalex"
+    },
+    {
+      "n": "Crossref",
+      "st": "ok",
+      "what": [
+        "Official publisher record: confirms the DOI, journal and year.",
+        "Registro oficial de la editorial: confirma el DOI, la revista y el año."
+      ],
+      "how": [
+        "Open API, by DOI. Corrects the journal when another source lists a repository instead.",
+        "API abierta, por DOI. Corrige la revista cuando otra fuente indica un repositorio en su lugar."
+      ],
+      "id": "crossref"
+    },
+    {
+      "n": "DataCite",
+      "st": "ok",
+      "what": [
+        "Confirms DOIs registered by repositories such as arXiv, Figshare or Zenodo.",
+        "Confirma los DOI registrados por repositorios como arXiv, Figshare o Zenodo."
+      ],
+      "how": [
+        "Open API, by DOI.",
+        "API abierta, por DOI."
+      ],
+      "id": "datacite"
+    },
+    {
+      "n": "Semantic Scholar",
+      "st": "ok",
+      "what": [
+        "Independent index of publications and citations.",
+        "Índice independiente de publicaciones y citas."
+      ],
+      "how": [
+        "Free API: by DOI, or by title when there is no DOI.",
+        "API gratuita: por DOI, o por título cuando no hay DOI."
+      ],
+      "id": "s2"
+    },
+    {
+      "n": "zbMATH Open",
+      "st": "ok",
+      "what": [
+        "European reference index for mathematics.",
+        "Índice europeo de referencia en matemáticas."
+      ],
+      "how": [
+        "Open API, by DOI.",
+        "API abierta, por DOI."
+      ],
+      "id": "zbmath"
+    },
+    {
+      "n": "arXiv",
+      "st": "ok",
+      "what": [
+        "Preprint versions, free to read.",
+        "Versiones preprint, de lectura libre."
+      ],
+      "how": [
+        "Open API, by title.",
+        "API abierta, por título."
+      ],
+      "id": "arxiv"
+    },
+    {
+      "n": "DBLP",
+      "st": "block",
+      "what": [
+        "Reference index for computer science.",
+        "Índice de referencia en informática."
+      ],
+      "how": [
+        "Its API currently blocks automated queries; the DBLP identifier is read from Semantic Scholar instead.",
+        "Su API hoy bloquea las consultas automáticas; el identificador DBLP se lee desde Semantic Scholar."
+      ],
+      "id": "dblp"
+    },
+    {
+      "n": "Scopus",
+      "st": "wait",
+      "what": [
+        "Citations, h-index and verification by Elsevier's index.",
+        "Citas, índice h y verificación según el índice de Elsevier."
+      ],
+      "how": [
+        "Elsevier API with an institutional key (VUB or UTEM).",
+        "API de Elsevier con clave institucional (VUB o UTEM)."
+      ],
+      "id": "scopus"
+    },
+    {
+      "n": "Google Scholar",
+      "st": "wait",
+      "what": [
+        "Citation counts according to Google Scholar.",
+        "Citas según Google Scholar."
+      ],
+      "how": [
+        "No official API. Only possible through an intermediary service. Shown separately; the site never depends on it.",
+        "Sin API oficial. Solo es posible mediante un servicio intermediario. Se muestra aparte; el sitio nunca depende de él."
+      ],
+      "id": "scholar"
+    },
+    {
+      "n": "Web of Science",
+      "st": "wait",
+      "what": [
+        "Citation counts according to Web of Science.",
+        "Citas según Web of Science."
+      ],
+      "how": [
+        "Clarivate API with an access key, possibly through VUB or UTEM.",
+        "API de Clarivate con clave de acceso, posiblemente a través de la VUB o la UTEM."
+      ],
+      "id": "wos"
+    },
+    {
+      "n": "Medium · YouTube",
+      "st": "plan",
+      "what": [
+        "Essays and videos.",
+        "Ensayos y videos."
+      ],
+      "how": [
+        "Public RSS feeds, checked weekly.",
+        "Canales RSS públicos, revisados cada semana."
+      ],
+      "id": "rss"
+    },
+    {
+      "n": [
+        "Source websites",
+        "Sitios de origen"
+      ],
+      "st": "plan",
+      "what": [
+        "Images for talks and events.",
+        "Imágenes de charlas y eventos."
+      ],
+      "how": [
+        "The preview image of each linked page, or the video thumbnail, with credit and a link to the source.",
+        "La imagen de vista previa de cada página enlazada, o la miniatura del video, con crédito y enlace a la fuente."
+      ],
+      "id": "sitios"
+    },
+    {
+      "n": [
+        "Backup form",
+        "Formulario de respaldo"
+      ],
+      "st": "plan",
+      "what": [
+        "Anything not available in any source (photos, bio, area texts).",
+        "Lo que no está en ninguna fuente (fotos, biografía, textos de áreas)."
+      ],
+      "how": [
+        "A simple Google Form. Used only as an exception.",
+        "Un formulario simple de Google. Se usa solo como excepción."
+      ],
+      "id": "formulario"
+    }
+  ],
+  "pasos": [
+    [
+      [
+        "Collect",
+        "Recolectar"
+      ],
+      [
+        "Every week GitHub Actions queries each source.",
+        "Cada semana GitHub Actions consulta cada fuente."
+      ]
+    ],
+    [
+      [
+        "Merge",
+        "Unificar"
+      ],
+      [
+        "Duplicates are merged by DOI and title; every field keeps its source.",
+        "Los duplicados se unen por DOI y título; cada campo conserva su fuente."
+      ]
+    ],
+    [
+      [
+        "Compare",
+        "Comparar"
+      ],
+      [
+        "When sources disagree (e.g. citations) they are shown side by side.",
+        "Cuando las fuentes difieren (p. ej. citas) se muestran lado a lado."
+      ]
+    ],
+    [
+      [
+        "Publish",
+        "Publicar"
+      ],
+      [
+        "The site, the map and the CV PDF are regenerated.",
+        "Se regeneran el sitio, el mapa y el CV en PDF."
+      ]
+    ]
+  ],
+  "reglas_sellos": [
+    [
+      "A missing seal does not mean an error: zbMATH only indexes mathematics and DBLP only computer science.",
+      "Que falte un sello no significa un error: zbMATH solo indexa matemáticas y DBLP solo informática."
+    ],
+    [
+      "ORCID and OpenAlex are not counted as verification: they are the sources the list is built from.",
+      "ORCID y OpenAlex no cuentan como verificación: son las fuentes con las que se arma la lista."
+    ],
+    [
+      "Publications are matched by DOI, or by title and year when there is no DOI.",
+      "Las publicaciones se asocian por DOI, o por título y año cuando no hay DOI."
+    ],
+    [
+      "Scopus and Web of Science will add their seals once institutional access is available.",
+      "Scopus y Web of Science agregarán sus sellos cuando haya acceso institucional."
+    ]
+  ]
+}

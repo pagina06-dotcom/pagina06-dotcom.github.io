@@ -1,0 +1,20 @@
+# Claves y configuración local: nunca al repositorio (van como secretos de GitHub)
+.env
+.env.*
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Archivos temporales de Office
+~$*

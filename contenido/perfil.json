@@ -1,0 +1,92 @@
+{
+  "_nota": "Textos que no vienen de ninguna fuente (se editan por formulario). Cada texto es [inglés, español].",
+  "actualizado": "2026-10-19",
+  "nombre": "Tomás Veloz",
+  "titulo": "Dr. Tomás Veloz",
+  "rol": [
+    "Interdisciplinary scientist bridging physics, mathematics, cognitive science and complex systems.",
+    "Científico interdisciplinario entre la física, las matemáticas, las ciencias cognitivas y los sistemas complejos."
+  ],
+  "afiliaciones": [
+    {
+      "o": "UTEM",
+      "r": [
+        "Professor, Mathematics",
+        "Profesor, Matemáticas"
+      ]
+    },
+    {
+      "o": "VUB · CLEA",
+      "r": [
+        "Director, SYMP group",
+        "Director, grupo SYMP"
+      ]
+    },
+    {
+      "o": "DICTA",
+      "r": [
+        "Founder & Director",
+        "Fundador y director"
+      ]
+    },
+    {
+      "o": "UM6P",
+      "r": [
+        "Visiting researcher",
+        "Investigador visitante"
+      ]
+    }
+  ],
+  "bio": [
+    "Tomás Veloz is a Chilean interdisciplinary scientist. He is Professor in the Mathematics Department at Universidad Tecnológica Metropolitana (UTEM) and directs the Systemic Modeling and Applications (SYMP) group at the Centre Leo Apostel, Vrije Universiteit Brussel. His work spans Chemical Organization Theory — including the decomposition theorem and quantum-like organizational structures — and quantum cognition, where he develops Hilbert-space representations of concepts. He founded and directs the DICTA Foundation, which promotes integrated knowledge with social impact.",
+    "Tomás Veloz es un científico interdisciplinario chileno. Es profesor del Departamento de Matemáticas de la Universidad Tecnológica Metropolitana (UTEM) y dirige el grupo Systemic Modeling and Applications (SYMP) del Centre Leo Apostel, Vrije Universiteit Brussel. Su trabajo abarca la Teoría de Organizaciones Químicas —incluido el teorema de descomposición y las estructuras organizacionales de tipo cuántico— y la cognición cuántica, donde desarrolla representaciones de conceptos en espacios de Hilbert. Fundó y dirige la Fundación DICTA, que promueve conocimiento integrado con impacto social."
+  ],
+  "email": "tomas.veloz@vub.ac.be",
+  "sedes": "VUB Brussels · UTEM Santiago",
+  "fotos": [
+    {
+      "src": "assets/img/foto-1.jpg",
+      "d": [
+        "Full Stack Interdisciplinary Researcher",
+        "Investigador interdisciplinario full stack"
+      ],
+      "lugar": [
+        "Brussels, Belgium",
+        "Bruselas, Bélgica"
+      ]
+    },
+    {
+      "src": "assets/img/foto-2.jpg",
+      "d": [
+        "Artificial General Intelligence Summit",
+        "Cumbre de Inteligencia Artificial General"
+      ],
+      "lugar": [
+        "Panama City, Panama",
+        "Ciudad de Panamá, Panamá"
+      ]
+    },
+    {
+      "src": "assets/img/foto-3.jpg",
+      "d": [
+        "At Richard Solé's talk with van der Maas and Reyes",
+        "En la charla de Richard Solé con van der Maas y Reyes"
+      ],
+      "lugar": [
+        "UvA Amsterdam, The Netherlands",
+        "UvA Ámsterdam, Países Bajos"
+      ]
+    },
+    {
+      "src": "assets/img/foto-4.jpg",
+      "d": [
+        "Organizer of the Artificial Intuition Workshop",
+        "Organizador del taller Artificial Intuition"
+      ],
+      "lugar": [
+        "Brussels, Belgium",
+        "Bruselas, Bélgica"
+      ]
+    }
+  ]
+}

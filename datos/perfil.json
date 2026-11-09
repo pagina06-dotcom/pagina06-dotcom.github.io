@@ -1,0 +1,404 @@
+{
+ "generado": "2026-11-01",
+ "stats": {
+  "works": 100,
+  "cites": 900,
+  "h": 20,
+  "i10": 29,
+  "works_openalex": 95
+ },
+ "por_anio": [
+  [
+   2010,
+   3
+  ],
+  [
+   2011,
+   5
+  ],
+  [
+   2012,
+   3
+  ],
+  [
+   2013,
+   6
+  ],
+  [
+   2014,
+   5
+  ],
+  [
+   2015,
+   8
+  ],
+  [
+   2016,
+   2
+  ],
+  [
+   2017,
+   8
+  ],
+  [
+   2018,
+   8
+  ],
+  [
+   2019,
+   12
+  ],
+  [
+   2020,
+   6
+  ],
+  [
+   2021,
+   11
+  ],
+  [
+   2022,
+   2
+  ],
+  [
+   2023,
+   9
+  ],
+  [
+   2024,
+   3
+  ],
+  [
+   2025,
+   3
+  ],
+  [
+   2026,
+   6
+  ]
+ ],
+ "coautores": [
+  [
+   "Diederik Aerts",
+   28
+  ],
+  [
+   "Sandro Sozzo",
+   23
+  ],
+  [
+   "Massimiliano Sassoli de Bianchi",
+   15
+  ],
+  [
+   "Liane M. Gabora",
+   9
+  ],
+  [
+   "Lester Beltran",
+   7
+  ],
+  [
+   "Pablo Razeto‐Barry",
+   7
+  ],
+  [
+   "Francis Heylighen",
+   6
+  ],
+  [
+   "Pedro Maldonado",
+   6
+  ],
+  [
+   "Jonito Aerts Arguëlles",
+   6
+  ],
+  [
+   "Peter Dittrich",
+   5
+  ]
+ ],
+ "afiliaciones": [
+  {
+   "id": "I13469542",
+   "n": "Vrije Universiteit Brussel · CLEA",
+   "ciudad": "Brussels",
+   "pais": "Belgium",
+   "ll": [
+    50.85045,
+    4.34878
+   ],
+   "ror": "https://ror.org/006e5kg04",
+   "anios": [
+    2014,
+    2015,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2026
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I4210131560",
+   "n": "UM6P Institute for Advanced Studies",
+   "ciudad": "Marrakesh",
+   "pais": "Morocco",
+   "ll": [
+    31.634159088134766,
+    -7.999939918518066
+   ],
+   "ror": "https://ror.org/03xc55g68",
+   "anios": [
+    2026
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I4210144223",
+   "n": "Universidad Tecnológica Metropolitana",
+   "ciudad": "Santiago",
+   "pais": "Chile",
+   "ll": [
+    -33.44749450683594,
+    -70.65763854980469
+   ],
+   "ror": "https://ror.org/04bpsn575",
+   "anios": [
+    2023,
+    2024,
+    2025,
+    2026
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I132053463",
+   "n": "Université Libre de Bruxelles",
+   "ciudad": "Brussels",
+   "pais": "Belgium",
+   "ll": [
+    50.85045,
+    4.34878
+   ],
+   "ror": "https://ror.org/01r9htc13",
+   "anios": [
+    2017,
+    2018,
+    2019,
+    2021,
+    2024
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I13897259",
+   "n": "Universidad Andrés Bello",
+   "ciudad": "Santiago",
+   "pais": "Chile",
+   "ll": [
+    -33.45694,
+    -70.64827
+   ],
+   "ror": "https://ror.org/01qq57711",
+   "anios": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I926574661",
+   "n": "Leipzig University",
+   "ciudad": "Leipzig",
+   "pais": "Germany",
+   "ll": [
+    51.33962,
+    12.37129
+   ],
+   "ror": "https://ror.org/03s7gtk40",
+   "anios": [
+    2023
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I4210108487",
+   "n": "Fundación Ciencia and Vida",
+   "ciudad": "Santiago",
+   "pais": "Chile",
+   "ll": [
+    -33.47301483154297,
+    -70.61703491210938
+   ],
+   "ror": "https://ror.org/01p6hjg61",
+   "anios": [
+    2020
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I4405260628",
+   "n": "University of British Columbia (Okanagan)",
+   "ciudad": "Kelowna",
+   "pais": "Canada",
+   "ll": [
+    49.88307,
+    -119.48568
+   ],
+   "ror": "https://ror.org/04241wz75",
+   "anios": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2019
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I4210145958",
+   "n": "Instituto de Filosofía y Ciencias de la Complejidad",
+   "ciudad": "Santiago",
+   "pais": "Chile",
+   "ll": [
+    -33.470802307128906,
+    -70.60247039794922
+   ],
+   "ror": "https://ror.org/0447jv934",
+   "anios": [
+    2012,
+    2014,
+    2015,
+    2017,
+    2018,
+    2019
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I911713783",
+   "n": "Universidad Diego Portales",
+   "ciudad": "Santiago",
+   "pais": "Chile",
+   "ll": [
+    -33.45694,
+    -70.64827
+   ],
+   "ror": "https://ror.org/03gtdcg60",
+   "anios": [
+    2017
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I76198965",
+   "n": "Friedrich Schiller University Jena",
+   "ciudad": "Jena",
+   "pais": "Germany",
+   "ll": [
+    50.92878,
+    11.5899
+   ],
+   "ror": "https://ror.org/05qpz1x62",
+   "anios": [
+    2014
+   ],
+   "k": "aff"
+  },
+  {
+   "id": "I69737025",
+   "n": "Universidad de Chile",
+   "ciudad": "Santiago",
+   "pais": "Chile",
+   "ll": [
+    -33.45694,
+    -70.64827
+   ],
+   "ror": "https://ror.org/047gc3g35",
+   "anios": [
+    2010,
+    2013
+   ],
+   "k": "aff"
+  }
+ ],
+ "orcid": {
+  "employments": 2,
+  "employments_detalle": [
+   {
+    "org": "Vrije Universiteit Brussel",
+    "ciudad": "Brussels",
+    "pais": "BE",
+    "rol": null,
+    "depto": null,
+    "desde": null,
+    "hasta": null
+   },
+   {
+    "org": "Universidad tecnologica metropolitana",
+    "ciudad": "Santiago",
+    "pais": "CL",
+    "rol": null,
+    "depto": "Matematicas",
+    "desde": null,
+    "hasta": null
+   }
+  ],
+  "educations": 4,
+  "educations_detalle": [
+   {
+    "org": "The University of British Columbia Okanagan",
+    "ciudad": "Kelowna",
+    "pais": "CA",
+    "rol": "PhD in Interdisciplinary Studies",
+    "depto": null,
+    "desde": null,
+    "hasta": null
+   },
+   {
+    "org": "Universidad de Chile",
+    "ciudad": "Santiago",
+    "pais": "CL",
+    "rol": "Master in Computer Science",
+    "depto": "Ciencias de la Computacion",
+    "desde": null,
+    "hasta": null
+   },
+   {
+    "org": "Universidad de Chile",
+    "ciudad": "Santiago",
+    "pais": "CL",
+    "rol": "B.Sc. in Mathematics",
+    "depto": "Mathematicas",
+    "desde": null,
+    "hasta": null
+   },
+   {
+    "org": "Universidad de Chile",
+    "ciudad": "Santiago",
+    "pais": "CL",
+    "rol": "B.Sc. in Physics",
+    "depto": "Fisica",
+    "desde": null,
+    "hasta": null
+   }
+  ],
+  "fundings": 0,
+  "distinctions": 0,
+  "invited-positions": 0,
+  "peer-reviews": 9
+ }
+}
