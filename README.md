@@ -33,3 +33,14 @@ Si una fuente falla, se conservan sus sellos anteriores y la página de Fuentes 
 ## Corregir sin inventar
 
 `contenido/correcciones.json` permite excluir obras o tipos, unir instituciones duplicadas (p. ej. UTEM aparece dos veces en OpenAlex) y renombrarlas. `contenido/lineas.json` guarda las reglas de línea, las líneas confirmadas por Tomás y las obras ocultas.
+
+## Cómo contribuir
+
+El proyecto usa **GitHub Flow**. El detalle y el porqué están en [docs/tecnico/decisiones/0001-flujo-de-trabajo-git.md](docs/tecnico/decisiones/0001-flujo-de-trabajo-git.md).
+
+- `main` siempre funciona: GitHub Pages la publica. No se trabaja directamente sobre ella.
+- Una rama corta por tarea de la carta Gantt, con su número: `feat/2.2-recuperar-citas`, `docs/6.1-documento-tecnico`, `fix/...`.
+- Al terminar: probar en local → pull request a `main` → merge → borrar la rama. Antes, `git pull`, porque el proceso semanal también escribe en `main`.
+- Mensajes con *Conventional Commits* en español: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, y `datos:` para los datos regenerados (siempre en un commit aparte).
+- Nunca subir claves ni archivos `.env`.
+- Cada hito se marca con una etiqueta: `v0.1-H1`, `v0.2-H2` y `v1.0-H3`.
