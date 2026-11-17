@@ -20,5 +20,5 @@ El sitio anterior de Tomás dejó de funcionar porque dependía de piezas que na
 
 - **A favor:** costo cero, nada que mantener ni actualizar en un servidor, historial completo de cada cambio de datos en git, y se puede volver a cualquier versión anterior.
 - **En contra:** no hay edición en vivo. Lo que la persona quiera cambiar entra por formulario o editando `contenido/`, y aparece en la siguiente actualización. GitHub Pages guarda los archivos en caché hasta 10 minutos.
-- **En contra:** `sitio.js` crece con la lista de publicaciones (hoy ~120 KB). Para una persona está bien; para un producto con muchas personas habría que separar un archivo por persona.
+- **En contra:** `sitio.js` crece con la lista de publicaciones (hoy ~110 KB). Para una persona está bien; para un producto con muchas personas habría que separar un archivo por persona.
 - **Pendiente:** si se protege `main` para exigir pull requests, dejar una excepción para el bot de Actions (ver [0001](0001-flujo-de-trabajo-git.md)).
