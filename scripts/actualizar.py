@@ -13,6 +13,8 @@ Uso:
 
 Reglas: no se inventa nada. Si una fuente falla se conservan sus datos de la semana anterior;
 si fallan ORCID u OpenAlex (la base de la lista) no se sobrescribe nada.
+Las obras que solo trae ORCID se buscan en OpenAlex por DOI o título para recuperar sus citas.
+Variables de entorno opcionales: OPENALEX_API_KEY (recomendada) y CONTACTO_API.
 Solo usa la biblioteca estándar de Python 3.10+.
 """
 import argparse
@@ -22,6 +24,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -37,6 +40,9 @@ DATOS = os.path.join(RAIZ, "datos")
 # Correo de contacto opcional para el "polite pool" de OpenAlex y Crossref (variable de entorno).
 CONTACTO = os.environ.get("CONTACTO_API", "").strip()
 UA = "tveloz-sitio/1.0 (sitio académico; GitHub Actions)" + (f" mailto:{CONTACTO}" if CONTACTO else "")
+# Clave de OpenAlex (secreto de GitHub). Sin clave, OpenAlex da un presupuesto diario pequeño
+# compartido por todos los que salen por la misma IP, y en GitHub Actions las IP son compartidas.
+OPENALEX_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
 HOY = dt.date.today().isoformat()
 
 
@@ -99,6 +105,17 @@ def doi_limpio(d):
     return d or None
 
 
+def sin_tildes(s):
+    return unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode().lower()
+
+
+def oa_url(url):
+    """Agrega la clave de OpenAlex a la consulta, si hay una configurada."""
+    if OPENALEX_KEY:
+        url += ("&" if "?" in url else "?") + "api_key=" + urllib.parse.quote(OPENALEX_KEY)
+    return url
+
+
 # ---------------------------------------------------------------- fuentes base
 def orcid_obras():
     d = pedir(f"https://pub.orcid.org/v3.0/{ORCID}/works")
@@ -147,7 +164,7 @@ def orcid_secciones():
 
 
 def openalex_autor():
-    return pedir(f"https://api.openalex.org/authors/{OPENALEX_AUTHOR}")
+    return pedir(oa_url(f"https://api.openalex.org/authors/{OPENALEX_AUTHOR}"))
 
 
 def openalex_obras():
@@ -155,7 +172,7 @@ def openalex_obras():
     while cursor:
         url = ("https://api.openalex.org/works?filter=author.id:" + OPENALEX_AUTHOR +
                "&per_page=200&cursor=" + urllib.parse.quote(cursor))
-        d = pedir(url)
+        d = pedir(oa_url(url))
         obras += d["results"]
         cursor = d["meta"].get("next_cursor")
         if not d["results"]:
@@ -168,7 +185,7 @@ def openalex_instituciones(ids):
     ids = list(ids)
     for i in range(0, len(ids), 50):
         lote = "|".join(ids[i:i + 50])
-        d = pedir(f"https://api.openalex.org/institutions?filter=openalex_id:{lote}&per_page=50")
+        d = pedir(oa_url(f"https://api.openalex.org/institutions?filter=openalex_id:{lote}&per_page=50"))
         for r in d["results"]:
             g = r.get("geo") or {}
             out[r["id"].rsplit("/", 1)[-1]] = {
@@ -179,6 +196,44 @@ def openalex_instituciones(ids):
 
 
 # ---------------------------------------------------------------- unificación
+def es_tomas(autoria, autor_id):
+    """¿Esta autoría de OpenAlex es Tomás? Por su ID o, si OpenAlex no la vinculó, por el nombre escrito."""
+    if (autoria["author"].get("id") or "").endswith(autor_id):
+        return True
+    for nombre in (autoria.get("raw_author_name"), autoria["author"].get("display_name")):
+        partes = re.findall(r"[a-z]+", sin_tildes(nombre))
+        if "veloz" in partes and ("tomas" in partes or "t" in partes):
+            return True
+    return False
+
+
+def ficha_openalex(w, autor_id):
+    """Convierte una obra de OpenAlex al formato de datos/publicaciones.json."""
+    doi = doi_limpio(w.get("doi"))
+    src = (w.get("primary_location") or {}).get("source") or {}
+    autorias = w.get("authorships", [])
+    arxiv = None
+    for loc in w.get("locations", []):
+        u = (loc.get("landing_page_url") or "") + " " + (loc.get("pdf_url") or "")
+        m = re.search(r"arxiv\.org/(?:abs|pdf)/([0-9]{4}\.[0-9]{4,5}|[a-z\-]+/[0-9]{7})", u)
+        if m:
+            arxiv = m.group(1)
+            break
+    if not arxiv and doi and doi.startswith("10.48550/arxiv."):
+        arxiv = doi.split("arxiv.", 1)[1]
+    return {
+        "id": doi or "oa:" + w["id"].rsplit("/", 1)[-1],
+        "t": w["title"], "y": w.get("publication_year"), "c": w.get("cited_by_count", 0),
+        "v": src.get("display_name"), "vtipo": src.get("type"), "ty": w.get("type"),
+        "doi": doi, "au": [a["author"]["display_name"] for a in autorias],
+        "coau": [a["author"]["display_name"] for a in autorias if not es_tomas(a, autor_id)],
+        "n": len(autorias),
+        "temas": [t["display_name"] for t in (w.get("topics") or [])[:3]],
+        "oa": w["id"].rsplit("/", 1)[-1], "arxiv_oa": arxiv,
+        "fuentes": ["openalex"],
+    }
+
+
 def unir(oa, orc, corr, autor_id):
     """Une OpenAlex y ORCID por DOI o por título+año. Cada obra conserva sus fuentes."""
     excluir_tipos = set(corr.get("tipos_excluidos", []))
@@ -193,36 +248,15 @@ def unir(oa, orc, corr, autor_id):
             continue
         if not w.get("title"):
             continue
-        doi = doi_limpio(w.get("doi"))
-        src = (w.get("primary_location") or {}).get("source") or {}
-        autores = [a["author"]["display_name"] for a in w.get("authorships", [])]
-        coaut = [a["author"]["display_name"] for a in w.get("authorships", [])
-                 if not (a["author"].get("id") or "").endswith(autor_id)]
-        arxiv = None
-        for loc in w.get("locations", []):
-            u = (loc.get("landing_page_url") or "") + " " + (loc.get("pdf_url") or "")
-            m = re.search(r"arxiv\.org/(?:abs|pdf)/([0-9]{4}\.[0-9]{4,5}|[a-z\-]+/[0-9]{7})", u)
-            if m:
-                arxiv = m.group(1)
-                break
-        if not arxiv and doi and doi.startswith("10.48550/arxiv."):
-            arxiv = doi.split("arxiv.", 1)[1]
-        o = {
-            "id": doi or "oa:" + w["id"].rsplit("/", 1)[-1],
-            "t": w["title"], "y": w.get("publication_year"), "c": w.get("cited_by_count", 0),
-            "v": src.get("display_name"), "vtipo": src.get("type"), "ty": w.get("type"),
-            "doi": doi, "au": autores, "coau": coaut, "n": len(autores),
-            "temas": [t["display_name"] for t in (w.get("topics") or [])[:3]],
-            "oa": w["id"].rsplit("/", 1)[-1], "arxiv_oa": arxiv,
-            "fuentes": ["openalex"],
-        }
+        o = ficha_openalex(w, autor_id)
+        doi = o["doi"]
         k = clave_titulo(o["t"], o["y"])
         previa = (por_doi.get(doi) if doi else None) or por_tit.get(k)
         if previa:  # duplicado dentro de OpenAlex: se queda la versión con DOI de editorial y más citas
             previa["c"] = max(previa["c"], o["c"])
             if not previa["doi"] and o["doi"]:
                 previa.update(id=o["id"], doi=o["doi"], v=o["v"], vtipo=o["vtipo"])
-            previa["arxiv_oa"] = previa["arxiv_oa"] or arxiv
+            previa["arxiv_oa"] = previa["arxiv_oa"] or o["arxiv_oa"]
             continue
         obras.append(o)
         if doi:
@@ -267,6 +301,92 @@ def unir(oa, orc, corr, autor_id):
     obras = [o for o in obras if o["id"] not in excluidas]
     obras.sort(key=lambda o: (-(o["y"] or 0), -(o["c"] or 0)))
     return obras, solo_orcid
+
+
+# ---------------------------------------------------------------- recuperación de citas
+CAMPOS_OA = "id,doi,title,publication_year,cited_by_count,type,authorships,primary_location,locations,topics"
+
+
+def titulo_coincide(t, y, w):
+    """Mismo título que la obra de ORCID. Si es idéntico y largo, vale aunque el año difiera
+    (ORCID a veces trae el año en que se importó la obra); si uno es prefijo del otro, año ±1."""
+    a, b, yy = norm(t), norm(w.get("title")), w.get("publication_year")
+    if not a or not b:
+        return False
+    if a == b:
+        return len(a) >= 30 or not (y and yy) or abs(y - yy) <= 1
+    return bool(y and yy and abs(y - yy) <= 1 and min(len(a), len(b)) >= 30 and (a.startswith(b) or b.startswith(a)))
+
+
+def buscar_en_openalex(o):
+    """Candidatos de OpenAlex para una obra de ORCID: por DOI y, si no tiene o no aparece, por título."""
+    if o["doi"]:
+        w = pedir(oa_url(f"https://api.openalex.org/works/doi:{urllib.parse.quote(o['doi'])}?select={CAMPOS_OA}"))
+        if w:
+            return [w], "doi"
+    titulo = " ".join(re.sub(r"[^\w\s]", " ", o["t"]).split())[:200]
+    r = pedir(oa_url("https://api.openalex.org/works?per_page=5&select=" + CAMPOS_OA +
+                     "&filter=title.search:" + urllib.parse.quote(titulo)))
+    return (r or {}).get("results", []), "titulo"
+
+
+def recuperar_citas(obras, previas, autor_id, estado):
+    """Busca en OpenAlex las obras que solo trajo ORCID (tarea 2.2).
+
+    OpenAlex a veces fusiona registros y la versión que sobrevive queda con "Tomas Veloz" escrito
+    pero sin vincular a su perfil: la obra existe, con sus citas, pero no sale en author.id.
+    Solo se acepta una obra si el título (o el DOI) coincide Y Tomás figura entre los autores.
+    - Si la obra encontrada ya está en la lista, la de ORCID era un duplicado: se unen.
+    - Si no, se completa con citas, autores y temas de OpenAlex y se marca "recuperada".
+    Si OpenAlex falla, se conservan las citas recuperadas la semana anterior.
+    """
+    solo = [o for o in obras if o["fuentes"] == ["orcid"]]
+    en_lista = {o["oa"]: o for o in obras if o.get("oa")}
+    prev = {o["id"]: o for o in previas}
+    recuperadas, duplicadas, sin_autoria, pendientes = [], [], [], list(solo)
+    try:
+        for o in solo:
+            candidatos, via = buscar_en_openalex(o)
+            time.sleep(0.2)
+            pendientes.remove(o)
+            coinciden = [w for w in candidatos if via == "doi" or titulo_coincide(o["t"], o["y"], w)]
+            w = next((w for w in coinciden if any(es_tomas(a, autor_id) for a in w.get("authorships", []))), None)
+            if not w:
+                if coinciden:  # la obra existe en OpenAlex, pero Tomás no figura entre sus autores
+                    sin_autoria.append(o["id"])
+                continue
+            wid = w["id"].rsplit("/", 1)[-1]
+            if wid in en_lista:
+                destino = en_lista[wid]
+                if "orcid" not in destino["fuentes"]:
+                    destino["fuentes"].append("orcid")
+                duplicadas.append(o)
+                continue
+            f = ficha_openalex(w, autor_id)
+            for k in ("c", "au", "coau", "n", "temas", "oa", "arxiv_oa", "vtipo"):
+                o[k] = f[k]
+            o["v"] = o["v"] or f["v"]
+            o["doi"] = o["doi"] or f["doi"]
+            o["fuentes"].append("openalex")
+            o["recuperada"] = via
+            en_lista[wid] = o
+            recuperadas.append(o)
+        estado["recuperacion"] = {"estado": "ok", "fecha": HOY, "resultado": len(recuperadas),
+                                  "citas": sum(o["c"] or 0 for o in recuperadas),
+                                  "duplicadas": len(duplicadas), "sin_autoria": sin_autoria}
+    except Exception as e:  # noqa: BLE001 - si falla, se conserva lo de la semana anterior
+        log(f"  ! recuperación de citas: {e}")
+        estado["recuperacion"] = {"estado": "error", "fecha": HOY, "resultado": str(e)[:160]}
+        for o in pendientes:
+            p = prev.get(o["id"])
+            if p and p.get("recuperada"):
+                for k in ("c", "n", "oa", "v", "vtipo", "doi", "recuperada"):
+                    o[k] = p.get(k)
+                o["au"], o["temas"], o["fuentes"] = list(p["au"]), list(p["temas"]), list(p["fuentes"])
+                recuperadas.append(o)
+    quitar = {id(o) for o in duplicadas}
+    obras[:] = [o for o in obras if id(o) not in quitar]
+    return recuperadas, duplicadas, sin_autoria
 
 
 def asignar_lineas(obras, lineas):
@@ -445,9 +565,12 @@ def armar_perfil(autor, obras, corr, orcid_info):
     st = autor.get("summary_stats", {})
     return {
         "generado": HOY,
+        # cites, h e i10 son las del perfil de OpenAlex, sin tocar. cites_recuperadas son las de obras que
+        # OpenAlex tiene pero no vinculó al perfil (ver recuperar_citas); no se suman para no inventar cifras.
         "stats": {"works": len(visibles), "cites": autor.get("cited_by_count"),
                   "h": st.get("h_index"), "i10": st.get("i10_index"),
-                  "works_openalex": autor.get("works_count")},
+                  "works_openalex": autor.get("works_count"),
+                  "cites_recuperadas": sum(o["c"] or 0 for o in visibles if o.get("recuperada"))},
         "por_anio": sorted(([y, n] for y, n in por_anio.items())),
         "coautores": sorted(coaut.items(), key=lambda x: -x[1])[:10],
         "afiliaciones": afiliaciones,
@@ -505,6 +628,13 @@ def main():
 
     obras, solo_orcid = unir(oa, orc, corr, OPENALEX_AUTHOR)
     log(f"Unificadas: {len(obras)} ({solo_orcid} solo en ORCID)")
+
+    log("Recuperación de citas de obras que solo están en ORCID…")
+    rec, dup, sin_aut = recuperar_citas(obras, previas, OPENALEX_AUTHOR, estado)
+    log(f"  {len(rec)} recuperadas ({sum(o['c'] or 0 for o in rec)} citas), {len(dup)} duplicadas unidas")
+    for i in sin_aut:
+        log(f"  ? {i}: está en OpenAlex pero Tomás no figura como autor. Revisar y, si no es suya, "
+            "agregarla a obras_excluidas en contenido/correcciones.json")
     asignar_lineas(obras, lineas)
 
     log("Verificación (Crossref, DataCite, Semantic Scholar, zbMATH, arXiv)…")

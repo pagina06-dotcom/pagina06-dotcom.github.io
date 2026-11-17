@@ -22,6 +22,7 @@ jobs:
       - name: Recolectar
         env:
           CONTACTO_API: ${{ vars.CONTACTO_API }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: python scripts/actualizar.py
       - name: Publicar cambios
         run: |
