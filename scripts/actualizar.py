@@ -482,6 +482,8 @@ def verificar(obras, previas, rapido, estado):
         ok("s2", n)
         ok("dblp", sum(1 for o in obras if "dblp" in o["vf"]))
     except Exception as e:  # noqa: BLE001
+        for o in obras:  # respuestas a medio procesar: no deben quedar en los datos publicados
+            o.pop("s2", None)
         falla("s2", e)
         falla("dblp", e)
 
