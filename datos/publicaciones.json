@@ -70,18 +70,6 @@
      "venue": "Frontiers in Bioengineering and Biotechnology",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "9094f4cf47373bc61776e4495081fd087820d235",
-    "externalIds": {
-     "PubMedCentral": "13365320",
-     "DOI": "10.3389/fbioe.2026.1801128",
-     "CorpusId": 289785691,
-     "PubMed": "42453133"
-    },
-    "title": "Chemical organizations as a conceptual tool: from synthetic biology to interdisciplinary systems and back",
-    "venue": "Frontiers in Bioengineering and Biotechnology",
-    "citationCount": 0
    }
   },
   {
@@ -123,19 +111,6 @@
     "dblp": {
      "id": "journals/entropy/VelozBC26"
     }
-   },
-   "s2": {
-    "paperId": "f75b9f5d98f4223648f5d2766e0a091211b16f8e",
-    "externalIds": {
-     "PubMedCentral": "13408802",
-     "DBLP": "journals/entropy/VelozBC26",
-     "DOI": "10.3390/e28070754",
-     "CorpusId": 289780545,
-     "PubMed": "42511364"
-    },
-    "title": "Modeling and Simulating Complex Conflict Management Using Reaction Networks",
-    "venue": "Entropy",
-    "citationCount": 0
    }
   },
   {
@@ -179,17 +154,6 @@
     "dblp": {
      "id": "journals/ijcopi/MorenoBacaVCSF26"
     }
-   },
-   "s2": {
-    "paperId": "f745837cec04c06d741cd3a98fb8c755169f431f",
-    "externalIds": {
-     "DBLP": "journals/ijcopi/MorenoBacaVCSF26",
-     "DOI": "10.61467/2007.1558.2026.v17i4.1317",
-     "CorpusId": 290795808
-    },
-    "title": "Unveiling Structural Dynamics in Supply Chains' Resilience: A Multi-Effect High-Frequency Panel Analysis",
-    "venue": "International Journal of Combinatorial Optimization Problems and Informatics",
-    "citationCount": 0
    }
   },
   {
@@ -263,16 +227,6 @@
     "zbmath": {
      "id": "8275991"
     }
-   },
-   "s2": {
-    "paperId": "8ff54daddb2ea56635fa216bf15dc01d1d9f3d89",
-    "externalIds": {
-     "DOI": "10.1007/s10773-026-06492-1",
-     "CorpusId": 292365569
-    },
-    "title": "Preface to the Special Issue “Quantum Structures 2024”",
-    "venue": "International Journal of Theoretical Physics",
-    "citationCount": 0
    }
   },
   {
@@ -309,18 +263,6 @@
      "venue": "Frontiers in cognition",
      "cites": 1
     }
-   },
-   "s2": {
-    "paperId": "9c615b1cf1a5dc9c2b639ef9ad9b636f034c2798",
-    "externalIds": {
-     "PubMedCentral": "13271134",
-     "DOI": "10.3389/fcogn.2025.1618381",
-     "CorpusId": 285314175,
-     "PubMed": "42339213"
-    },
-    "title": "Toward aitiopoietic cognition: bridging the evolutionary divide between biological and machine-learned causal systems",
-    "venue": "Frontiers in cognition",
-    "citationCount": 1
    }
   },
   {
@@ -398,16 +340,6 @@
      "venue": "Proceedings of the International Conference on Industrial Engineering and Operations Management",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "2c7f211858f19a874939b2775d39bd0c1ec69b40",
-    "externalIds": {
-     "DOI": "10.46254/eu08.20250356",
-     "CorpusId": 281997188
-    },
-    "title": "Multi-effects Strategic Decisions in the context of Supply Chain Resilience for the Maritime Port System",
-    "venue": "Proceedings of the International Conference on Industrial Engineering and Operations Management",
-    "citationCount": 0
    }
   },
   {
@@ -449,17 +381,6 @@
     "dblp": {
      "id": "journals/systems/HeylighenBV24"
     }
-   },
-   "s2": {
-    "paperId": "2744d8bfe251c8cbe342b455635de3dbb705c871",
-    "externalIds": {
-     "DBLP": "journals/systems/HeylighenBV24",
-     "DOI": "10.3390/systems12040111",
-     "CorpusId": 268782224
-    },
-    "title": "Chemical Organization Theory as a General Modeling Framework for Self-Sustaining Systems",
-    "venue": "Syst.",
-    "citationCount": 4
    }
   },
   {
@@ -503,18 +424,6 @@
     "arxiv": {
      "id": "2402.13615"
     }
-   },
-   "s2": {
-    "paperId": "5d2671987edfbe4dbae90093ac105a1a2c1d52c8",
-    "externalIds": {
-     "ArXiv": "2402.13615",
-     "DBLP": "journals/corr/abs-2402-13615",
-     "DOI": "10.48550/arXiv.2402.13615",
-     "CorpusId": 267770219
-    },
-    "title": "Analyizing the Conjunction Fallacy as a Fact",
-    "venue": "arXiv.org",
-    "citationCount": 1
    }
   },
   {
@@ -553,16 +462,6 @@
      "venue": "The 2024 Conference on Artificial Life",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "90a3c68eeadd2b61d2058a346223733bf358ad8d",
-    "externalIds": {
-     "DOI": "10.1162/isal_a_00707",
-     "CorpusId": 272033087
-    },
-    "title": "(Un)sustainable structural coupling – a testimony for snail intelligence",
-    "venue": "The 2024 Conference on Artificial Life",
-    "citationCount": 0
    }
   },
   {
@@ -604,17 +503,6 @@
     "dblp": {
      "id": "journals/adb/AguayoVV23"
     }
-   },
-   "s2": {
-    "paperId": "e2780575f8123816e8efd467603dc9c2cbe6fabb",
-    "externalIds": {
-     "DBLP": "journals/adb/AguayoVV23",
-     "DOI": "10.1177/10597123231183996",
-     "CorpusId": 259674975
-    },
-    "title": "Entangled cognition in immersive learning experience",
-    "venue": "Adaptive Behavior",
-    "citationCount": 16
    }
   },
   {
@@ -653,16 +541,6 @@
      "venue": "The 2023 Conference on Artificial Life",
      "cites": 4
     }
-   },
-   "s2": {
-    "paperId": "1ddef6d1d9046f954e2c96a2c7873e55b03c526b",
-    "externalIds": {
-     "DOI": "10.1162/isal_a_00665",
-     "CorpusId": 262201765
-    },
-    "title": "A Markovian framework to study the evolution of complexity and resilience in chemical organizations",
-    "venue": "The 2023 Conference on Artificial Life",
-    "citationCount": 4
    }
   },
   {
@@ -702,16 +580,6 @@
      "venue": "STEAM-H: Science, Technology, Engineering, Agriculture, Mathematics &amp; Health",
      "cites": 1
     }
-   },
-   "s2": {
-    "paperId": "f4967a33b1eb2656b3a02ee2579120f812187e2c",
-    "externalIds": {
-     "DOI": "10.1007/978-3-031-41862-4",
-     "CorpusId": 266501582
-    },
-    "title": "Trends and Challenges in Cognitive Modeling",
-    "venue": "STEAM-H: Science, Technology, Engineering, Agriculture, Mathematics &amp; Health",
-    "citationCount": 1
    }
   },
   {
@@ -753,19 +621,6 @@
     "dblp": {
      "id": "journals/entropy/VelozHW23"
     }
-   },
-   "s2": {
-    "paperId": "1f1121781325703e39a84d5e5e4eb8b5dad1d44b",
-    "externalIds": {
-     "DBLP": "journals/entropy/VelozHW23",
-     "PubMedCentral": "9955364",
-     "DOI": "10.3390/e25020286",
-     "CorpusId": 256595636,
-     "PubMed": "36832653"
-    },
-    "title": "Complexity and Evolution",
-    "venue": "Entropy",
-    "citationCount": 0
    }
   },
   {
@@ -928,17 +783,6 @@
     "dblp": {
      "id": "journals/complexity/VelozMBBBLH22"
     }
-   },
-   "s2": {
-    "paperId": "66f1e36d17fda9d44845d20e79d8e4293698d770",
-    "externalIds": {
-     "DBLP": "journals/complexity/VelozMBBBLH22",
-     "DOI": "10.1155/2022/9944562",
-     "CorpusId": 246458741
-    },
-    "title": "Towards an Analytic Framework for System Resilience Based on Reaction Networks",
-    "venue": "Complex",
-    "citationCount": 10
    }
   },
   {
@@ -979,19 +823,6 @@
     "dblp": {
      "id": "journals/entropy/VelozM22"
     }
-   },
-   "s2": {
-    "paperId": "3ea4e7d31097a7b30145a8432f3fe84e7e1cb7d7",
-    "externalIds": {
-     "DBLP": "journals/entropy/VelozM22",
-     "PubMedCentral": "9602301",
-     "DOI": "10.3390/e24101476",
-     "CorpusId": 253008760,
-     "PubMed": "37420496"
-    },
-    "title": "Modelling Worldviews as Stable Metabolisms",
-    "venue": "Entropy",
-    "citationCount": 6
    }
   },
   {
@@ -1030,16 +861,6 @@
      "venue": "Frontiers in Education",
      "cites": 43
     }
-   },
-   "s2": {
-    "paperId": "1e552a63490abfb17319db7aea1616c8c5dc4d71",
-    "externalIds": {
-     "DOI": "10.3389/feduc.2021.709560",
-     "CorpusId": 237610461
-    },
-    "title": "From STEM to STEAM: An Enactive and Ecological Continuum",
-    "venue": "Frontiers in Education",
-    "citationCount": 44
    }
   },
   {
@@ -1081,19 +902,6 @@
     "dblp": {
      "id": "journals/entropy/BusseniersVH21"
     }
-   },
-   "s2": {
-    "paperId": "ae8274d4c99dc6b98e12fa9e2b103e0295eec22c",
-    "externalIds": {
-     "DBLP": "journals/entropy/BusseniersVH21",
-     "PubMedCentral": "8395005",
-     "DOI": "10.3390/e23081039",
-     "CorpusId": 237316465,
-     "PubMed": "34441179"
-    },
-    "title": "Goal Directedness, Chemical Organizations, and Cybernetic Mechanisms",
-    "venue": "Entropy",
-    "citationCount": 21
    }
   },
   {
@@ -1134,18 +942,6 @@
     "dblp": {
      "id": "journals/complexity/VelozF21"
     }
-   },
-   "s2": {
-    "paperId": "d4dc9f94e24bb9fdcb7f3ebbe4be9be8ae45a4f6",
-    "externalIds": {
-     "MAG": "3189838072",
-     "DBLP": "journals/complexity/VelozF21",
-     "DOI": "10.1155/2021/8760937",
-     "CorpusId": 238784851
-    },
-    "title": "Reaction Network Modeling of Complex Ecological Interactions: Endosymbiosis and Multilevel Regulation",
-    "venue": "Complex",
-    "citationCount": 8
    }
   },
   {
@@ -1182,17 +978,6 @@
      "venue": "Frontiers in Bioengineering and Biotechnology",
      "cites": 9
     }
-   },
-   "s2": {
-    "paperId": "1242278989e44a71594a90347e090acadae448a9",
-    "externalIds": {
-     "PubMedCentral": "8639531",
-     "DOI": "10.3389/fbioe.2021.720652",
-     "CorpusId": 244349218
-    },
-    "title": "Goals as Emergent Autopoietic Processes",
-    "venue": "Frontiers in Bioengineering and Biotechnology",
-    "citationCount": 9
    }
   },
   {
@@ -1233,17 +1018,6 @@
     "dblp": {
      "id": "journals/soco/VelozF21"
     }
-   },
-   "s2": {
-    "paperId": "7f1d5ced5ee3c77f2bc6135473aba450b96c5b8a",
-    "externalIds": {
-     "DBLP": "journals/soco/VelozF21",
-     "DOI": "10.1007/s00500-020-05530-2",
-     "CorpusId": 233329376
-    },
-    "title": "Toward endosymbiosis modeling using reaction networks",
-    "venue": "Soft Computing - A Fusion of Foundations, Methodologies and Applications",
-    "citationCount": 5
    }
   },
   {
@@ -1318,17 +1092,6 @@
     "zbmath": {
      "id": "1490.00060"
     }
-   },
-   "s2": {
-    "paperId": "b0910adfaaa5772a7f417b0944d01169d30c19d5",
-    "externalIds": {
-     "MAG": "3148117859",
-     "DOI": "10.1007/s10699-021-09785-2",
-     "CorpusId": 233518225
-    },
-    "title": "Preface of the Special Issue: International Symposium “Worlds of Entanglement” - Second Part",
-    "venue": "Foundations of Science",
-    "citationCount": 1
    }
   },
   {
@@ -1372,17 +1135,6 @@
     "zbmath": {
      "id": "1498.00053"
     }
-   },
-   "s2": {
-    "paperId": "55cbf4d0a757094ec76a3e42b2caf5820b99cfe9",
-    "externalIds": {
-     "DBLP": "journals/soco/VelozCM21",
-     "DOI": "10.1007/s00500-021-05736-y",
-     "CorpusId": 233329279
-    },
-    "title": "Special issue “International Symposium on Molecular Logic and Computational Synthetic Biology: MLCSB18”",
-    "venue": "Soft Computing - A Fusion of Foundations, Methodologies and Applications",
-    "citationCount": 0
    }
   },
   {
@@ -1419,16 +1171,6 @@
      "venue": "Link Symposium Abstracts 2020",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "e00e0557e81898d47ddfa0bd97a843ece59ca426",
-    "externalIds": {
-     "DOI": "10.24135/link2021.v2i1.160",
-     "CorpusId": 246374936
-    },
-    "title": "Artificial Chemistry Model as a Language for Artistic Creation",
-    "venue": "Link Symposium Abstracts 2020",
-    "citationCount": 0
    }
   },
   {
@@ -1465,16 +1207,6 @@
      "venue": "LINK 2021 Conference Proceedings",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "1fd187cb3aad78716af1f9a4dca334f0dc9dfe77",
-    "externalIds": {
-     "DOI": "10.24135/link2021.v2i1.160.g238",
-     "CorpusId": 249972532
-    },
-    "title": "Modelo de química artificial como lenguaje para la creación artística",
-    "venue": "LINK 2021 Conference Proceedings",
-    "citationCount": 0
    }
   },
   {
@@ -1511,16 +1243,6 @@
      "venue": "LINK 2021 Conference Proceedings",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "e7e50d37d67c33b3f0690a3bc16398b872b5d8c8",
-    "externalIds": {
-     "DOI": "10.24135/link2021.v2i1.160.g239",
-     "CorpusId": 249966943
-    },
-    "title": "Modelo de Química Artificial como linguagem de criação artística",
-    "venue": "LINK 2021 Conference Proceedings",
-    "citationCount": 0
    }
   },
   {
@@ -1562,19 +1284,6 @@
     "dblp": {
      "id": "journals/biosystems/RubinVM21"
     }
-   },
-   "s2": {
-    "paperId": "3a8d385970000d84cb68d32bb2cee0e52ec28244",
-    "externalIds": {
-     "DBLP": "journals/biosystems/RubinVM21",
-     "MAG": "3110625162",
-     "DOI": "10.1016/j.biosystems.2020.104314",
-     "CorpusId": 227281047,
-     "PubMed": "33271251"
-    },
-    "title": "Beyond planetary-scale feedback self-regulation: Gaia as an autopoietic system",
-    "venue": "Biosyst.",
-    "citationCount": 22
    }
   },
   {
@@ -1622,18 +1331,6 @@
     "arxiv": {
      "id": "2006.05357"
     }
-   },
-   "s2": {
-    "paperId": "56b0b98f53066e6b9d1ff40f5a7cca6a0c161ec8",
-    "externalIds": {
-     "MAG": "3034749219",
-     "ArXiv": "2006.05357",
-     "DOI": "10.1101/2020.06.10.20127613",
-     "CorpusId": 219558561
-    },
-    "title": "On the interplay between mobility and hospitalization capacity during the COVID-19 pandemic: The SEIRHUD model",
-    "venue": "medRxiv",
-    "citationCount": 3
    }
   },
   {
@@ -1674,17 +1371,6 @@
      "venue": "",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "4474a6e4bef5026f325cdbb1c5e2371085a78618",
-    "externalIds": {
-     "MAG": "3035321408",
-     "CorpusId": 219600381
-    },
-    "title": "On the interplay between mobility and hospitalization capacity: The SEIRHUD model",
-    "venue": "",
-    "citationCount": 0,
-    "matchScore": 265.34192
    }
   },
   {
@@ -1731,18 +1417,6 @@
     "arxiv": {
      "id": "1711.09668"
     }
-   },
-   "s2": {
-    "paperId": "a081371069323daf28aa7f46170541326aff83f4",
-    "externalIds": {
-     "MAG": "2949860412",
-     "ArXiv": "1711.09668",
-     "DOI": "10.1007/s10699-018-9557-z",
-     "CorpusId": 53999820
-    },
-    "title": "On the Conceptuality Interpretation of Quantum and Relativity Theories",
-    "venue": "Foundations of Science",
-    "citationCount": 38
    }
   },
   {
@@ -1775,18 +1449,6 @@
     "dblp": {
      "id": "journals/complexity/MuLSK20"
     }
-   },
-   "s2": {
-    "paperId": "455c93aad6023d4dbe2963c3006c39bcc8c45d7a",
-    "externalIds": {
-     "DBLP": "journals/complexity/MuLSK20",
-     "MAG": "3020974623",
-     "DOI": "10.1155/2020/9048191",
-     "CorpusId": 218604616
-    },
-    "title": "Predicting Excavation-Induced Tunnel Response by Process-Based Modelling",
-    "venue": "Complex",
-    "citationCount": 6
    }
   },
   {
@@ -1819,18 +1481,6 @@
     "dblp": {
      "id": "journals/complexity/ZhanTLHM20"
     }
-   },
-   "s2": {
-    "paperId": "527299a7cf820391970d7bc96c046f225fe95fd3",
-    "externalIds": {
-     "DBLP": "journals/complexity/ZhanTLHM20",
-     "MAG": "3084116872",
-     "DOI": "10.1155/2020/5342606",
-     "CorpusId": 221667508
-    },
-    "title": "Study of the Complexity Game of Supply Chain Green Innovation Introduction under EPR Policy and Government Subsidies",
-    "venue": "Complex",
-    "citationCount": 11
    }
   },
   {
@@ -1876,18 +1526,6 @@
     "arxiv": {
      "id": "1903.09103"
     }
-   },
-   "s2": {
-    "paperId": "9d09fbd3d7f5a2280041b92e382fb7f94338b1ed",
-    "externalIds": {
-     "MAG": "2979533087",
-     "ArXiv": "1903.09103",
-     "DOI": "10.1140/epjp/i2019-12987-0",
-     "CorpusId": 84846246
-    },
-    "title": "Quantum entanglement in physical and cognitive systems: A conceptual analysis and a general representation",
-    "venue": "The European Physical Journal Plus",
-    "citationCount": 46
    }
   },
   {
@@ -1930,18 +1568,6 @@
     "arxiv": {
      "id": "1911.08006"
     }
-   },
-   "s2": {
-    "paperId": "440b3501e10983f2b46bb955b84be742ec1a611f",
-    "externalIds": {
-     "MAG": "2985873120",
-     "ArXiv": "1911.08006",
-     "DOI": "10.1007/s10699-019-09639-y",
-     "CorpusId": 208158052
-    },
-    "title": "The Complexity–Stability Debate, Chemical Organization Theory, and the Identification of Non-classical Structures in Ecology",
-    "venue": "Foundations of Science",
-    "citationCount": 19
    }
   },
   {
@@ -1987,18 +1613,6 @@
     "zbmath": {
      "id": "1525.92025"
     }
-   },
-   "s2": {
-    "paperId": "7607e64ef7b73a71b36454dfc6150a2101f64739",
-    "externalIds": {
-     "MAG": "2940907552",
-     "DBLP": "conf/mlcsb/VelozBMR18",
-     "DOI": "10.1007/978-3-030-19432-1_7",
-     "CorpusId": 153311004
-    },
-    "title": "On the Existence of Synergies and the Separability of Closed Reaction Networks",
-    "venue": "International Symposium on Molecular Logic and Computational Synthetic Biology",
-    "citationCount": 6
    }
   },
   {
@@ -2040,16 +1654,6 @@
     "zbmath": {
      "id": "1490.00061"
     }
-   },
-   "s2": {
-    "paperId": "74553debc4030eaddc5ffd0073c696b06f98c38e",
-    "externalIds": {
-     "DOI": "10.1007/s10699-019-09636-1",
-     "CorpusId": 254514197
-    },
-    "title": "Preface of the Special Issue International Symposium “Worlds of Entanglement”",
-    "venue": "Foundations of Science",
-    "citationCount": 0
    }
   },
   {
@@ -2098,19 +1702,6 @@
     "arxiv": {
      "id": "1808.03677"
     }
-   },
-   "s2": {
-    "paperId": "d14c76b7f0f1420e94ea8070fec7708ac1f17684",
-    "externalIds": {
-     "ArXiv": "1808.03677",
-     "MAG": "2887491794",
-     "DBLP": "journals/corr/abs-1808-03677",
-     "DOI": "10.1007/978-3-030-25913-6_1",
-     "CorpusId": 51976657
-    },
-    "title": "Modeling Meaning Associated with Documental Entities: Introducing the Brussels Quantum Approach",
-    "venue": "STEAM-H: Science, Technology, Engineering, Agriculture, Mathematics & Health",
-    "citationCount": 2
    }
   },
   {
@@ -2187,18 +1778,6 @@
     "arxiv": {
      "id": "1805.12122"
     }
-   },
-   "s2": {
-    "paperId": "b1ef6a4a42771d0ff53227d45e9d4abd69ee3547",
-    "externalIds": {
-     "ArXiv": "1805.12122",
-     "MAG": "2953028973",
-     "DOI": "10.1007/s41470-019-00030-7",
-     "CorpusId": 118642304
-    },
-    "title": "From Quantum Axiomatics to Quantum Conceptuality",
-    "venue": "Activitas Nervosa Superior",
-    "citationCount": 7
    }
   },
   {
@@ -2234,18 +1813,6 @@
     "zbmath": {
      "id": "1432.92074"
     }
-   },
-   "s2": {
-    "paperId": "cac2c321e53ecc806da59ff8c13bc302904745cb",
-    "externalIds": {
-     "MAG": "2990973591",
-     "DBLP": "journals/complexity/LiaoYDZ19",
-     "DOI": "10.1155/2019/8205696",
-     "CorpusId": 208946620
-    },
-    "title": "Impact of Cell Size Effect on Nutrient-Phytoplankton Dynamics",
-    "venue": "Complex",
-    "citationCount": 10
    }
   },
   {
@@ -2275,19 +1842,6 @@
     "arxiv": {
      "id": "1911.08006v1"
     }
-   },
-   "s2": {
-    "paperId": "440b3501e10983f2b46bb955b84be742ec1a611f",
-    "externalIds": {
-     "MAG": "2985873120",
-     "ArXiv": "1911.08006",
-     "DOI": "10.1007/s10699-019-09639-y",
-     "CorpusId": 208158052
-    },
-    "title": "The Complexity–Stability Debate, Chemical Organization Theory, and the Identification of Non-classical Structures in Ecology",
-    "venue": "Foundations of Science",
-    "citationCount": 19,
-    "matchScore": 267.9709
    }
   },
   {
@@ -2340,19 +1894,6 @@
     "arxiv": {
      "id": "1703.06642"
     }
-   },
-   "s2": {
-    "paperId": "1c0dfc8171d80ea84c14fa46fc181e06a8e7f9f9",
-    "externalIds": {
-     "DBLP": "journals/corr/AertsABBDBSV17",
-     "MAG": "2604863531",
-     "ArXiv": "1703.06642",
-     "DOI": "10.1016/j.tcs.2018.03.019",
-     "CorpusId": 18849734
-    },
-    "title": "Towards a Quantum World Wide Web",
-    "venue": "Theoretical Computer Science",
-    "citationCount": 38
    }
   },
   {
@@ -2398,18 +1939,6 @@
     "arxiv": {
      "id": "1807.11036"
     }
-   },
-   "s2": {
-    "paperId": "f0a6b5df51d2f28394830a1407a9099e0208dd6f",
-    "externalIds": {
-     "ArXiv": "1807.11036",
-     "MAG": "3101982788",
-     "DOI": "10.1007/s10699-018-9559-x",
-     "CorpusId": 51877327
-    },
-    "title": "Modeling Human Decision-Making: An Overview of the Brussels Quantum Approach",
-    "venue": "Foundations of Science",
-    "citationCount": 31
    }
   },
   {
@@ -2455,16 +1984,6 @@
     "arxiv": {
      "id": "1810.13342"
     }
-   },
-   "s2": {
-    "paperId": "b7ef2e5e91d3403dc1078bebe177d5916e162d00",
-    "externalIds": {
-     "DOI": "10.1007/s10699-018-9572-0",
-     "CorpusId": 254504389
-    },
-    "title": "Quantum Theory Methods as a Possible Alternative for the Double-Blind Gold Standard of Evidence-Based Medicine: Outlining a New Research Program",
-    "venue": "Foundations of Science",
-    "citationCount": 0
    }
   },
   {
@@ -2510,18 +2029,6 @@
     "zbmath": {
      "id": "1407.68019"
     }
-   },
-   "s2": {
-    "paperId": "3de02954158307034b4adbf4e80843778058872d",
-    "externalIds": {
-     "MAG": "2902226170",
-     "DBLP": "journals/tcs/AertsMBSV18",
-     "DOI": "10.1016/J.TCS.2018.11.010",
-     "CorpusId": 56487635
-    },
-    "title": "Special Issue: Quantum structures in computer science: Language, semantics, retrieval",
-    "venue": "Theoretical Computer Science",
-    "citationCount": 4
    }
   },
   {
@@ -2570,19 +2077,6 @@
     "arxiv": {
      "id": "1802.10448"
     }
-   },
-   "s2": {
-    "paperId": "0bc6eae5e67f6349b83ed795fc76c480013d3ace",
-    "externalIds": {
-     "MAG": "2788247460",
-     "DBLP": "journals/corr/abs-1802-10448",
-     "ArXiv": "1802.10448",
-     "DOI": "10.1142/9789813276895_0017",
-     "CorpusId": 3570071
-    },
-    "title": "Quantum cognition goes beyond-quantum: modeling the collective participant in psychological measurements",
-    "venue": "Probing the Meaning of Quantum Mechanics",
-    "citationCount": 4
    }
   },
   {
@@ -2620,17 +2114,6 @@
      "venue": "Frontiers of Physics",
      "cites": 0
     }
-   },
-   "s2": {
-    "paperId": "dc066fe0c749ef3b4480333d5d85517d85dfc273",
-    "externalIds": {
-     "MAG": "2897377008",
-     "DOI": "10.3389/fphy.2018.00121",
-     "CorpusId": 53282449
-    },
-    "title": "On the Classical-Quantum Relation of Constants of Motion",
-    "venue": "Frontiers of Physics",
-    "citationCount": 0
    }
   },
   {
@@ -2671,17 +2154,6 @@
     "zbmath": {
      "id": "1414.81036"
     }
-   },
-   "s2": {
-    "paperId": "cdc57f801e77088a4d3a07bc3a83d40a67f7bba7",
-    "externalIds": {
-     "MAG": "2901186549",
-     "DOI": "10.1142/9789813276895_0016",
-     "CorpusId": 58970886
-    },
-    "title": "QUANTUM COGNITIVE MODELING OF CONCEPTS: AN INTRODUCTION",
-    "venue": "Probing the Meaning of Quantum Mechanics",
-    "citationCount": 0
    }
   },
   {
@@ -2724,20 +2196,6 @@
     "arxiv": {
      "id": "1508.00434"
     }
-   },
-   "s2": {
-    "paperId": "ce4807ccadfa3bdb1adaab9065d2f947d793ef44",
-    "externalIds": {
-     "MAG": "2203448447",
-     "PubMedCentral": "5960007",
-     "ArXiv": "1508.00434",
-     "DOI": "10.1007/s10699-017-9528-9",
-     "CorpusId": 18317161,
-     "PubMed": "29805293"
-    },
-    "title": "Spin and Wind Directions I: Identifying Entanglement in Nature and Cognition",
-    "venue": "Foundations of Science",
-    "citationCount": 29
    }
   },
   {
@@ -2778,18 +2236,6 @@
     "dblp": {
      "id": "journals/systems/VelozR17"
     }
-   },
-   "s2": {
-    "paperId": "129b881cac72641e37eb1b00dea9902a0c17b44a",
-    "externalIds": {
-     "MAG": "2586827018",
-     "DBLP": "journals/systems/VelozR17",
-     "DOI": "10.3390/SYSTEMS5010011",
-     "CorpusId": 9991902
-    },
-    "title": "Reaction Networks as a Language for Systemic Modeling: Fundamentals and Examples",
-    "venue": "Syst.",
-    "citationCount": 30
    }
   },
   {
@@ -2835,20 +2281,6 @@
     "arxiv": {
      "id": "1706.01188"
     }
-   },
-   "s2": {
-    "paperId": "091ed035a61f72dcd7f621657d3daf1defde347f",
-    "externalIds": {
-     "MAG": "2952226857",
-     "PubMedCentral": "5960011",
-     "ArXiv": "1706.01188",
-     "DOI": "10.1007/s10699-017-9530-2",
-     "CorpusId": 23356752,
-     "PubMed": "29805294"
-    },
-    "title": "Spin and Wind Directions II: A Bell State Quantum Model",
-    "venue": "Foundations of Science",
-    "citationCount": 23
    }
   },
   {
@@ -2889,18 +2321,6 @@
     "dblp": {
      "id": "journals/systems/VelozR17a"
     }
-   },
-   "s2": {
-    "paperId": "fc2d94bfc860a8220de9b3891ba3b3594f13a860",
-    "externalIds": {
-     "MAG": "2603542455",
-     "DBLP": "journals/systems/VelozR17a",
-     "DOI": "10.3390/systems5020030",
-     "CorpusId": 19394965
-    },
-    "title": "Reaction Networks as a Language for Systemic Modeling: On the Study of Structural Changes",
-    "venue": "Syst.",
-    "citationCount": 11
    }
   },
   {
@@ -2949,19 +2369,6 @@
     "arxiv": {
      "id": "1612.06038"
     }
-   },
-   "s2": {
-    "paperId": "e4330addb10795f8e416d1638587908e092f2247",
-    "externalIds": {
-     "DBLP": "journals/corr/AertsABBBSV16",
-     "MAG": "2562968750",
-     "ArXiv": "1612.06038",
-     "DOI": "10.1007/978-3-319-57837-8_54",
-     "CorpusId": 5009011
-    },
-    "title": "Context and Interference Effects in the Combinations of Natural Concepts",
-    "venue": "Context",
-    "citationCount": 8
    }
   },
   {
@@ -3008,19 +2415,6 @@
     "arxiv": {
      "id": "1604.08268"
     }
-   },
-   "s2": {
-    "paperId": "4eefd366be3f3a8d540f33a962423ccd86a2cb7e",
-    "externalIds": {
-     "MAG": "2342516166",
-     "DBLP": "conf/qi/AertsBBSV16",
-     "ArXiv": "1604.08268",
-     "DOI": "10.1007/978-3-319-52289-0_7",
-     "CorpusId": 10434247
-    },
-    "title": "Quantum Cognition Beyond Hilbert Space: Fundamentals and Applications",
-    "venue": "Quantum Interaction",
-    "citationCount": 6
    }
   },
   {
@@ -3059,17 +2453,6 @@
      "venue": "",
      "cites": 4
     }
-   },
-   "s2": {
-    "paperId": "a307f84a65bd30f7d80facf8c87de5d3d0a09739",
-    "externalIds": {
-     "MAG": "2775829527",
-     "DOI": "10.24310/INNOEDUCA.2017.V3I2.3057",
-     "CorpusId": 168953407
-    },
-    "title": "Acreditación en Red: un sistema de acreditación distribuida para la educación continua",
-    "venue": "",
-    "citationCount": 4
    }
   },
   {
@@ -3115,19 +2498,6 @@
     "arxiv": {
      "id": "1609.07721"
     }
-   },
-   "s2": {
-    "paperId": "995985953100ce2dcc65b850a113c81145cf1867",
-    "externalIds": {
-     "ArXiv": "1609.07721",
-     "MAG": "3102094767",
-     "DBLP": "journals/corr/AertsABBSV16",
-     "DOI": "10.1007/s10773-017-3288-8",
-     "CorpusId": 9867211
-    },
-    "title": "Testing Quantum Models of Conjunction Fallacy on the World Wide Web",
-    "venue": "International Journal of Theoretical Physics",
-    "citationCount": 17
    }
   },
   {
@@ -3166,20 +2536,6 @@
     "arxiv": {
      "id": "1505.04981"
     }
-   },
-   "s2": {
-    "paperId": "b2b0857ea605b8afc860ce7c4f27fb8a2efc7547",
-    "externalIds": {
-     "MAG": "1771472876",
-     "DBLP": "journals/corr/AertsSV15a",
-     "ArXiv": "1505.04981",
-     "DOI": "10.1098/rsta.2015.0095",
-     "CorpusId": 13187855,
-     "PubMed": "26621983"
-    },
-    "title": "New fundamental evidence of non-classical structure in the combination of natural concepts",
-    "venue": "Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences",
-    "citationCount": 54
    }
   },
   {
@@ -3212,18 +2568,6 @@
     "arxiv": {
      "id": "1604.08268v1"
     }
-   },
-   "s2": {
-    "paperId": "c8a0bf048f3caf1425d13c9d3f0f693c35804e0c",
-    "externalIds": {
-     "DBLP": "journals/corr/AertsBBSV16",
-     "DOI": "10.48550/arXiv.1604.08268",
-     "CorpusId": 47408540
-    },
-    "title": "Quantum Cognition Beyond Hilbert Space I: Fundamentals",
-    "venue": "arXiv.org",
-    "citationCount": 0,
-    "matchScore": 239.44641
    }
   },
   {
@@ -3293,21 +2637,6 @@
     "arxiv": {
      "id": "1503.04260"
     }
-   },
-   "s2": {
-    "paperId": "cd1c6b73ba520d1abf108487d52abed33d3fe581",
-    "externalIds": {
-     "MAG": "2097212070",
-     "DBLP": "journals/corr/AertsSV15",
-     "ArXiv": "1503.04260",
-     "PubMedCentral": "4588749",
-     "DOI": "10.3389/fpsyg.2015.01447",
-     "CorpusId": 12927916,
-     "PubMed": "26483715"
-    },
-    "title": "Quantum structure of negation and conjunction in human thought",
-    "venue": "Frontiers in Psychology",
-    "citationCount": 33
    }
   },
   {
@@ -3355,19 +2684,6 @@
     "arxiv": {
      "id": "1412.8704"
     }
-   },
-   "s2": {
-    "paperId": "eee0a4c4d78e5b0de165ac1e1493de8898c14ee6",
-    "externalIds": {
-     "MAG": "2134453970",
-     "ArXiv": "1412.8704",
-     "DBLP": "journals/corr/AertsSV14a",
-     "DOI": "10.1007/s10773-015-2717-9",
-     "CorpusId": 17060964
-    },
-    "title": "Quantum Structure in Cognition and the Foundations of Human Reasoning",
-    "venue": "International Journal of Theoretical Physics",
-    "citationCount": 27
    }
   },
   {
@@ -3412,19 +2728,6 @@
     "arxiv": {
      "id": "1410.6854"
     }
-   },
-   "s2": {
-    "paperId": "0a25c1d47a72a68509d265ab5c73e051e55fff20",
-    "externalIds": {
-     "MAG": "2070160870",
-     "DBLP": "journals/corr/AertsSV14",
-     "ArXiv": "1410.6854",
-     "DOI": "10.1007/s10773-015-2620-4",
-     "CorpusId": 276533
-    },
-    "title": "The Quantum Nature of Identity in Human Thought: Bose-Einstein Statistics for Conceptual Indistinguishability",
-    "venue": "International Journal of Theoretical Physics",
-    "citationCount": 25
    }
   },
   {
@@ -3497,19 +2800,6 @@
      "venue": "Frontiers in Psychology",
      "cites": 8
     }
-   },
-   "s2": {
-    "paperId": "de471c9d83516fd57e9080db2fd2209e0a3c1ff7",
-    "externalIds": {
-     "PubMedCentral": "4642215",
-     "MAG": "2218197447",
-     "DOI": "10.3389/fpsyg.2015.01734",
-     "CorpusId": 11406108,
-     "PubMed": "26617556"
-    },
-    "title": "Unitary Transformations in the Quantum Model for Conceptual Conjunctions and Its Application to Data Representation",
-    "venue": "Frontiers in Psychology",
-    "citationCount": 8
    }
   },
   {
@@ -3553,18 +2843,6 @@
     "zbmath": {
      "id": "1383.81016"
     }
-   },
-   "s2": {
-    "paperId": "08975ab287cb629b769854f771ff2688c3189ca4",
-    "externalIds": {
-     "DBLP": "journals/soco/VelozR17",
-     "MAG": "2225076184",
-     "DOI": "10.1007/s00500-015-1914-z",
-     "CorpusId": 46257707
-    },
-    "title": "The state context property formalism: from concept theory to the semantics of music",
-    "venue": "Soft Computing - A Fusion of Foundations, Methodologies and Applications",
-    "citationCount": 5
    }
   },
   {
@@ -3600,17 +2878,6 @@
      "venue": "",
      "cites": 4
     }
-   },
-   "s2": {
-    "paperId": "0f4fd301c1a8a2e800ae0952b06ee7f9731371fc",
-    "externalIds": {
-     "MAG": "2944439771",
-     "DOI": "10.14288/1.0221366",
-     "CorpusId": 164967336
-    },
-    "title": "Toward a quantum theory of cognition : history, development, and perspectives",
-    "venue": "",
-    "citationCount": 4
    }
   },
   {
@@ -3655,20 +2922,6 @@
     "dblp": {
      "id": "journals/bioinformatics/KreyssigWPVID14"
     }
-   },
-   "s2": {
-    "paperId": "117bb9f88ce4be8ba57f19a77413e6e693fe36cb",
-    "externalIds": {
-     "DBLP": "journals/bioinformatics/KreyssigWPVID14",
-     "MAG": "2102089979",
-     "PubMedCentral": "4147906",
-     "DOI": "10.1093/bioinformatics/btu453",
-     "CorpusId": 16123970,
-     "PubMed": "25161236"
-    },
-    "title": "Effects of small particle numbers on long-term behaviour in discrete biochemical systems",
-    "venue": "Bioinform.",
-    "citationCount": 36
    }
   },
   {
@@ -3709,17 +2962,6 @@
     "zbmath": {
      "id": "1515.35115"
     }
-   },
-   "s2": {
-    "paperId": "6935968015e65744193fcf08c62b174776786355",
-    "externalIds": {
-     "MAG": "1991041849",
-     "DOI": "10.1016/J.JMAA.2014.10.045",
-     "CorpusId": 53136042
-    },
-    "title": "Existence, computability and stability for solutions of the diffusion equation with general piecewise constant argument",
-    "venue": "",
-    "citationCount": 36
    }
   },
   {
@@ -3801,19 +3043,6 @@
     "arxiv": {
      "id": "1909.09708v1"
     }
-   },
-   "s2": {
-    "paperId": "342baa9f3be1703fec91d07037dce550aea837f1",
-    "externalIds": {
-     "ArXiv": "1909.09708",
-     "MAG": "2974439229",
-     "DBLP": "conf/qi/VelozZA13",
-     "DOI": "10.1007/978-3-642-54943-4_12",
-     "CorpusId": 9109275
-    },
-    "title": "Measuring Conceptual Entanglement in Collections of Documents",
-    "venue": "Quantum Interaction",
-    "citationCount": 5
    }
   },
   {
@@ -3910,19 +3139,6 @@
     "arxiv": {
      "id": "1310.0737"
     }
-   },
-   "s2": {
-    "paperId": "14c54ccaf62423cfe2366fdc936b28ab73612805",
-    "externalIds": {
-     "MAG": "2950617792",
-     "DBLP": "conf/cogsci/VelozTG12",
-     "ArXiv": "1310.0737",
-     "DOI": "10.48550/arXiv.1310.0737",
-     "CorpusId": 4473638
-    },
-    "title": "A Conceptual Network-Based Approach to Inferring the Cultural Evolutionary History of the Baltic Psaltery",
-    "venue": "Annual Meeting of the Cognitive Science Society",
-    "citationCount": 12
    }
   },
   {
@@ -3961,19 +3177,6 @@
     "arxiv": {
      "id": "1306.2838"
     }
-   },
-   "s2": {
-    "paperId": "46dbc868bf520b34c2208e7fb2a0eac755ad9497",
-    "externalIds": {
-     "MAG": "1602026409",
-     "ArXiv": "1306.2838",
-     "DBLP": "journals/corr/AertsBSV13",
-     "DOI": "10.48550/arXiv.1306.2838",
-     "CorpusId": 7639693
-    },
-    "title": "The Quantum Challenge in Concept Theory and Natural Language Processing",
-    "venue": "arXiv.org",
-    "citationCount": 6
    }
   },
   {
@@ -4011,19 +3214,6 @@
     "arxiv": {
      "id": "1309.4744"
     }
-   },
-   "s2": {
-    "paperId": "3d6d7abcb8ef337e3241e0ad8109eb1640ccc88c",
-    "externalIds": {
-     "MAG": "1735859478",
-     "DBLP": "journals/corr/MithaniVG13",
-     "ArXiv": "1309.4744",
-     "DOI": "10.48550/arXiv.1309.4744",
-     "CorpusId": 14699479
-    },
-    "title": "Modeling the Role of Context Dependency in the Recognition and Manifestation of Entrepreneurial Opportunity",
-    "venue": "AAAI Conference on Artificial Intelligence",
-    "citationCount": 1
    }
   },
   {
@@ -4144,19 +3334,6 @@
      "venue": "PLoS ONE",
      "cites": 40
     }
-   },
-   "s2": {
-    "paperId": "22210fd12db9bd89ea3fe27f7c3c18bc45e22436",
-    "externalIds": {
-     "PubMedCentral": "3469651",
-     "MAG": "2044688788",
-     "DOI": "10.1371/journal.pone.0045772",
-     "CorpusId": 13447796,
-     "PubMed": "23071525"
-    },
-    "title": "Cycles and the Qualitative Evolution of Chemical Systems",
-    "venue": "PLoS ONE",
-    "citationCount": 40
    }
   },
   {
@@ -4202,19 +3379,6 @@
     "arxiv": {
      "id": "1208.2362"
     }
-   },
-   "s2": {
-    "paperId": "56d34c955a1bc9ba7420746e989456a9dd542ebc",
-    "externalIds": {
-     "DBLP": "conf/qi/AertsBGV12",
-     "MAG": "1818533712",
-     "ArXiv": "1208.2362",
-     "DOI": "10.1007/978-3-642-35659-9_4",
-     "CorpusId": 5744428
-    },
-    "title": "The Guppy Effect as Interference",
-    "venue": "Quantum Interaction",
-    "citationCount": 41
    }
   },
   {
@@ -4257,16 +3421,6 @@
     "zbmath": {
      "id": "1312.91018"
     }
-   },
-   "s2": {
-    "paperId": "ff1ef61b5da68b17a2ebcec98d6a770f9959b774",
-    "externalIds": {
-     "DOI": "10.1007/s00285-012-0626-6",
-     "CorpusId": 253818201
-    },
-    "title": "Reaction networks and evolutionary game theory",
-    "venue": "Journal of Mathematical Biology",
-    "citationCount": 0
    }
   },
   {
@@ -4305,19 +3459,6 @@
     "arxiv": {
      "id": "1104.3344"
     }
-   },
-   "s2": {
-    "paperId": "dffb1ed22c9a3a129ae4d10e1d02e96446468c0f",
-    "externalIds": {
-     "DBLP": "journals/corr/abs-1104-3344",
-     "MAG": "1567975588",
-     "ArXiv": "1104.3344",
-     "DOI": "10.48550/arXiv.1104.3344",
-     "CorpusId": 17510530
-    },
-    "title": "Quantum Structure in Cognition: Fundamentals and Applications",
-    "venue": "arXiv.org",
-    "citationCount": 23
    }
   },
   {
@@ -4405,18 +3546,6 @@
     "dblp": {
      "id": "conf/ecal/VelozRRD11"
     }
-   },
-   "s2": {
-    "paperId": "4446f46a700b62b78da380bf2254d0d096f857d6",
-    "externalIds": {
-     "MAG": "2404570382",
-     "DBLP": "conf/ecal/VelozRRD11",
-     "DOI": "10.7551/978-0-262-29714-1-ch123",
-     "CorpusId": 17831600
-    },
-    "title": "A decomposition theorem in chemical organizations",
-    "venue": "European Conference on Artificial Life",
-    "citationCount": 12
    }
   },
   {
@@ -4494,18 +3623,6 @@
     "dblp": {
      "id": "conf/membrane/PeterVD10"
     }
-   },
-   "s2": {
-    "paperId": "fc4be3c5287eace74962551bac209951fb2d2e06",
-    "externalIds": {
-     "DBLP": "conf/membrane/PeterVD10",
-     "MAG": "2132300843",
-     "DOI": "10.1007/978-3-642-18123-8_25",
-     "CorpusId": 39571966
-    },
-    "title": "Feasibility of Organizations - A Refinement of Chemical Organization Theory with Application to P Systems",
-    "venue": "Int. Conf. on Membrane Computing",
-    "citationCount": 21
    }
   },
   {
