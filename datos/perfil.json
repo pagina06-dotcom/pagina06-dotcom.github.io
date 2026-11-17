@@ -1,11 +1,12 @@
 {
- "generado": "2026-11-01",
+ "generado": "2026-11-17",
  "stats": {
-  "works": 100,
-  "cites": 900,
+  "works": 95,
+  "cites": 967,
   "h": 20,
-  "i10": 29,
-  "works_openalex": 95
+  "i10": 30,
+  "works_openalex": 88,
+  "cites_recuperadas": 147
  },
  "por_anio": [
   [
@@ -14,7 +15,7 @@
   ],
   [
    2011,
-   5
+   4
   ],
   [
    2012,
@@ -30,15 +31,15 @@
   ],
   [
    2015,
-   8
+   7
   ],
   [
    2016,
-   2
+   3
   ],
   [
    2017,
-   8
+   7
   ],
   [
    2018,
@@ -46,7 +47,7 @@
   ],
   [
    2019,
-   12
+   9
   ],
   [
    2020,
@@ -84,11 +85,11 @@
   ],
   [
    "Sandro Sozzo",
-   23
+   24
   ],
   [
    "Massimiliano Sassoli de Bianchi",
-   15
+   16
   ],
   [
    "Liane M. Gabora",
@@ -131,6 +132,7 @@
    ],
    "ror": "https://ror.org/006e5kg04",
    "anios": [
+    2013,
     2014,
     2015,
     2017,
@@ -189,6 +191,7 @@
    ],
    "ror": "https://ror.org/01r9htc13",
    "anios": [
+    2013,
     2017,
     2018,
     2019,
@@ -399,6 +402,6 @@
   "fundings": 0,
   "distinctions": 0,
   "invited-positions": 0,
-  "peer-reviews": 9
+  "peer-reviews": 10
  }
 }
