@@ -21,3 +21,4 @@ Las decisiones no se borran. Si una cambia, se escribe una nueva que reemplaza a
 | [0006](0006-recuperar-citas-sin-sumarlas-al-perfil.md) | Recuperar las citas de obras solo en ORCID, sin sumarlas al perfil | Aceptada | 2026-11-17 |
 | [0007](0007-clave-de-openalex.md) | Clave de OpenAlex como secreto de GitHub | Aceptada | 2026-11-17 |
 | [0008](0008-ia-gemini-y-busqueda-web.md) | IA con Gemini y búsqueda web para completar lo que no tienen las fuentes | Aceptada | 2026-11-09 |
+| [0009](0009-proteccion-ante-caidas-bruscas.md) | Protección ante caídas bruscas en las fuentes | Propuesta | 2026-11-17 |
