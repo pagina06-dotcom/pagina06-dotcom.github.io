@@ -1,47 +1,59 @@
 {
- "generado": "2026-11-01",
+ "generado": "2026-11-17",
  "estado": {
   "orcid": {
    "estado": "ok",
-   "fecha": "2026-11-01",
+   "fecha": "2026-11-17",
    "resultado": 114
   },
   "openalex": {
    "estado": "ok",
-   "fecha": "2026-11-01",
-   "resultado": 91,
-   "cites": 900,
+   "fecha": "2026-11-17",
+   "resultado": 84,
+   "cites": 967,
    "h": 20
   },
   "crossref": {
    "estado": "ok",
-   "fecha": "2026-11-01",
-   "resultado": 66
+   "fecha": "2026-11-17",
+   "resultado": 70
   },
   "datacite": {
    "estado": "ok",
-   "fecha": "2026-11-01",
+   "fecha": "2026-11-17",
    "resultado": 9
   },
   "s2": {
-   "estado": "ok",
-   "fecha": "2026-11-01",
-   "resultado": 82
+   "estado": "error",
+   "fecha": "2026-11-17",
+   "resultado": "HTTP Error 429: "
   },
   "dblp": {
-   "estado": "ok",
-   "fecha": "2026-11-01",
-   "resultado": 44
+   "estado": "error",
+   "fecha": "2026-11-17",
+   "resultado": "HTTP Error 429: "
   },
   "zbmath": {
    "estado": "ok",
-   "fecha": "2026-11-01",
-   "resultado": 19
+   "fecha": "2026-11-17",
+   "resultado": 20
   },
   "arxiv": {
    "estado": "ok",
-   "fecha": "2026-11-01",
-   "resultado": 40
+   "fecha": "2026-11-17",
+   "resultado": 34
+  },
+  "recuperacion": {
+   "estado": "ok",
+   "fecha": "2026-11-17",
+   "resultado": 5,
+   "citas": 147,
+   "duplicadas": 5,
+   "sin_autoria": [
+    "10.1155/2020/9048191",
+    "10.1155/2020/5342606",
+    "10.1155/2019/8205696"
+   ]
   }
  }
 }

@@ -30,6 +30,10 @@ Fuentes que consulta: ORCID y OpenAlex (base de la lista), Crossref, DataCite, S
 
 Si una fuente falla, se conservan sus sellos anteriores y la página de Fuentes lo indica. Si ORCID u OpenAlex fallan, no se sobrescribe nada.
 
+**Clave de OpenAlex.** Desde noviembre de 2026 OpenAlex cobra cada consulta contra un presupuesto diario. Sin clave, ese presupuesto es pequeño (US$ 0,10) y lo comparten todos los que salen por la misma IP, como pasa en GitHub Actions. Con una clave gratuita (https://openalex.org/settings/api) el presupuesto es de US$ 1 al día, de sobra para una ejecución semanal. La clave se lee de la variable de entorno `OPENALEX_API_KEY`; en GitHub va como secreto del repositorio con ese mismo nombre.
+
+**Obras que solo están en ORCID.** A veces OpenAlex fusiona registros duplicados y la versión que queda trae «Tomas Veloz» escrito pero sin vincular a su perfil, así que la obra deja de salir entre las suyas. Por eso el recolector busca en OpenAlex, por DOI o por título, cada obra que solo trajo ORCID, y la acepta solo si Tomás figura entre los autores. Si ya estaba en la lista, une el duplicado; si no, le agrega las citas y la marca como `"recuperada"`. Las citas del perfil (`stats.cites`, h, i10) siguen siendo las de OpenAlex, sin sumar nada; las recuperadas se informan aparte en `stats.cites_recuperadas`. Si el recolector avisa que una obra de ORCID está en OpenAlex pero Tomás no figura como autor, hay que revisarla y, si no es suya, agregarla a `obras_excluidas`.
+
 ## Corregir sin inventar
 
 `contenido/correcciones.json` permite excluir obras o tipos, unir instituciones duplicadas (p. ej. UTEM aparece dos veces en OpenAlex) y renombrarlas. `contenido/lineas.json` guarda las reglas de línea, las líneas confirmadas por Tomás y las obras ocultas.
