@@ -66,7 +66,10 @@ const T = {
   lastYear: ['last year', 'último año'], noAff: ['No affiliations recorded for this year.', 'Sin afiliaciones registradas este año.'],
   fullJ: ['Full journey', 'Trayectoria completa'], eduJ: ['Education and positions', 'Formación y cargos'], edus: ['Education', 'Formación'], jobs: ['Positions', 'Cargos'], kEdu: ['Education', 'Formación'],
   pendOy: ['ORCID entries without a year', 'Entradas de ORCID sin año'], pendOys: ['They appear in Journey without a year and stay off the map. Add the years in ORCID; the site picks them up in the next weekly update.', 'Aparecen en Trayectoria sin año y no entran al mapa. Agrega los años en ORCID; el sitio los toma en la siguiente actualización semanal.'],
-  pendOd: ['ORCID entries without institution or title', 'Entradas de ORCID sin institución o título'], pendOds: ['They are not shown on the site. Complete them in ORCID.', 'No se muestran en el sitio. Complétalas en ORCID.'], fixOrcid: ['Complete in ORCID ↗', 'Completar en ORCID ↗'], present: ['present', 'actualidad'], mapBase: ['Base map', 'Mapa base'],
+  pendOd: ['ORCID entries without institution or title', 'Entradas de ORCID sin institución o título'], pendOds: ['They are not shown on the site. Complete them in ORCID.', 'No se muestran en el sitio. Complétalas en ORCID.'], fixOrcid: ['Complete in ORCID ↗', 'Completar en ORCID ↗'], langL: ['Language', 'Idioma'],
+  pendOw: ['Works only in ORCID without a DOI', 'Obras solo en ORCID sin DOI'], pendOws: ['They are shown without citations. If they have a DOI, add it in ORCID so the site can look up their citations.', 'Se muestran sin citas. Si tienen DOI, agrégalo en ORCID para que el sitio pueda buscar sus citas.'],
+  pendMd: ['Hand-entered items missing essential data', 'Contenido cargado a mano sin datos esenciales'], pendMds: ['They are not shown. They lack a title, an area or, for places and awards, the year.', 'No se muestran. Les falta el título, el área o, en lugares y premios, el año.'],
+  pendMl: ['Places and awards without a location', 'Lugares y premios sin ubicación'], pendMls: ['They appear in Journey but not on the map. Add their coordinates in the hand-entered content.', 'Aparecen en Trayectoria pero no en el mapa. Agrega sus coordenadas en el contenido manual.'], seeMan: ['See content', 'Ver contenido'], present: ['present', 'actualidad'], mapBase: ['Base map', 'Mapa base'],
   'proj.sub': ['Grants and research projects.', 'Fondos y proyectos de investigación.'], on: ['Ongoing', 'En curso'], done: ['Completed', 'Finalizado'],
   'writing.sub': ['Essays, magazine and educational content.', 'Ensayos, revista y contenido educativo.'],
   'work.sub': ['Supervision, collaboration and consulting.', 'Supervisión, colaboración y consultoría.'], contact: ['Contact', 'Contacto'],
@@ -139,10 +142,26 @@ const ALL_WORKS = DD.publicaciones.obras;
 const WORKS = ALL_WORKS.filter(w => ADMIN || !w.oculta);
 const VIS = ALL_WORKS.filter(w => !w.oculta);
 const LINES = PROF.research.subs;
+/* ---------- datos incompletos (ADR 0011) ----------
+   Lo que no tiene lo esencial no se muestra y se cuenta en Mi panel; lo demás se muestra sin el dato que falta.
+   Esencial: título y área (eventos, proyectos, escritos); nombre y año (lugares, premios).
+   Para el mapa además hacen falta coordenadas válidas. */
+const tiene = v => Array.isArray(v) ? v.some(x => x != null && String(x).trim() !== '') : v != null && String(v).trim() !== '';
+const okLL = ll => Array.isArray(ll) && ll.length === 2 && ll.every(Number.isFinite);
+const anio = y => { const m = String(y ?? '').match(/\d{4}/); return m ? +m[0] : NaN; };
+const areaOk = s => tiene(s) && !!PROF[String(s).split('.')[0]];
+const MAN_RAW = { ev: C.eventos.eventos, pr: C.proyectos.proyectos, wr: C.escritos.escritos, lu: C.lugares.lugares, aw: C.premios.premios };
+const MAN_OK = {
+  ev: x => tiene(x.title) && areaOk(x.s), pr: x => tiene(x.t) && areaOk(x.s), wr: x => tiene(x.t) && areaOk(x.s),
+  lu: x => tiene(x.n) && Number.isFinite(anio(x.y)), aw: x => tiene(x.t) && Number.isFinite(anio(x.y)),
+};
+const MAN = Object.fromEntries(Object.entries(MAN_RAW).map(([k, xs]) => [k, (xs || []).filter(MAN_OK[k])]));
+const MAN_OCULTOS = Object.keys(MAN_RAW).reduce((n, k) => n + (MAN_RAW[k] || []).length - MAN[k].length, 0);
+const MAN_SIN_LL = [...MAN.lu, ...MAN.aw].filter(x => !okLL(x.ll)).length;
 const ITEMS = [
-  ...C.eventos.eventos.map(x => ({ ...x, typ: 'ev' })),
-  ...C.proyectos.proyectos.map(x => ({ ...x, typ: 'pr' })),
-  ...C.escritos.escritos.map(x => ({ ...x, typ: 'wr' })),
+  ...MAN.ev.map(x => ({ ...x, typ: 'ev' })),
+  ...MAN.pr.map(x => ({ ...x, typ: 'pr' })),
+  ...MAN.wr.map(x => ({ ...x, typ: 'wr' })),
 ];
 const profOf = s => s.split('.')[0];
 const subOf = s => (PROF[profOf(s)].subs || []).find(x => x.id === s.split('.')[1]);
@@ -229,7 +248,7 @@ function home(line) {
   const P = C.perfil, st = DD.perfil.stats, photos = P.fotos;
   const latest = VIS.slice(0, 4);
   const others = PK.filter(k => k !== 'research');
-  const upnext = [...C.eventos.eventos].sort((a, b) => b.y - a.y).slice(0, 3);
+  const upnext = [...MAN.ev].sort((a, b) => (anio(b.y) || 0) - (anio(a.y) || 0)).slice(0, 3);
   return `<div class="wrap">
   <section class="hero">
     <div class="hero-txt">
@@ -348,8 +367,8 @@ function profilePage(k, sub) {
     let band = '';
     if (k === 'cooperation') {
       const af = DD.perfil.afiliaciones, ctry = new Set(af.map(a => a.pais).filter(Boolean));
-      C.lugares.lugares.forEach(x => ctry.add(x.c.split(', ').pop()));
-      band = `<div class="band"><div><b>${ctry.size}</b><span>${t('countries')}</span></div><div><b>${af.length}</b><span>${t('insts')}</span></div>${prov(true, 'OpenAlex + ORCID')}</div>`;
+      MAN.lu.forEach(x => { if (tiene(x.c)) ctry.add(String(x.c).split(', ').pop()); });
+      band = `<div class="band"><div><b>${ctry.size}</b><span>${t('countries')}</span></div><div><b>${af.length}</b><span>${t('insts')}</span></div>${prov(true, 'OpenAlex + ' + t('manual'))}</div>`;
     }
     body = `${grid}${band}<div class="cards" style="margin-top:${band ? 0 : 28}px">${items.map(itemCard).join('')}</div>`;
   } else {
@@ -478,12 +497,12 @@ function workPage() {
 let year = null, playing = false, playTimer = null, map = null, markers = [], tiles = null, mapTiles = null;
 const parseY = s => { const m = String(s).match(/\d{4}/g) || []; return [+m[0], m[1] ? +m[1] : +m[0]]; };
 function places() {
-  const out = DD.perfil.afiliaciones.filter(a => a.ll).map(a => ({ n: a.n, c: [a.ciudad, a.pais].filter(Boolean).join(', '), ll: a.ll, a: a.anios[0], b: a.anios[a.anios.length - 1], k: 'aff' }));
-  C.lugares.lugares.forEach(x => { const [a, b] = parseY(x.y); out.push({ n: x.n, c: x.c, ll: x.ll, a, b, k: 'ev' }); });
-  C.premios.premios.forEach(x => out.push({ n: L(x.t), c: x.o, ll: x.ll, a: x.y, b: x.y, k: 'aw' }));
+  const out = DD.perfil.afiliaciones.filter(a => (a.anios || []).length).map(a => ({ n: a.n, c: [a.ciudad, a.pais].filter(Boolean).join(', '), ll: a.ll, a: a.anios[0], b: a.anios[a.anios.length - 1], k: 'aff' }));
+  MAN.lu.forEach(x => { const [a, b] = parseY(x.y); out.push({ n: x.n, c: x.c || '', ll: okLL(x.ll) ? x.ll : null, a, b, k: 'ev' }); });
+  MAN.aw.forEach(x => out.push({ n: L(x.t), c: x.o || '', ll: okLL(x.ll) ? x.ll : null, a: anio(x.y), b: anio(x.y), k: 'aw' }));
   orcidRows().ok.filter(r => r.k === 'edu' && (r.desde || r.hasta)).forEach(r => {
-    const m = DD.perfil.afiliaciones.find(a => a.ll && mismaInst(a.n, r.org));
-    if (m) out.push({ n: `${r.rol} · ${r.org}`, c: [m.ciudad, m.pais].filter(Boolean).join(', '), ll: m.ll, a: r.desde || r.hasta, b: r.hasta || r.desde, k: 'edu' });
+    const m = DD.perfil.afiliaciones.find(a => okLL(a.ll) && mismaInst(a.n, r.org));
+    out.push({ n: `${r.rol} · ${r.org}`, c: (m ? [m.ciudad, m.pais] : [r.ciudad, r.pais]).filter(Boolean).join(', '), ll: m ? m.ll : null, a: r.desde || r.hasta, b: r.hasta || r.desde, k: 'edu' });
   });
   return out;
 }
@@ -530,9 +549,9 @@ function journeyPage() {
     <div class="ctl"><button class="sq" type="button" data-y="-1" aria-label="${t('prevY')}">‹</button><button class="play" type="button" data-play>${playing ? t('pause') : t('play')}</button><button class="sq" type="button" data-y="1" aria-label="${t('nextY')}">›</button><span class="stat-t" id="playSt"></span></div>
     <div class="hist" role="slider" aria-valuemin="${y0}" aria-valuemax="${y1}" aria-valuenow="${year}" aria-label="${t('nav.journey')}">${ys.map(y => `<button type="button" data-year="${y}" style="height:${Math.max(8, (byY[y] || 0) / mx * 100)}%" aria-label="${y}"></button>`).join('')}</div>
     <div class="hlab">${ys.map(y => `<span>${y % 3 === y0 % 3 ? "'" + String(y).slice(2) : ''}</span>`).join('')}</div>
-    <div class="legend"><span><i style="background:var(--p-research)"></i>${t('kAff')}</span><span><i style="background:var(--p-coop)"></i>${t('kEv')}</span><span><i style="background:var(--p-inter)"></i>${t('kAw')}</span>${ps.some(p => p.k === 'edu') ? `<span><i style="background:var(--p-free)"></i>${t('kEdu')}</span>` : ''}<span><i style="border:1.5px solid var(--muted)"></i>${t('pastYears')}</span><span>${t('stopsRM')}</span></div></div>
+    <div class="legend"><span><i style="background:var(--p-research)"></i>${t('kAff')}</span><span><i style="background:var(--p-coop)"></i>${t('kEv')}</span><span><i style="background:var(--p-inter)"></i>${t('kAw')}</span>${ps.some(p => p.k === 'edu' && okLL(p.ll)) ? `<span><i style="background:var(--p-free)"></i>${t('kEdu')}</span>` : ''}<span><i style="border:1.5px solid var(--muted)"></i>${t('pastYears')}</span><span>${t('stopsRM')}</span></div></div>
     <div class="ypanel" id="ypanel" aria-live="polite"></div></div>
-  <section class="sec"><h2 class="h2" style="margin-bottom:8px">${t('fullJ')}</h2><div class="tl">${ps.map(p => `<div><span class="y">${p.a}${p.b !== p.a ? '–' + (p.b >= NOW - 1 && p.k === 'aff' ? t('present') : p.b) : ''}</span><i style="background:var(${KCOL[p.k]})"></i><span><span class="t">${esc(p.n)}</span><br><span class="m">${esc(p.c)} · ${t(KLAB[p.k])}</span></span></div>`).join('')}</div></section>
+  <section class="sec"><h2 class="h2" style="margin-bottom:8px">${t('fullJ')}</h2><div class="tl">${ps.map(p => `<div><span class="y">${p.a}${p.b !== p.a ? '–' + (p.b >= NOW - 1 && p.k === 'aff' ? t('present') : p.b) : ''}</span><i style="background:var(${KCOL[p.k]})"></i><span><span class="t">${esc(p.n)}</span><br><span class="m">${[esc(p.c), t(KLAB[p.k])].filter(Boolean).join(' · ')}</span></span></div>`).join('')}</div></section>
   ${orcidSection()}</div>`;
 }
 function initMap() {
@@ -544,7 +563,7 @@ function initMap() {
     tiles = window.L.tileLayer(`https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${isDark() ? 'Dark' : 'Light'}_Gray_Base/MapServer/tile/{z}/{y}/{x}`, { attribution: 'Tiles &copy; Esri · Leaflet', maxZoom: 16 }).addTo(map);
   };
   mapTiles();
-  const ps = places();
+  const ps = places().filter(p => okLL(p.ll));
   map.fitBounds(ps.map(p => p.ll), { padding: [40, 40] });
   markers = ps.map(p => ({ p, m: window.L.marker(p.ll, { keyboard: false }) }));
   setYear(year);
@@ -573,7 +592,7 @@ function yearPanel() {
   const ps = places(), ws = VIS.filter(w => w.y === year);
   const act = ps.filter(p => p.a <= year && year <= p.b);
   const top = [...ws].sort((a, b) => (b.c || 0) - (a.c || 0))[0];
-  const grp = (k, title) => { const xs = act.filter(p => p.k === k); return xs.length ? `<div class="sub-eb">${title}</div>${xs.map(p => `<div class="yi"><i style="background:var(${KCOL[p.k]})"></i><div><div class="t">${esc(p.n)}${p.a === year ? `<span class="new">${t('new')}</span>` : ''}</div><div class="m">${esc(p.c)}${p.b === year && year < NOW ? ' · ' + t('lastYear') : ''}</div></div></div>`).join('')}` : ''; };
+  const grp = (k, title) => { const xs = act.filter(p => p.k === k); return xs.length ? `<div class="sub-eb">${title}</div>${xs.map(p => `<div class="yi"><i style="background:var(${KCOL[p.k]})"></i><div><div class="t">${esc(p.n)}${p.a === year ? `<span class="new">${t('new')}</span>` : ''}</div><div class="m">${[esc(p.c), p.b === year && year < NOW ? t('lastYear') : ''].filter(Boolean).join(' · ')}</div></div></div>`).join('')}` : ''; };
   $('#ypanel').innerHTML = `<div class="yh"><b>${year}</b><div class="n"><b>${ws.length}</b>${t('pubsYear')}</div></div>
     ${grp('aff', t('affs')) || `<p class="muted" style="font-size:14px;margin-top:14px">${t('noAff')}</p>`}${grp('ev', t('evs'))}${grp('aw', t('aws'))}${grp('edu', t('edus'))}
     ${top ? `<div class="sub-eb" style="border-top:1px solid var(--line);padding-top:14px">${t('topYear')}</div><div class="yi"><i style="background:var(--p-research)"></i><div><div class="t">${esc(top.t)}</div><div class="m">${esc(venue(top) || '')} · ${top.c ?? '—'} ${t('cites')} · ■ OpenAlex</div></div></div>` : ''}`;
@@ -615,7 +634,8 @@ function panel(sec) {
   const nav = [['', 'pSum'], ['pubs', 'pPubs', nRev], ['profiles', 'pProf'], ['content', 'pMan'], ['sources', 'pSrc']];
   const side = `<aside class="panel-side"><div class="b">${esc(C.perfil.nombre)}</div><div class="s">${t('panelS')}</div>
     <nav>${nav.map(([id, k, c]) => `<a href="#panel${id ? '/' + id : ''}" ${sec === id ? 'aria-current="page"' : ''}>${t(k)}${c ? `<small>${c}</small>` : ''}</a>`).join('')}</nav>
-    <div class="vista">${t('view')}<div class="vsw"><a class="on" href="#home">Tomás</a><a href="index.html#home">${t('visitor')}</a></div></div></aside>`;
+    <div class="vista">${t('view')}<div class="vsw"><a class="on" href="#home">Tomás</a><a href="index.html#home">${t('visitor')}</a></div>
+      <div style="margin-top:14px">${t('langL')}</div><div class="vsw" role="group" aria-label="Language / Idioma">${['en', 'es'].map(l => `<button type="button" data-lang="${l}" class="${lang === l ? 'on' : ''}" aria-pressed="${lang === l}">${l.toUpperCase()}</button>`).join('')}</div></div></aside>`;
   const body = { '': pSummary, pubs: pReview, profiles: pProfiles, content: pContent, sources: pSources }[sec] || pSummary;
   return `<div class="panel">${side}<main class="panel-main">${body(nRev)}</main></div>`;
 }
@@ -623,7 +643,7 @@ const pTitle = (k, s, right) => `<div style="display:flex;justify-content:space-
 function pSummary(nRev) {
   const st = DD.perfil.stats, next = new Date(GEN); next.setDate(next.getDate() + 7);
   const empt = PK.filter(k => k !== 'research' && (PROF[k].subs || []).length).map(k => [k, PROF[k].subs.filter(s => !ITEMS.some(it => inSub(it, k + '.' + s.id)))]).filter(x => x[1].length);
-  const est = DD.fuentes.estado, oc = orcidRows();
+  const est = DD.fuentes.estado, oc = orcidRows(), orcSinDoi = VIS.filter(w => w.fuentes.length === 1 && w.fuentes[0] === 'orcid' && !w.doi).length;
   return `${pTitle('pSum', t('sumSub'), `<button class="btn" type="button" data-static>${t('updNow')}</button>`)}
   <div class="kpis"><div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('lastUpd')}</span><b>${fd(GEN)}</b><small>■ ${t('correct')}</small></div>
     <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('nextUpd')}</span><b>${fd(next.toISOString().slice(0, 10))}</b><small>${t('weeklyC')}</small></div>
@@ -634,7 +654,10 @@ function pSummary(nRev) {
       ${!(PROF.free.subs || []).length ? `<div class="prow"><b>1</b><div><div class="t">${t('pend2')}</div><div class="m">${t('pend2s')}</div></div><a class="btn sm" href="#area-free">${t('configure')}</a></div>` : ''}
       ${empt.map(([k, ss]) => `<div class="prow"><b>${ss.length}</b><div><div class="t">${t('pend3', { p: esc(L(PROF[k].t)) })}</div><div class="m">${ss.map(s => esc(L(s.t))).join(', ')}.</div></div><a class="btn sm" href="#area-${k}/${ss[0].id}">${t('addContent')}</a></div>`).join('')}
       ${oc.sinAnio ? `<div class="prow"><b>${oc.sinAnio}</b><div><div class="t">${t('pendOy')}</div><div class="m">${t('pendOys')}</div></div><a class="btn sm" href="${ORCID_URL}" target="_blank" rel="noopener">${t('fixOrcid')}</a></div>` : ''}
-      ${oc.sinDatos ? `<div class="prow"><b>${oc.sinDatos}</b><div><div class="t">${t('pendOd')}</div><div class="m">${t('pendOds')}</div></div><a class="btn sm" href="${ORCID_URL}" target="_blank" rel="noopener">${t('fixOrcid')}</a></div>` : ''}</section>
+      ${oc.sinDatos ? `<div class="prow"><b>${oc.sinDatos}</b><div><div class="t">${t('pendOd')}</div><div class="m">${t('pendOds')}</div></div><a class="btn sm" href="${ORCID_URL}" target="_blank" rel="noopener">${t('fixOrcid')}</a></div>` : ''}
+      ${orcSinDoi ? `<div class="prow"><b>${orcSinDoi}</b><div><div class="t">${t('pendOw')}</div><div class="m">${t('pendOws')}</div></div><a class="btn sm" href="${ORCID_URL}" target="_blank" rel="noopener">${t('fixOrcid')}</a></div>` : ''}
+      ${MAN_OCULTOS ? `<div class="prow"><b>${MAN_OCULTOS}</b><div><div class="t">${t('pendMd')}</div><div class="m">${t('pendMds')}</div></div><a class="btn sm" href="#panel/content">${t('seeMan')}</a></div>` : ''}
+      ${MAN_SIN_LL ? `<div class="prow"><b>${MAN_SIN_LL}</b><div><div class="t">${t('pendMl')}</div><div class="m">${t('pendMls')}</div></div><a class="btn sm" href="#panel/content">${t('seeMan')}</a></div>` : ''}</section>
     <section class="box"><h2 class="h2" style="font-size:22px;margin-bottom:8px">${t('pSrc')}</h2>
       ${[['ORCID', 'orcid'], ['OpenAlex', 'openalex'], ['Crossref', 'crossref'], ['Semantic Scholar', 's2']].map(([n, id]) => `<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding:11px 0"><span class="sts" style="font:600 15px var(--sans);color:var(--ink)"><span class="sq-i ${id && est[id] ? (est[id].estado === 'ok' ? 'ok' : 'err') : ''}"></span>${n}</span><span class="mono muted" style="font-size:12px">${id && est[id] ? fd(est[id].fecha) : t('pending')}</span></div>`).join('')}</section></div>`;
 }
@@ -672,7 +695,7 @@ function pContent() {
   ${list(t('projectsT'), C.proyectos.proyectos, x => `<b>${esc(x.t)}</b> <span class="muted">· ${esc(x.o)}</span>`)}
   ${list(t('talksT'), C.eventos.eventos, x => `<b>${esc(x.title)}</b> <span class="muted">· ${esc(x.when)}</span>`)}
   ${list(t('writingT'), C.escritos.escritos, x => `<b>${esc(x.t)}</b> <span class="muted">· ${esc(x.y)}</span>`)}
-  ${list(t('awards'), C.premios.premios, x => `<b>${esc(L(x.t))}</b> <span class="muted">· ${x.y}</span>`)}
+  ${list(t('awards'), C.premios.premios, x => `<b>${esc(L(x.t))}</b> <span class="muted">· ${esc(x.y)}</span>`)}
   ${list(t('courses'), [], () => '')}${list(t('works2'), [], () => '')}`;
 }
 function pSources() {
