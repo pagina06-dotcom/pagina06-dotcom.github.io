@@ -25,7 +25,7 @@ const T = {
   menu: ['☰ Menu', '☰ Menú'], close: ['✕ Close', '✕ Cerrar'], dark: ['■ Dark', '■ Oscuro'], light: ['□ Light', '□ Claro'],
   langRem: ['Language · remembered on this device', 'Idioma · se recuerda en este dispositivo'], theme: ['Theme', 'Tema'],
   tLight: ['Light', 'Claro'], tDark: ['Dark', 'Oscuro'], tSys: ['System', 'Sistema'],
-  form: ['Form', 'Formulario'], weekly: ['every week', 'cada semana'], mainP: ['Main profile', 'Perfil principal'],
+  form: ['Form', 'Formulario'], manual: ['Entered by hand', 'Cargado a mano'], weekly: ['every week', 'cada semana'], mainP: ['Main profile', 'Perfil principal'],
   researcher: ['Researcher', 'Investigador'], viewP: ['View profile →', 'Ver perfil →'], reserved: ['Reserved space', 'Espacio reservado'],
   'st.works': ['publications', 'publicaciones'], 'st.cites': ['citations', 'citas'], 'st.h': ['h-index', 'índice h'], 'st.i10': ['i10-index', 'índice i10'],
   about: ['About', 'Acerca de'], latest: ['Latest publications', 'Últimas publicaciones'], seeAll: ['See all {n} publications →', 'Ver las {n} publicaciones →'],
@@ -235,13 +235,13 @@ function home(line) {
       <div class="affs">${P.afiliaciones.map(a => `<div><b>${esc(a.o)}</b><span>${esc(L(a.r))}</span></div>`).join('')}</div>
       <div class="hero-acts"><a class="btn solid" href="mailto:${esc(P.email)}">${t('contact')}</a>
         <span class="ids"><a href="https://orcid.org/0000-0003-3014-8340" target="_blank" rel="noopener">ORCID ↗</a><a href="https://scholar.google.com/citations?user=q7HbZQ4AAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a><a href="https://www.scopus.com/authid/detail.uri?authorId=36873504800" target="_blank" rel="noopener">Scopus ↗</a></span></div>
-      ${prov(false, t('form'), P.actualizado)}
+      ${prov(false, t('manual'), P.actualizado)}
     </div>
     <div class="carousel" aria-roledescription="carousel" aria-label="Fotos">
       <div class="imgw"><img id="carImg" src="${photos[ci].src}" alt="${esc(L(photos[ci].d))}" width="380" height="460">${ADMIN ? `<button class="photobadge" type="button" data-static>${t('photos', { n: photos.length })}</button>` : ''}</div>
       <div class="car-foot"><div class="car-cap" aria-live="polite"><b id="carD">${esc(L(photos[ci].d))}</b><span id="carL">${esc(L(photos[ci].lugar))}</span></div>
         <div class="car-ctl"><button class="sq" type="button" data-car="-1" aria-label="‹">‹</button><span class="mono" id="carN">${ci + 1}/${photos.length}</span><button class="sq" type="button" data-car="1" aria-label="›">›</button></div></div>
-      ${prov(false, t('form'), P.actualizado, t('stopsRM').toLowerCase())}
+      ${prov(false, t('manual'), P.actualizado, t('stopsRM').toLowerCase())}
     </div>
   </section>
   <div class="pcards">${others.map(k => profileCard(k)).join('')}</div>
@@ -252,7 +252,7 @@ function home(line) {
   </div></section>
   <div class="wrap">
   <div class="grid-about sec">
-    <section class="about"><div class="sec-h"><h2 class="h2">${t('about')}</h2>${prov(false, t('form'), P.actualizado)}</div>
+    <section class="about"><div class="sec-h"><h2 class="h2">${t('about')}</h2>${prov(false, t('manual'), P.actualizado)}</div>
       ${ADMIN ? aboutEditor() : `<p>${esc(L(P.bio))}</p>`}</section>
     <section class="latest"><div class="sec-h"><h2 class="h2">${t('latest')}</h2>${prov(true, 'OpenAlex')}</div>
       ${latest.map(w => `<a href="${w.doi ? 'https://doi.org/' + esc(w.doi) : '#publications'}" ${w.doi ? 'target="_blank" rel="noopener"' : ''}><div class="t">${esc(w.t)}</div><div class="m">${w.y || ''}${w.v ? ' · ' + esc(venue(w)) : ''}</div></a>`).join('')}
@@ -261,7 +261,7 @@ function home(line) {
   <section class="sec" id="lines"><div class="sec-h" style="margin-bottom:4px"><h2 class="h2">${t('lines')}</h2>${prov(true, t('autoAssign'))}</div>
     <p class="muted" style="font-size:14.5px;margin-bottom:16px">${t('linesSub')}</p>
     ${linesList(line)}${line ? linePanel(line) : ''}</section>
-  <section class="sec"><div class="sec-h"><h2 class="h2">${t('upnext')}</h2>${prov(false, t('form'), C.eventos.actualizado)}</div>
+  <section class="sec"><div class="sec-h"><h2 class="h2">${t('upnext')}</h2>${prov(false, t('manual'), C.eventos.actualizado)}</div>
     <div class="upnext">${upnext.map(e => `<article style="--pc:${pc(profOf(e.s))}"><div class="eyebrow" style="font-size:11px;color:var(--muted)">${av(profOf(e.s), 22)}${esc(L(e.kind))}</div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.when)} · ${esc(e.place)}</div></article>`).join('')}</div></section>
   </div>`;
 }
@@ -294,7 +294,7 @@ function linePanel(id) {
       ${top.map(w => `<div class="mini"><div><div class="t">${esc(w.t)}</div><div class="m">${w.y || ''} · ✓ ${vcount(w)} ${t('sources')}</div></div><div class="c">${w.c ?? '—'}</div></div>`).join('')}
       <a class="more" style="font-size:13.5px" href="#publications/line-${id}">${t('seeLine', { n: ws.length })}</a></div>
     <div><div class="figs"><div><b>${ws.length}</b><span>${t('inLine')}</span></div><div><b>${cites}</b><span>${t('cites')} · ■ OpenAlex</span></div></div>
-      <div class="sub-eb">${t('projTalks')} · ${prov(false, t('form'))}</div>
+      <div class="sub-eb">${t('projTalks')} · ${prov(false, t('manual'))}</div>
       ${rel.length ? rel.map(it => `<a class="rel" href="${subHref(it.s)}">${av(profOf(it.s), 22)}<div><div class="k">${kindLabel(it)}${it.s !== 'research.' + id ? ' · ' + t('alsoLine') : ''}</div><div class="t">${esc(it.t || it.title)}</div><div class="m">${esc(it.typ === 'pr' ? `${it.o} · ${L(it.y)}` : `${it.when} · ${it.place}`)}</div></div></a>`).join('') : `<p class="muted" style="font-size:14px">${t('nothingLine')}</p>`}</div>
   </div>`;
 }
@@ -328,7 +328,7 @@ function profilePage(k, sub) {
   const subs = p.subs || [];
   const crumb = `<nav class="crumb"><a href="#home">${t('home')}</a> / ${t('profiles')} / <span>${esc(L(p.t))}</span></nav>`;
   const head = `<div class="phead">${av(k, innerWidth < 760 ? 72 : 120)}<div style="min-width:0"><div class="eyebrow" style="color:${k === 'free' ? 'var(--muted)' : pc(k)}"><span style="color:var(--muted)">${t('profile')}</span> · ${esc(L(p.r))}</div>
-    <h1>${esc(L(p.t))}</h1>${ed('p', 'lead', esc(k === 'free' && !subs.length ? t('freeSub') : L(p.sub)))}<div style="margin-top:8px">${prov(false, t('form'), C.perfiles.actualizado)}</div></div></div>`;
+    <h1>${esc(L(p.t))}</h1>${ed('p', 'lead', esc(k === 'free' && !subs.length ? t('freeSub') : L(p.sub)))}<div style="margin-top:8px">${prov(false, t('manual'), C.perfiles.actualizado)}</div></div></div>`;
   const others = `<section class="sec"><div class="sec-h"><h2 class="h2">${t('others')}</h2></div><div class="pcards">${PK.filter(x => x !== k).map(x => profileCard(x, true)).join('')}</div></section>`;
   if (k === 'free' && !subs.length) {
     if (ADMIN) return `<div class="wrap page">${freeConfig()}</div>`;
@@ -442,26 +442,26 @@ function profChips(page, list) {
 function talksPage() {
   const list = ITEMS.filter(it => it.typ === 'ev').sort((a, b) => b.y - a.y);
   const vis = list.filter(it => !PF.talks || profOf(it.s) === PF.talks);
-  return `<div class="wrap page">${pageHead(t('nav.talks'), t('talks.sub'), prov(false, t('form'), C.eventos.actualizado))}${profChips('talks', list)}
+  return `<div class="wrap page">${pageHead(t('nav.talks'), t('talks.sub'), prov(false, t('manual'), C.eventos.actualizado))}${profChips('talks', list)}
     <div class="cards">${vis.map(itemCard).join('')}</div><p class="note">${t('talks.note')}</p></div>`;
 }
 function projectsPage() {
   const list = ITEMS.filter(it => it.typ === 'pr');
   const vis = list.filter(it => !PF.projects || profOf(it.s) === PF.projects);
-  return `<div class="wrap page">${pageHead(t('nav.projects'), t('proj.sub'), prov(false, t('form'), C.proyectos.actualizado, 'ORCID Funding = 0'))}${profChips('projects', list)}
+  return `<div class="wrap page">${pageHead(t('nav.projects'), t('proj.sub'), prov(false, t('manual'), C.proyectos.actualizado, 'ORCID Funding = 0'))}${profChips('projects', list)}
     <div class="fused">${vis.map(it => `<article style="--pc:${pc(profOf(it.s))}"><div class="top" style="display:flex;justify-content:space-between;gap:10px;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)"><span>${esc(L(it.k))}</span><span class="st" style="color:var(--ink)"><span class="sq-i ${it.st === 'on' ? 'ok' : ''}"></span>${t(it.st === 'on' ? 'on' : 'done')}</span></div>
       <div class="t">${esc(it.t)}</div><div class="o">${esc(it.o)} · <span class="mono">${esc(L(it.y))}</span></div><p class="d">${esc(L(it.d))}</p>
       <div class="tagrow">${tag(it.s)}${alsoTags(it)}</div>${ADMIN ? `<div style="margin-top:8px">${subSelect(it.s)}</div>` : ''}</article>`).join('')}</div></div>`;
 }
 function writingPage() {
   const list = ITEMS.filter(it => it.typ === 'wr').sort((a, b) => b.y - a.y);
-  return `<div class="wrap page">${pageHead(t('nav.writing'), t('writing.sub'), prov(false, t('form'), C.escritos.actualizado, 'Medium · RSS: ' + t('st.plan').toLowerCase()))}
+  return `<div class="wrap page">${pageHead(t('nav.writing'), t('writing.sub'), prov(false, t('manual'), C.escritos.actualizado, 'Medium · RSS: ' + t('st.plan').toLowerCase()))}
     <div class="wlist">${list.map(it => `<div class="wrow"><div class="y">${esc(it.y)}</div><div><div class="k">${esc(L(it.k))}</div>${tag(it.s)}</div>
       <div><a class="t" href="${esc(it.u)}" target="_blank" rel="noopener">${esc(it.t)} ↗</a><p class="d">${esc(L(it.d))}</p><div class="u">${esc(domain(it.u))}</div></div></div>`).join('')}</div></div>`;
 }
 function workPage() {
   const P = C.perfil, ops = C.oportunidades.oportunidades, marks = ['ok', 'block', ''];
-  return `<div class="wrap page">${pageHead(t('nav.work'), t('work.sub'), prov(false, t('form'), C.oportunidades.actualizado))}
+  return `<div class="wrap page">${pageHead(t('nav.work'), t('work.sub'), prov(false, t('manual'), C.oportunidades.actualizado))}
     <div class="work"><div class="modes">${ops.map((o, i) => `<div class="mode"><div class="top"><span>0${i + 1}</span><span class="badge"><span class="sq-i ${marks[i]}"></span>${esc(L(o.s))}</span></div>
       ${ed('h3', '', esc(L(o.t)))}<p>${esc(L(o.d))}</p></div>`).join('')}</div>
     <aside class="contact"><div class="eyebrow" style="font-size:11px;color:var(--muted)">${t('contact')}</div><div class="em">${esc(P.email)}</div><div class="muted">${esc(P.sedes)}</div>
