@@ -681,7 +681,8 @@
     "tipo": "revista",
     "id": null,
     "fecha": "2026-11-18",
-    "comprobar": "https://api.crossref.org/journals?rows=20&query=Constructivist%20Foundations"
+    "comprobar": "https://api.crossref.org/journals?rows=20&query=Constructivist%20Foundations",
+    "cr": null
    }
   },
   {
@@ -709,7 +710,8 @@
     "tipo": "revista",
     "id": null,
     "fecha": "2026-11-18",
-    "comprobar": "https://api.crossref.org/journals?rows=20&query=Constructivist%20Foundations"
+    "comprobar": "https://api.crossref.org/journals?rows=20&query=Constructivist%20Foundations",
+    "cr": null
    }
   },
   {
@@ -737,7 +739,8 @@
     "tipo": "revista",
     "id": "ISSN 1782-348X",
     "fecha": "2026-11-18",
-    "comprobar": "https://api.crossref.org/journals/1782-348X"
+    "comprobar": "https://api.crossref.org/journals/1782-348X",
+    "cr": null
    }
   },
   {
@@ -765,7 +768,16 @@
     "tipo": "revista",
     "id": null,
     "fecha": "2026-11-18",
-    "comprobar": "https://api.crossref.org/journals?rows=20&query=REVISTA%20DE%20MODELAMIENTO%20MATEM%C3%81TICO%20DE%20SISTEMAS%20BIOL%C3%93GICOS"
+    "comprobar": "https://api.crossref.org/journals?rows=20&query=REVISTA%20DE%20MODELAMIENTO%20MATEM%C3%81TICO%20DE%20SISTEMAS%20BIOL%C3%93GICOS",
+    "cr": {
+     "t": "Revista de modelamiento matemático de sistemas biológicos",
+     "ed": "Universidad Tecnológica Metropolitana",
+     "issn": [
+      "2735-6817"
+     ],
+     "dois": 21,
+     "desde": 2023
+    }
    }
   },
   {
@@ -1876,7 +1888,12 @@
     "doi": "10.1007/s10699-019-09639-y",
     "en": "Foundations of Science",
     "fecha": "2026-11-18",
-    "comprobar": "https://doi.org/10.1007/s10699-019-09639-y"
+    "comprobar": "https://doi.org/10.1007/s10699-019-09639-y",
+    "cr": {
+     "t": "The Complexity–Stability Debate, Chemical Organization Theory, and the Identification of Non-classical Structures in Ecology",
+     "en": "Foundations of Science",
+     "y": 2019
+    }
    }
   },
   {
@@ -3113,7 +3130,8 @@
     "tipo": "libro",
     "id": "ISBN 978-956-9409-01-1",
     "fecha": "2026-11-18",
-    "comprobar": "https://api.crossref.org/works?rows=0&filter=isbn:978-956-9409-01-1"
+    "comprobar": "https://api.crossref.org/works?rows=1&select=container-title,publisher&filter=isbn:978-956-9409-01-1",
+    "cr": null
    }
   },
   {
