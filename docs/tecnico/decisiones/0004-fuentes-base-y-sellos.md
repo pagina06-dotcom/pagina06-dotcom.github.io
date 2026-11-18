@@ -5,7 +5,7 @@
 
 ## Contexto
 
-Ninguna fuente tiene por sí sola la lista completa y correcta de publicaciones de Tomás. ORCID la mantiene él, pero no tiene citas. OpenAlex tiene citas, coautores e instituciones con ubicación, pero mezcla duplicados y a veces desvincula obras. Google Scholar, Scopus y Web of Science no tienen una API abierta.
+Ninguna fuente tiene por sí sola la lista completa y correcta de publicaciones de Tomás. ORCID la mantiene él, pero no tiene **el número de citas** (cuántas veces se citó cada obra); solo guarda la referencia bibliográfica. OpenAlex tiene citas, coautores e instituciones con ubicación, pero mezcla duplicados y a veces desvincula obras. Google Scholar, Scopus y Web of Science no tienen una API abierta.
 
 ## Decisión
 
