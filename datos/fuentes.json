@@ -24,14 +24,14 @@
    "resultado": 9
   },
   "s2": {
-   "estado": "error",
+   "estado": "ok",
    "fecha": "2026-11-18",
-   "resultado": "HTTP Error 429: "
+   "resultado": 79
   },
   "dblp": {
-   "estado": "error",
+   "estado": "ok",
    "fecha": "2026-11-18",
-   "resultado": "HTTP Error 429: "
+   "resultado": 44
   },
   "zbmath": {
    "estado": "ok",
