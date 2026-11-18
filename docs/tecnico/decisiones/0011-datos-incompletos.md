@@ -23,12 +23,33 @@ Cada dato cae en uno de tres niveles según lo que le falte:
 - **Se completa en la fuente, no en el sitio.** El aviso del panel lleva a ORCID (o a la fuente que corresponda). En la siguiente actualización semanal el dato pasa solo al nivel que le toca. Así el sitio sigue siendo automático y el panel no necesita guardar nada ([0002](0002-sitio-estatico-sin-servidor.md)).
 - **El visitante no ve avisos de datos incompletos.**
 
-**Lo esencial y lo obligatorio, por tipo de dato (formación y cargos desde ORCID):**
+**Lo esencial y lo obligatorio, por tipo de dato:**
 
-- **Formación:** lo esencial es la institución y el título.
-- **Cargo:** lo esencial es la institución; el título del cargo es opcional, porque ORCID suele traer solo la institución.
-- **Línea de tiempo y mapa:** solo la formación, y solo si tiene año **y** su institución coincide con una afiliación de OpenAlex que tenga coordenadas. ORCID no da coordenadas (sus identificadores son RINGGOLD o FUNDREF, no ROR) y no se ubica nada por nombre en un geocodificador. La coincidencia se hace por el nombre sin tildes, sin mayúsculas y sin «The» inicial.
+| Dato | Viene de | Esencial (si falta, no se muestra) | Obligatorio solo para… | Dónde se completa |
+|---|---|---|---|---|
+| Formación | ORCID | Institución y título | Línea de tiempo: año. Mapa: año y coordenadas | ORCID |
+| Cargo | ORCID | Institución (el título del cargo es opcional, porque ORCID suele traer solo la institución) | No va al mapa | ORCID |
+| Publicación | OpenAlex + ORCID | Título | — (sin revista, DOI o citas se muestra igual) | ORCID, si es una obra que solo está ahí |
+| Afiliación | OpenAlex | Institución y años | Mapa: coordenadas | — (OpenAlex no se edita desde aquí) |
+| Lugar | Contenido manual | Nombre y año | Mapa: coordenadas | Contenido manual |
+| Premio | Contenido manual | Título y año | Mapa: coordenadas | Contenido manual |
+| Evento, proyecto, escrito | Contenido manual | Título y área (una existente en `perfiles.json`) | — (sin enlace, lugar o institución se muestra igual) | Contenido manual |
+
+- **Pendientes que se muestran hoy en Mi panel:**
+  - entradas de ORCID sin año;
+  - entradas de ORCID sin lo esencial;
+  - obras que solo están en ORCID y no tienen DOI (se muestran sin citas; con el DOI, el recolector puede buscarlas);
+  - contenido manual sin lo esencial;
+  - lugares y premios sin coordenadas.
+- **Las coordenadas de la formación** salen de las afiliaciones de OpenAlex, por coincidencia de nombre. ORCID no da coordenadas (sus identificadores son RINGGOLD o FUNDREF, no ROR) y no se ubica nada por nombre en un geocodificador. La coincidencia se hace por el nombre sin tildes, sin mayúsculas y sin «The» inicial.
 - **Los cargos no van al mapa:** las afiliaciones de OpenAlex ya ubican esas instituciones con sus años. Ponerlos también duplicaría los puntos.
 - **Si solo hay año de inicio:** el cargo se muestra como «2013–actualidad» y la formación como «2003–». En el mapa, la formación ocupa solo ese año.
+- **Lo que llegue por búsqueda web o IA** ([0008](0008-ia-gemini-y-busqueda-web.md)) entra como contenido de su tipo y sigue esta misma tabla.
 
-**Implementación:** `orcidRows()`, `orcidSection()` y `places()` en `assets/js/app.js`; los pendientes están en `pSummary()`. Para un tipo de dato nuevo se fija aquí qué es esencial y qué es obligatorio en cada vista.
+**Implementación:** en `assets/js/app.js`:
+- el bloque «datos incompletos» (`MAN`, `MAN_OCULTOS`, `MAN_SIN_LL`) filtra el contenido manual;
+- `orcidRows()` y `orcidSection()` arman la formación y los cargos;
+- `places()` arma la línea de tiempo, e `initMap()` deja en el mapa solo lo que tiene coordenadas;
+- los pendientes están en `pSummary()`.
+
+Para un tipo de dato nuevo, se agrega una fila a esta tabla.
