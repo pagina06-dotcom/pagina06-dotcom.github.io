@@ -495,7 +495,6 @@ h1,h2,h3,p{margin:0}
 .prow.info b{color:var(--muted)}
 .linkbtn{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}
 .crres{display:block;margin-top:6px;padding:8px 12px;border-left:3px solid var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent);font-size:13px;line-height:1.5;color:var(--ink)}
-.crres a{white-space:nowrap}
 .ftab{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
 .bulk{background:var(--ink);color:var(--bg);display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px;margin-top:20px}
 .bulk .btn{border-color:var(--bg);color:var(--bg);min-height:38px;font-size:14px}

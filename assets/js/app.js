@@ -83,15 +83,14 @@ const T = {
   ckWNo: ['Crossref no longer finds the DOI {doi}.', 'Crossref ya no encuentra el DOI {doi}.'],
   ckSame: ['Same result as the check on {d}.', 'Es lo mismo que se revisó el {d}.'],
   ckDiff: ['This changed since the check on {d}; the panel will update next Monday.', 'Esto cambió desde la revisión del {d}; el panel se actualizará el próximo lunes.'],
-  ckRaw: ['See technical answer', 'Ver respuesta técnica'],
   crDois: ['{n} DOIs registered since {y}', '{n} DOI registrados desde {y}'], crDoisN: ['{n} DOIs registered', '{n} DOI registrados'],
   fJournal: ['journal', 'revista'], fBook: ['book', 'libro'], check: ['Check', 'Comprobar'], checkedOn: ['checked {d}', 'revisado el {d}'], byName: ['by name', 'por nombre'],
   ndJournal: ['Journal not registered in Crossref', 'Revista no registrada en Crossref'], ndBook: ['Book not registered in Crossref', 'Libro no registrado en Crossref'],
   pendNd: ['Works without a DOI because their journal or book does not use DOIs', 'Obras sin DOI porque su revista o libro no usa DOI'],
   pendNds: ['Nothing to do: they are shown without citations. Checked in Crossref every week.', 'No hay nada que hacer: se muestran sin citas. Se revisa en Crossref cada semana.'],
   howChecked: ['Which ones and how it was checked', 'Cuáles son y cómo se revisó'],
-  howNd: ['Crossref is the registry where journals and publishers register the DOIs of what they publish. Every Monday the collector looks up the journal there (by ISSN if ORCID provides it, otherwise by its exact name) or the book (by ISBN), and also the work itself by title and author. If the journal or book is not in Crossref and the work does not show up either, the work has no DOI. Under each work is a summary of what Crossref answered. «Check» asks Crossref again right then and answers in one sentence; «See technical answer» opens the full reply from Crossref. If the journal ever starts using DOIs, the work goes back to the pending list on its own.',
-          'Crossref es el registro donde las revistas y editoriales inscriben los DOI de lo que publican. Cada lunes el recolector busca ahí la revista (por ISSN si ORCID lo trae; si no, por su nombre exacto) o el libro (por ISBN), y también la obra misma por título y autor. Si la revista o el libro no está en Crossref y la obra tampoco aparece, la obra no tiene DOI. Debajo de cada obra se resume lo que respondió Crossref. «Comprobar» le vuelve a preguntar a Crossref en ese momento y responde en una frase; «Ver respuesta técnica» abre la respuesta completa de Crossref. Si algún día la revista empieza a usar DOI, la obra vuelve sola a los pendientes.'],
+  howNd: ['Crossref is the registry where journals and publishers register the DOIs of what they publish. Every Monday the collector looks up the journal there (by ISSN if ORCID provides it, otherwise by its exact name) or the book (by ISBN), and also the work itself by title and author. If the journal or book is not in Crossref and the work does not show up either, the work has no DOI. Under each work is a summary of what Crossref answered. «Check» asks Crossref again right then and answers in one sentence. If the journal ever starts using DOIs, the work goes back to the pending list on its own.',
+          'Crossref es el registro donde las revistas y editoriales inscriben los DOI de lo que publican. Cada lunes el recolector busca ahí la revista (por ISSN si ORCID lo trae; si no, por su nombre exacto) o el libro (por ISBN), y también la obra misma por título y autor. Si la revista o el libro no está en Crossref y la obra tampoco aparece, la obra no tiene DOI. Debajo de cada obra se resume lo que respondió Crossref. «Comprobar» le vuelve a preguntar a Crossref en ese momento y responde en una frase. Si algún día la revista empieza a usar DOI, la obra vuelve sola a los pendientes.'],
   pendOw: ['Works only in ORCID without a DOI', 'Obras solo en ORCID sin DOI'], pendOws: ['They are shown without citations. If they have a DOI, add it in ORCID so the site can look up their citations.', 'Se muestran sin citas. Si tienen DOI, agrégalo en ORCID para que el sitio pueda buscar sus citas.'],
   pendMd: ['Hand-entered items missing essential data', 'Contenido cargado a mano sin datos esenciales'], pendMds: ['They are not shown. They lack a title, an area or, for places and awards, the year.', 'No se muestran. Les falta el título, el área o, en lugares y premios, el año.'],
   pendMl: ['Places and awards without a location', 'Lugares y premios sin ubicación'], pendMls: ['They appear in Journey but not on the map. Add their coordinates in the hand-entered content.', 'Aparecen en Trayectoria pero no en el mapa. Agrega sus coordenadas en el contenido manual.'], seeMan: ['See content', 'Ver contenido'], present: ['present', 'actualidad'], mapBase: ['Base map', 'Mapa base'],
@@ -851,8 +850,7 @@ async function crCheck(btn) {
     }
   } catch (e) { box.textContent = t('ckFail'); return; }
   const igual = hallado === (d.crantes === '1');
-  box.innerHTML = `${esc(msg)} <span class="muted">${esc(t(igual ? 'ckSame' : 'ckDiff', { d: fd(d.crfecha) }))}</span>
-    <a href="${esc(api)}" target="_blank" rel="noopener">${t('ckRaw')} ↗</a>`;
+  box.innerHTML = `${esc(msg)} <span class="muted">${esc(t(igual ? 'ckSame' : 'ckDiff', { d: fd(d.crfecha) }))}</span>`;
 }
 
 /* ---------- eventos ---------- */
