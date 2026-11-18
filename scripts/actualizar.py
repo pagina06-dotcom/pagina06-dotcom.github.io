@@ -10,6 +10,7 @@ Uso:
   python scripts/actualizar.py            recolecta todo (5-8 minutos, arXiv es lento)
   python scripts/actualizar.py --rapido   sin la búsqueda de arXiv por título
   python scripts/actualizar.py --sin-red  solo vuelve a armar datos/sitio.js (tras editar contenido/)
+  python scripts/actualizar.py --solo-s2  solo reintenta Semantic Scholar (lo usa el flujo si pidió esperar)
 
 Reglas: no se inventa nada. Si una fuente falla se conservan sus datos de la semana anterior;
 si fallan ORCID u OpenAlex (la base de la lista) no se sobrescribe nada.
@@ -412,6 +413,103 @@ def asignar_lineas(obras, lineas):
 
 
 # ---------------------------------------------------------------- verificación
+def estado_falla(e, reintento=False):
+    """Estado de una fuente que falló. Un 429 ("demasiadas consultas") no es una falla de la fuente:
+    queda como "espera", y "reintento" dice si el flujo semanal la vuelve a consultar en unos minutos."""
+    if isinstance(e, urllib.error.HTTPError) and e.code == 429:
+        return {"estado": "espera", "fecha": HOY, "resultado": "HTTP 429: demasiadas consultas", "reintento": reintento}
+    return {"estado": "error", "fecha": HOY, "resultado": str(e)[:160]}
+
+
+def sellos_s2(obras, intentos=4):
+    """Sellos de Semantic Scholar (y los ID de arXiv y DBLP que trae).
+
+    La consulta por DOI va en lote y, si falla, lanza la excepción. La búsqueda por título es una
+    consulta por obra y es la que más choca con el límite de Semantic Scholar sin clave (429): si una
+    pide esperar, solo esa obra queda sin revisar. Devuelve (sellos, obras sin revisar), y quien llama
+    les devuelve el sello de la semana anterior.
+    """
+    n, sin_revisar = 0, []
+    campos = "title,venue,citationCount,externalIds"
+    con_doi = [o for o in obras if o["doi"]]
+    for i in range(0, len(con_doi), 100):
+        lote = con_doi[i:i + 100]
+        r = pedir("https://api.semanticscholar.org/graph/v1/paper/batch?fields=" + campos,
+                  datos={"ids": ["DOI:" + o["doi"] for o in lote]}, intentos=intentos)
+        for o, p in zip(lote, r or []):
+            if p:
+                o["s2"] = p
+        time.sleep(1.2)
+    for o in obras:
+        if o["doi"]:
+            continue
+        try:
+            r = pedir("https://api.semanticscholar.org/graph/v1/paper/search/match?fields=" + campos +
+                      "&query=" + urllib.parse.quote(o["t"][:300]), intentos=max(2, intentos - 2))
+        except urllib.error.HTTPError as e:
+            if e.code != 429:
+                raise
+            sin_revisar.append(o)
+            time.sleep(5)
+            continue
+        time.sleep(3)  # sin clave, Semantic Scholar comparte un cupo pequeño entre todos
+        p = (r or {}).get("data", [None])[0] if r else None
+        if p and norm(p.get("title"))[:60] == norm(o["t"])[:60]:
+            o["s2"] = p
+    for o in obras:
+        p = o.pop("s2", None)
+        if not p:
+            continue
+        n += 1
+        o["vf"]["s2"] = {"venue": p.get("venue") or "", "cites": p.get("citationCount")}
+        ex = p.get("externalIds") or {}
+        if ex.get("ArXiv"):
+            o["vf"].setdefault("arxiv", {"id": ex["ArXiv"]})
+        if ex.get("DBLP"):
+            o["vf"]["dblp"] = {"id": ex["DBLP"]}
+    return n, sin_revisar
+
+
+def estado_s2(estado, obras, sin_revisar):
+    """Marca Semantic Scholar y DBLP como activas, contando las obras que quedaron sin revisar."""
+    for k in ("s2", "dblp"):
+        estado[k] = {"estado": "ok", "fecha": HOY, "resultado": sum(1 for o in obras if k in o["vf"])}
+        if sin_revisar:
+            estado[k]["sin_revisar"] = len(sin_revisar)
+
+
+def solo_s2():
+    """Reintento de Semantic Scholar (y DBLP, que viene con él) sobre los datos ya publicados.
+
+    El flujo semanal lo corre 10 minutos después si Semantic Scholar pidió esperar (429).
+    Reintenta con más paciencia; si vuelve a fallar, se conservan los sellos anteriores y el
+    panel avisa que se intentará de nuevo en la próxima actualización semanal.
+    """
+    ruta_p, ruta_f = os.path.join(DATOS, "publicaciones.json"), os.path.join(DATOS, "fuentes.json")
+    pub, fu = leer_json(ruta_p), leer_json(ruta_f)
+    obras, estado = pub["obras"], fu["estado"]
+    antes = {id(o): {k: o["vf"][k] for k in ("s2", "dblp") if k in o["vf"]} for o in obras}
+    for o in obras:
+        o["vf"].pop("s2", None)
+        o["vf"].pop("dblp", None)
+    try:
+        _, sin_revisar = sellos_s2(obras, intentos=6)
+        for o in sin_revisar:
+            o["vf"].update(antes[id(o)])
+        estado_s2(estado, obras, sin_revisar)
+        log(f"Semantic Scholar: {estado['s2']['resultado']} sellos, {len(sin_revisar)} obras sin revisar")
+    except Exception as e:  # noqa: BLE001
+        log(f"  ! s2 (reintento): {e}")
+        for o in obras:
+            o.pop("s2", None)
+            o["vf"].update(antes[id(o)])
+        estado["s2"] = estado_falla(e)
+        estado["dblp"] = estado_falla(e)
+    escribir_json(ruta_p, pub)
+    escribir_json(ruta_f, fu)
+    armar_paquete()
+
+
 def verificar(obras, previas, rapido, estado):
     """Agrega los sellos: Crossref, DataCite, Semantic Scholar, zbMATH, arXiv, DBLP."""
     prev = {o["id"]: o.get("vf", {}) for o in previas}
@@ -421,9 +519,9 @@ def verificar(obras, previas, rapido, estado):
     def ok(fuente, n):
         estado[fuente] = {"estado": "ok", "fecha": HOY, "resultado": n}
 
-    def falla(fuente, e):
+    def falla(fuente, e, reintento=False):
         log(f"  ! {fuente}: {e}")
-        estado[fuente] = {"estado": "error", "fecha": HOY, "resultado": str(e)[:160]}
+        estado[fuente] = estado_falla(e, reintento)
         for o in obras:  # se conservan los sellos de la semana anterior
             if fuente in prev.get(o["id"], {}):
                 o["vf"][fuente] = prev[o["id"]][fuente]
@@ -455,43 +553,17 @@ def verificar(obras, previas, rapido, estado):
 
     # Semantic Scholar (por DOI en lote; por título si no hay DOI). Trae también los ID de arXiv y DBLP.
     try:
-        n = 0
-        campos = "title,venue,citationCount,externalIds"
-        for i in range(0, len(con_doi), 100):
-            lote = con_doi[i:i + 100]
-            r = pedir("https://api.semanticscholar.org/graph/v1/paper/batch?fields=" + campos,
-                      datos={"ids": ["DOI:" + o["doi"] for o in lote]})
-            for o, p in zip(lote, r or []):
-                if p:
-                    o["s2"] = p
-            time.sleep(1.2)
-        for o in obras:
-            if o["doi"]:
-                continue
-            r = pedir("https://api.semanticscholar.org/graph/v1/paper/search/match?fields=" + campos +
-                      "&query=" + urllib.parse.quote(o["t"][:300]))
-            time.sleep(1.2)
-            p = (r or {}).get("data", [None])[0] if r else None
-            if p and norm(p.get("title"))[:60] == norm(o["t"])[:60]:
-                o["s2"] = p
-        for o in obras:
-            p = o.pop("s2", None)
-            if not p:
-                continue
-            n += 1
-            o["vf"]["s2"] = {"venue": p.get("venue") or "", "cites": p.get("citationCount")}
-            ex = p.get("externalIds") or {}
-            if ex.get("ArXiv"):
-                o["vf"]["arxiv"] = {"id": ex["ArXiv"]}
-            if ex.get("DBLP"):
-                o["vf"]["dblp"] = {"id": ex["DBLP"]}
-        ok("s2", n)
-        ok("dblp", sum(1 for o in obras if "dblp" in o["vf"]))
+        _, sin_revisar = sellos_s2(obras)
+        for o in sin_revisar:  # conservan el sello de la semana anterior
+            for k in ("s2", "dblp"):
+                if k in prev.get(o["id"], {}):
+                    o["vf"][k] = prev[o["id"]][k]
+        estado_s2(estado, obras, sin_revisar)
     except Exception as e:  # noqa: BLE001
         for o in obras:  # respuestas a medio procesar: no deben quedar en los datos publicados
             o.pop("s2", None)
-        falla("s2", e)
-        falla("dblp", e)
+        falla("s2", e, reintento=True)  # si pidió esperar, el flujo semanal lo reintenta (--solo-s2)
+        falla("dblp", e, reintento=True)
 
     # zbMATH Open (por DOI)
     try:
@@ -696,10 +768,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--rapido", action="store_true", help="omite la búsqueda de arXiv por título")
     ap.add_argument("--sin-red", action="store_true", help="solo vuelve a armar datos/sitio.js")
+    ap.add_argument("--solo-s2", action="store_true", help="solo reintenta Semantic Scholar sobre los datos publicados")
     a = ap.parse_args()
     os.makedirs(DATOS, exist_ok=True)
     if a.sin_red:
         armar_paquete()
+        return
+    if a.solo_s2:
+        solo_s2()
         return
 
     corr = leer_json(os.path.join(CONTENIDO, "correcciones.json"), {})

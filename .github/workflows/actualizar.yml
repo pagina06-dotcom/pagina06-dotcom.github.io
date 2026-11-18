@@ -13,7 +13,7 @@ permissions:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 45   # la búsqueda en arXiv por título tarda ~15 min (17,5 min el 17-nov)
+    timeout-minutes: 75   # arXiv por título tarda ~15 min (17,5 el 17-nov) + posible reintento de Semantic Scholar (~20 min)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,3 +31,15 @@ jobs:
           git add datos/
           git diff --cached --quiet || git commit -m "datos: actualización semanal $(date +%F)"
           git push
+      # Si Semantic Scholar pidió esperar (429), el panel ya dice "se vuelve a consultar en unos minutos".
+      - name: Reintentar Semantic Scholar
+        env:
+          CONTACTO_API: ${{ vars.CONTACTO_API }}
+        run: |
+          if python -c "import json,sys; e=json.load(open('datos/fuentes.json'))['estado'].get('s2',{}); sys.exit(0 if e.get('estado')=='espera' else 1)"; then
+            sleep 600
+            python scripts/actualizar.py --solo-s2
+            git add datos/
+            git diff --cached --quiet || git commit -m "datos: reintento de Semantic Scholar $(date +%F)"
+            git push
+          fi
