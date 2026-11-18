@@ -132,8 +132,7 @@ const T = {
   /* panel */
   pSum: ['Summary', 'Resumen'], pPubs: ['Publications', 'Publicaciones'], pProf: ['Profiles and sub-areas', 'Perfiles y subáreas'], pMan: ['Manual content', 'Contenido manual'], pSrc: ['Sources', 'Fuentes'],
   view: ['View', 'Vista'], visitor: ['Visitor', 'Visitante'], panelS: ['MY PANEL', 'MI PANEL'],
-  sumSub: ['The site rebuilds itself every week with GitHub Actions.', 'El sitio se reconstruye solo cada semana con GitHub Actions.'], updNow: ['↻ Update now', '↻ Actualizar ahora'],
-  lastUpd: ['LAST UPDATE', 'ÚLTIMA ACTUALIZACIÓN'], nextUpd: ['NEXT', 'PRÓXIMA'], pubFigs: ['PUBLISHED FIGURES', 'CIFRAS PUBLICADAS'], correct: ['Correct', 'Correcta'], weeklyC: ['Weekly', 'Semanal'],
+  sumSub: ['The site updates automatically every Monday.', 'El sitio se actualiza automáticamente cada lunes.'], lastUpd: ['LAST UPDATE', 'ÚLTIMA ACTUALIZACIÓN'], nextUpd: ['NEXT', 'PRÓXIMA'], pubFigs: ['PUBLISHED FIGURES', 'CIFRAS PUBLICADAS'], correct: ['Correct', 'Correcta'], weeklyC: ['Automatic, every Monday', 'Automática, cada lunes'],
   figsNote: ['publications · citations · h · i10 (OpenAlex)', 'publicaciones · citas · h · i10 (OpenAlex)'], pendT: ['Pending', 'Pendientes'],
   pend1: ['Publications with a line to confirm', 'Publicaciones con línea por confirmar'], pend1s: ['Suggested automatically; confirm them in bulk.', 'Sugeridas automáticamente; confírmalas en lote.'], review: ['Review', 'Revisar'],
   pend2: ['Free profile not defined', 'Perfil libre sin definir'], pend2s: ['Visitors see a reserved space.', 'Los visitantes ven un espacio reservado.'], configure: ['Configure', 'Configurar'],
@@ -149,9 +148,8 @@ const T = {
   carPh: ['Carousel photos', 'Fotos del carrusel'], siteTxt: ['Site texts', 'Textos del sitio'], role: ['Role', 'Rol'], bio: ['About', 'Acerca de'],
   both: ['ES · EN', 'ES · EN'], awards: ['Awards', 'Premios'], courses: ['Courses', 'Cursos'], works2: ['Works', 'Obras'], projectsT: ['Projects', 'Proyectos'], talksT: ['Talks and events', 'Charlas y eventos'], writingT: ['Writing', 'Escritos'],
   noneYet: ['Nothing yet.', 'Aún no hay nada.'],
-  srcT: ['Sources', 'Fuentes'], srcS: ['State of each weekly synchronisation (real data from the last run).', 'Estado de cada sincronización semanal (datos reales de la última ejecución).'],
-  thSrc: ['SOURCE', 'FUENTE'], thSt: ['STATE', 'ESTADO'], thLast: ['LAST SYNC', 'ÚLTIMA SINCRONIZACIÓN'], thRes: ['RESULT', 'RESULTADO'], syncNow: ['Sync now', 'Sincronizar ahora'], addKey: ['Add key', 'Agregar clave'],
-  resN: ['{n} records', '{n} registros'],
+  srcT: ['Sources', 'Fuentes'], srcS: ['Sources are queried automatically every Monday. This is the state of the last query.', 'Las fuentes se consultan automáticamente cada lunes. Este es el estado de la última consulta.'],
+  thSrc: ['SOURCE', 'FUENTE'], thSt: ['STATE', 'ESTADO'], thLast: ['LAST SYNC', 'ÚLTIMA SINCRONIZACIÓN'], thRes: ['RESULT', 'RESULTADO'], resN: ['{n} records', '{n} registros'],
 };
 const t = (k, v) => { let s = L(T[k]) ?? k; if (v) for (const x in v) s = s.replace('{' + x + '}', v[x]); return s; };
 
@@ -637,7 +635,7 @@ function play() {
 // Estado de una fuente. Un 429 ("demasiadas consultas") no es una falla: la fuente pidió esperar.
 const limite = e => !!e && (e.estado === 'espera' || (e.estado === 'error' && /^HTTP Error 429/.test(String(e.resultado))));
 const estK = e => !e ? null : e.estado === 'ok' ? 'ok' : limite(e) ? 'limit' : 'err';
-const proxAct = () => { const n = new Date(GEN); n.setDate(n.getDate() + 7); return n.toISOString().slice(0, 10); };
+const proxAct = () => { const n = new Date(GEN + 'T00:00:00Z'); do n.setUTCDate(n.getUTCDate() + 1); while (n.getUTCDay() !== 1); return n.toISOString().slice(0, 10); };
 const estRes = e => limite(e) ? t(e.reintento ? 'res429soon' : 'res429next', { d: fd(proxAct()) })
   : typeof e.resultado === 'number' ? t('resN', { n: e.resultado }) + (e.sin_revisar ? ' · ' + t('resPend', { k: e.sin_revisar }) : '') : e.resultado;
 function sourcesPage() {
@@ -676,7 +674,7 @@ function panel(sec) {
 }
 const pTitle = (k, s, right) => `<div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap"><div><h1 class="h1">${t(k)}</h1><p class="lead" style="margin-top:6px;font-size:15px">${s}</p></div>${right || ''}</div>`;
 function pSummary(nRev) {
-  const st = DD.perfil.stats, next = new Date(GEN); next.setDate(next.getDate() + 7);
+  const st = DD.perfil.stats;
   const empt = PK.filter(k => k !== 'research' && (PROF[k].subs || []).length).map(k => [k, PROF[k].subs.filter(s => !ITEMS.some(it => inSub(it, k + '.' + s.id)))]).filter(x => x[1].length);
   const est = DD.fuentes.estado, oc = orcidRows();
   const orcSinDoiTodas = VIS.filter(w => w.fuentes.length === 1 && w.fuentes[0] === 'orcid' && !w.doi).sort((a, b) => (b.y || 0) - (a.y || 0));
@@ -711,9 +709,9 @@ function pSummary(nRev) {
   const pend = (items, k, href, btn, ext, fmt) => items.length ? `<div class="prow"><b>${items.length}</b><div><div class="t">${t(k)}</div><div class="m">${t(k + 's')}</div>
     <details class="pdet"><summary>${t('seeWhich')}</summary><ul>${items.map(x => `<li>${fmt(x)}</li>`).join('')}</ul></details></div>
     <a class="btn sm" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}>${t(btn)}</a></div>` : '';
-  return `${pTitle('pSum', t('sumSub'), `<button class="btn" type="button" data-static>${t('updNow')}</button>`)}
+  return `${pTitle('pSum', t('sumSub'))}
   <div class="kpis"><div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('lastUpd')}</span><b>${fd(GEN)}</b><small>■ ${t('correct')}</small></div>
-    <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('nextUpd')}</span><b>${fd(next.toISOString().slice(0, 10))}</b><small>${t('weeklyC')}</small></div>
+    <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('nextUpd')}</span><b>${fd(proxAct())}</b><small>${t('weeklyC')}</small></div>
     <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('pubFigs')}</span><b>${st.works} · ${st.cites} · ${st.h} · ${st.i10}</b><small>${t('figsNote')}</small></div></div>
   <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;margin-top:40px" class="sumgrid">
     <section><h2 class="h2" style="font-size:22px;margin-bottom:12px">${t('pendT')}</h2>
@@ -768,10 +766,9 @@ function pContent() {
 }
 function pSources() {
   const est = DD.fuentes.estado;
-  return `${pTitle('srcT', t('srcS'))}<div class="tablewrap"><table class="rtable"><thead><tr><th>${t('thSrc')}</th><th>${t('thSt')}</th><th>${t('thLast')}</th><th>${t('thRes')}</th><th></th></tr></thead><tbody>
+  return `${pTitle('srcT', t('srcS'))}<div class="tablewrap"><table class="rtable"><thead><tr><th>${t('thSrc')}</th><th>${t('thSt')}</th><th>${t('thLast')}</th><th>${t('thRes')}</th></tr></thead><tbody>
     ${C.fuentes.fuentes.map(s => { const e = est[s.id]; const k = estK(e) || s.st; return `<tr><td><b>${esc(L(s.n))}</b></td><td><span class="sts" style="font:500 13px var(--sans);color:var(--ink)"><span class="sq-i ${{ ok: 'ok', err: 'err', plan: 'plan', block: 'block', wait: '', limit: '' }[k]}"></span>${t('st.' + k)}</span></td>
-      <td class="mono">${e ? fd(e.fecha) : '—'}</td><td>${e ? esc(estRes(e)) : '—'}</td>
-      <td style="text-align:right">${s.st === 'wait' ? `<button class="btn solid sm" type="button" data-static>${t('addKey')}</button>` : e ? `<button class="btn sm" type="button" data-static>${t('syncNow')}</button>` : ''}</td></tr>`; }).join('')}</tbody></table></div>`;
+      <td class="mono">${e ? fd(e.fecha) : '—'}</td><td>${e ? esc(estRes(e)) : '—'}</td></tr>`; }).join('')}</tbody></table></div>`;
 }
 
 /* ---------- enrutador ---------- */
