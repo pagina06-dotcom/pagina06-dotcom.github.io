@@ -22,3 +22,4 @@ Las decisiones no se borran. Si una cambia, se escribe una nueva que reemplaza a
 | [0007](0007-clave-de-openalex.md) | Clave de OpenAlex como secreto de GitHub | Aceptada | 2026-11-17 |
 | [0008](0008-ia-gemini-y-busqueda-web.md) | IA con Gemini y búsqueda web para completar lo que no tienen las fuentes | Aceptada | 2026-11-09 |
 | [0009](0009-proteccion-ante-caidas-bruscas.md) | Protección ante caídas bruscas en las fuentes | Propuesta | 2026-11-17 |
+| [0010](0010-frontend-sin-frameworks.md) | Frontend en JavaScript sin frameworks ni paso de compilación | Aceptada | 2026-10-29 |
