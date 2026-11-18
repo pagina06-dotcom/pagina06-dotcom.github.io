@@ -675,7 +675,14 @@
    "linea": "cot",
    "linea_estado": "sugerida",
    "oculta": false,
-   "vf": {}
+   "vf": {},
+   "sin_doi": {
+    "estado": "fuente_sin_doi",
+    "tipo": "revista",
+    "id": null,
+    "fecha": "2026-11-18",
+    "comprobar": "https://api.crossref.org/journals?rows=20&query=Constructivist%20Foundations"
+   }
   },
   {
    "id": "orcid:143556240",
@@ -696,7 +703,14 @@
    "linea": "found",
    "linea_estado": "sugerida",
    "oculta": false,
-   "vf": {}
+   "vf": {},
+   "sin_doi": {
+    "estado": "fuente_sin_doi",
+    "tipo": "revista",
+    "id": null,
+    "fecha": "2026-11-18",
+    "comprobar": "https://api.crossref.org/journals?rows=20&query=Constructivist%20Foundations"
+   }
   },
   {
    "id": "orcid:222599400",
@@ -717,7 +731,14 @@
    "linea": "found",
    "linea_estado": "sugerida",
    "oculta": false,
-   "vf": {}
+   "vf": {},
+   "sin_doi": {
+    "estado": "fuente_sin_doi",
+    "tipo": "revista",
+    "id": "ISSN 1782-348X",
+    "fecha": "2026-11-18",
+    "comprobar": "https://api.crossref.org/journals/1782-348X"
+   }
   },
   {
    "id": "orcid:143082369",
@@ -738,7 +759,14 @@
    "linea": "cot",
    "linea_estado": "sugerida",
    "oculta": false,
-   "vf": {}
+   "vf": {},
+   "sin_doi": {
+    "estado": "fuente_con_doi",
+    "tipo": "revista",
+    "id": null,
+    "fecha": "2026-11-18",
+    "comprobar": "https://api.crossref.org/journals?rows=20&query=REVISTA%20DE%20MODELAMIENTO%20MATEM%C3%81TICO%20DE%20SISTEMAS%20BIOL%C3%93GICOS"
+   }
   },
   {
    "id": "10.1155/2022/9944562",
@@ -1842,6 +1870,13 @@
     "arxiv": {
      "id": "1911.08006v1"
     }
+   },
+   "sin_doi": {
+    "estado": "crossref_tiene",
+    "doi": "10.1007/s10699-019-09639-y",
+    "en": "Foundations of Science",
+    "fecha": "2026-11-18",
+    "comprobar": "https://doi.org/10.1007/s10699-019-09639-y"
    }
   },
   {
@@ -2568,6 +2603,10 @@
     "arxiv": {
      "id": "1604.08268v1"
     }
+   },
+   "sin_doi": {
+    "estado": "sin_resultado",
+    "fecha": "2026-11-18"
    }
   },
   {
@@ -2593,6 +2632,10 @@
     "arxiv": {
      "id": "1604.08270v1"
     }
+   },
+   "sin_doi": {
+    "estado": "sin_resultado",
+    "fecha": "2026-11-18"
    }
   },
   {
@@ -3064,7 +3107,14 @@
    "linea": "cot",
    "linea_estado": "sugerida",
    "oculta": false,
-   "vf": {}
+   "vf": {},
+   "sin_doi": {
+    "estado": "fuente_sin_doi",
+    "tipo": "libro",
+    "id": "ISBN 978-956-9409-01-1",
+    "fecha": "2026-11-18",
+    "comprobar": "https://api.crossref.org/works?rows=0&filter=isbn:978-956-9409-01-1"
+   }
   },
   {
    "id": "10.48550/arxiv.1309.2981",
