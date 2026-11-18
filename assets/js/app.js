@@ -73,14 +73,25 @@ const T = {
   hintCr: ['Crossref has it in {v} with DOI {doi}: confirm it is the same work and add that DOI in ORCID', 'Crossref la tiene en {v}, con DOI {doi}: confirma que es la misma obra y agrega ese DOI en ORCID'],
   hintFc: ['Its {f} does use DOIs (it is in Crossref), but this work did not show up: look for the DOI on the article page', 'Su {f} sí usa DOI (está en Crossref), pero esta obra no apareció: busca el DOI en la página de la obra'],
   crNoJName: ['no journal found with that name', 'no encontró ninguna revista con ese nombre'], crNoJIssn: ['no journal found with that ISSN', 'no encontró ninguna revista con ese ISSN'], crNoBook: ['no book found with that ISBN', 'no encontró ningún libro con ese ISBN'],
+  ckWait: ['Asking Crossref…', 'Preguntando a Crossref…'], ckFail: ['Could not reach Crossref. Try again later.', 'No se pudo conectar con Crossref. Prueba de nuevo más tarde.'],
+  ckJYes: ['Crossref does have the journal «{t}» registered ({ed}), with {n} DOIs since {y}.', 'Crossref sí tiene registrada la revista «{t}» ({ed}), con {n} DOI desde {y}.'],
+  ckJNoName: ['Crossref has no journal called «{q}» registered, so its articles have no DOI.', 'Crossref no tiene registrada ninguna revista llamada «{q}», así que sus artículos no tienen DOI.'],
+  ckJNoIssn: ['Crossref has no journal with ISSN {q} registered, so its articles have no DOI.', 'Crossref no tiene registrada ninguna revista con el ISSN {q}, así que sus artículos no tienen DOI.'],
+  ckBYes: ['Crossref does have the book «{t}» registered, with {n} DOIs.', 'Crossref sí tiene registrado el libro «{t}», con {n} DOI.'],
+  ckBNo: ['Crossref has no book with ISBN {q} registered, so its chapters have no DOI.', 'Crossref no tiene registrado ningún libro con el ISBN {q}, así que sus capítulos no tienen DOI.'],
+  ckWYes: ['Crossref confirms the DOI {doi}: «{t}», in {en}, {y}. Authors include {a}.', 'Crossref confirma el DOI {doi}: «{t}», en {en}, {y}. Entre los autores está {a}.'],
+  ckWNo: ['Crossref no longer finds the DOI {doi}.', 'Crossref ya no encuentra el DOI {doi}.'],
+  ckSame: ['Same result as the check on {d}.', 'Es lo mismo que se revisó el {d}.'],
+  ckDiff: ['This changed since the check on {d}; the panel will update next Monday.', 'Esto cambió desde la revisión del {d}; el panel se actualizará el próximo lunes.'],
+  ckRaw: ['See technical answer', 'Ver respuesta técnica'],
   crDois: ['{n} DOIs registered since {y}', '{n} DOI registrados desde {y}'], crDoisN: ['{n} DOIs registered', '{n} DOI registrados'],
   fJournal: ['journal', 'revista'], fBook: ['book', 'libro'], check: ['Check', 'Comprobar'], checkedOn: ['checked {d}', 'revisado el {d}'], byName: ['by name', 'por nombre'],
   ndJournal: ['Journal not registered in Crossref', 'Revista no registrada en Crossref'], ndBook: ['Book not registered in Crossref', 'Libro no registrado en Crossref'],
   pendNd: ['Works without a DOI because their journal or book does not use DOIs', 'Obras sin DOI porque su revista o libro no usa DOI'],
   pendNds: ['Nothing to do: they are shown without citations. Checked in Crossref every week.', 'No hay nada que hacer: se muestran sin citas. Se revisa en Crossref cada semana.'],
   howChecked: ['Which ones and how it was checked', 'Cuáles son y cómo se revisó'],
-  howNd: ['Crossref is the registry where journals and publishers register the DOIs of what they publish. Every Monday the collector looks up the journal there (by ISSN if ORCID provides it, otherwise by its exact name) or the book (by ISBN), and also the work itself by title and author. If the journal or book is not in Crossref and the work does not show up either, the work has no DOI. Under each work is a summary of what Crossref answered; «Check» opens the full answer: if it says "Resource not found" or "total-results": 0, it is not in Crossref. If the journal ever starts using DOIs, the work goes back to the pending list on its own.',
-          'Crossref es el registro donde las revistas y editoriales inscriben los DOI de lo que publican. Cada lunes el recolector busca ahí la revista (por ISSN si ORCID lo trae; si no, por su nombre exacto) o el libro (por ISBN), y también la obra misma por título y autor. Si la revista o el libro no está en Crossref y la obra tampoco aparece, la obra no tiene DOI. Debajo de cada obra se resume lo que respondió Crossref; «Comprobar» abre la respuesta completa: si dice "Resource not found" o "total-results": 0, no está en Crossref. Si algún día la revista empieza a usar DOI, la obra vuelve sola a los pendientes.'],
+  howNd: ['Crossref is the registry where journals and publishers register the DOIs of what they publish. Every Monday the collector looks up the journal there (by ISSN if ORCID provides it, otherwise by its exact name) or the book (by ISBN), and also the work itself by title and author. If the journal or book is not in Crossref and the work does not show up either, the work has no DOI. Under each work is a summary of what Crossref answered. «Check» asks Crossref again right then and answers in one sentence; «See technical answer» opens the full reply from Crossref. If the journal ever starts using DOIs, the work goes back to the pending list on its own.',
+          'Crossref es el registro donde las revistas y editoriales inscriben los DOI de lo que publican. Cada lunes el recolector busca ahí la revista (por ISSN si ORCID lo trae; si no, por su nombre exacto) o el libro (por ISBN), y también la obra misma por título y autor. Si la revista o el libro no está en Crossref y la obra tampoco aparece, la obra no tiene DOI. Debajo de cada obra se resume lo que respondió Crossref. «Comprobar» le vuelve a preguntar a Crossref en ese momento y responde en una frase; «Ver respuesta técnica» abre la respuesta completa de Crossref. Si algún día la revista empieza a usar DOI, la obra vuelve sola a los pendientes.'],
   pendOw: ['Works only in ORCID without a DOI', 'Obras solo en ORCID sin DOI'], pendOws: ['They are shown without citations. If they have a DOI, add it in ORCID so the site can look up their citations.', 'Se muestran sin citas. Si tienen DOI, agrégalo en ORCID para que el sitio pueda buscar sus citas.'],
   pendMd: ['Hand-entered items missing essential data', 'Contenido cargado a mano sin datos esenciales'], pendMds: ['They are not shown. They lack a title, an area or, for places and awards, the year.', 'No se muestran. Les falta el título, el área o, en lugares y premios, el año.'],
   pendMl: ['Places and awards without a location', 'Lugares y premios sin ubicación'], pendMls: ['They appear in Journey but not on the map. Add their coordinates in the hand-entered content.', 'Aparecen en Trayectoria pero no en el mapa. Agrega sus coordenadas en el contenido manual.'], seeMan: ['See content', 'Ver contenido'], present: ['present', 'actualidad'], mapBase: ['Base map', 'Mapa base'],
@@ -663,7 +674,12 @@ function pSummary(nRev) {
   const orcSinDoiTodas = VIS.filter(w => w.fuentes.length === 1 && w.fuentes[0] === 'orcid' && !w.doi).sort((a, b) => (b.y || 0) - (a.y || 0));
   const sinDoiFuente = orcSinDoiTodas.filter(w => (w.sin_doi || {}).estado === 'fuente_sin_doi');  // no tienen DOI: no son pendientes
   const orcSinDoi = orcSinDoiTodas.filter(w => !sinDoiFuente.includes(w));
-  const comprobar = sd => urlSegura(sd && sd.comprobar) ? ` · <a href="${esc(urlSegura(sd.comprobar))}" target="_blank" rel="noopener">${t('check')}</a>` : '';
+  const comprobar = sd => {  // botón que vuelve a preguntar a Crossref en vivo (ver crCheck)
+    if (!sd || !urlSegura(sd.comprobar)) return '';
+    const k = sd.estado === 'crossref_tiene' ? 'obra' : sd.tipo === 'libro' ? 'isbn' : /^ISSN /.test(sd.id || '') ? 'issn' : 'nombre';
+    const hallado = sd.estado === 'crossref_tiene' || sd.estado === 'fuente_con_doi';
+    return ` · <button type="button" class="linkbtn" data-crk="${k}" data-crq="${esc(urlSegura(sd.comprobar))}" data-crdoi="${esc(sd.doi || '')}" data-crid="${esc(sd.id || '')}" data-crantes="${hallado ? 1 : 0}" data-crfecha="${esc(sd.fecha || '')}">${t('check')}</button>`;
+  };
   const crLinea = sd => {  // resumen de lo que respondió Crossref, para no tener que leer el JSON
     const c = sd.cr;
     const txt = c && sd.estado === 'crossref_tiene' ? [`«${c.t || '—'}»`, c.en, c.y].filter(Boolean).join(' · ')
@@ -796,9 +812,53 @@ function startCar() {
   carTimer = setInterval(() => { if (!carPaused && $('#carImg')) showC(ci + 1); }, 6000);
 }
 
+/* ---------- comprobación en vivo en Crossref (Mi panel, obras sin DOI) ---------- */
+const anioMin = j => { const ys = ((j.breakdowns || {})['dois-by-issued-year'] || []).filter(x => x[1]).map(x => x[0]); return ys.length ? Math.min(...ys) : '—'; };
+const nomCr = s => normInst(s).replace(/ /g, '');
+async function crCheck(btn) {
+  const d = btn.dataset, li = btn.closest('li'), cr = 'https://api.crossref.org/';
+  let box = li.querySelector('.crres');
+  if (!box) { box = document.createElement('span'); box.className = 'crres'; box.setAttribute('role', 'status'); li.appendChild(box); }
+  box.textContent = t('ckWait');
+  const api = d.crk === 'obra' ? cr + 'works/' + encodeURIComponent(d.crdoi) : d.crq;
+  if (!api.startsWith(cr)) return;  // solo se consulta Crossref
+  let msg, hallado;
+  try {
+    let r;
+    for (let i = 0; i < 3; i++) {  // Crossref limita las consultas simultáneas: se reintenta con espera
+      try { r = await fetch(api, { headers: { Accept: 'application/json' } }); } catch (e) { r = null; }
+      if (r && (r.ok || r.status === 404)) break;
+      await new Promise(f => setTimeout(f, 1500 * (i + 1)));
+    }
+    if (!r) throw new Error('red');
+    if (!r.ok && r.status !== 404) throw new Error(r.status);
+    const m = r.ok ? (await r.json()).message || {} : null;
+    if (d.crk === 'obra') {
+      hallado = !!m;
+      const veloz = m && (m.author || []).find(a => nomCr(a.family) === 'veloz');
+      msg = m ? t('ckWYes', { doi: d.crdoi, t: (m.title || ['—'])[0], en: (m['container-title'] || ['—'])[0], y: ((m.issued || {})['date-parts'] || [['—']])[0][0], a: veloz ? [veloz.given, veloz.family].filter(Boolean).join(' ') : '—' })
+        : t('ckWNo', { doi: d.crdoi });
+    } else if (d.crk === 'isbn') {
+      hallado = !!(m && m['total-results']);
+      msg = hallado ? t('ckBYes', { t: ((m.items || [{}])[0]['container-title'] || ['—'])[0], n: m['total-results'] })
+        : t('ckBNo', { q: d.crid.replace(/^ISBN /, '') });
+    } else {
+      const q = d.crk === 'issn' ? d.crid.replace(/^ISSN /, '') : new URL(api).searchParams.get('query');
+      const j = d.crk === 'issn' ? m : m && (m.items || []).find(i => nomCr(i.title) === nomCr(q));
+      hallado = !!j;
+      msg = j ? t('ckJYes', { t: j.title, ed: j.publisher || '—', n: (j.counts || {})['total-dois'] ?? '—', y: anioMin(j) })
+        : t(d.crk === 'issn' ? 'ckJNoIssn' : 'ckJNoName', { q });
+    }
+  } catch (e) { box.textContent = t('ckFail'); return; }
+  const igual = hallado === (d.crantes === '1');
+  box.innerHTML = `${esc(msg)} <span class="muted">${esc(t(igual ? 'ckSame' : 'ckDiff', { d: fd(d.crfecha) }))}</span>
+    <a href="${esc(api)}" target="_blank" rel="noopener">${t('ckRaw')} ↗</a>`;
+}
+
 /* ---------- eventos ---------- */
 document.addEventListener('click', e => {
   const el = e.target.closest('button,a'); if (!el) return;
+  if (el.dataset.crk) { crCheck(el); return; }
   if (el.dataset.lang) { lang = el.dataset.lang; store.set('lang', lang); document.documentElement.lang = lang; $('.sheet')?.remove(); rerender(); }
   else if ('toggleTheme' in el.dataset) { theme = isDark() ? 'light' : 'dark'; store.set('theme', theme); applyTheme(); rerender(); }
   else if (el.dataset.themeSet) { theme = el.dataset.themeSet; store.set('theme', theme); applyTheme(); $('.sheet')?.remove(); rerender(); }
