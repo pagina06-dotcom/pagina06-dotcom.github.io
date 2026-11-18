@@ -105,7 +105,7 @@ const T = {
   figsNote: ['publications · citations · h · i10 (OpenAlex)', 'publicaciones · citas · h · i10 (OpenAlex)'], pendT: ['Pending', 'Pendientes'],
   pend1: ['Publications with a line to confirm', 'Publicaciones con línea por confirmar'], pend1s: ['Suggested automatically; confirm them in bulk.', 'Sugeridas automáticamente; confírmalas en lote.'], review: ['Review', 'Revisar'],
   pend2: ['Free profile not defined', 'Perfil libre sin definir'], pend2s: ['Visitors see a reserved space.', 'Los visitantes ven un espacio reservado.'], configure: ['Configure', 'Configurar'],
-  pend3: ['Empty sub-areas in {p}', 'Subáreas vacías en {p}'], pend4: ['Sources pending access', 'Fuentes pendientes de acceso'], pend4s: ['Scopus and Web of Science need an institutional key.', 'Scopus y Web of Science necesitan clave institucional.'], seeSrc: ['See sources', 'Ver fuentes'],
+  pend3: ['Empty sub-areas in {p}', 'Subáreas vacías en {p}'],
   revT: ['Publication review', 'Revisión de publicaciones'], revS: ['The line is suggested from the title and OpenAlex topics. Confirm it once; new ones are classified with the same rules.', 'La línea se sugiere a partir del título y los temas de OpenAlex. Confírmala una vez; las nuevas se clasifican con las mismas reglas.'],
   fAll: ['All', 'Todas'], fRev: ['To review', 'Por revisar'], fConf: ['Confirmed', 'Confirmadas'], fHid: ['Hidden', 'Ocultas'], searchT: ['Search title…', 'Buscar título…'],
   selected: ['{n} selected', '{n} seleccionadas'], acceptSel: ['✓ Accept selected suggestions', '✓ Aceptar sugerencias seleccionadas'], changeLine: ['Change line ▾', 'Cambiar línea ▾'], clearSel: ['Clear selection', 'Quitar selección'],
@@ -555,21 +555,19 @@ function sourcesPage() {
   const n = VIS.length, cov = k => VIS.filter(w => w.vf && w.vf[k]).length;
   const s2c = VIS.reduce((s, w) => s + ((w.vf && w.vf.s2 && w.vf.s2.cites) || 0), 0);
   const s2cs = VIS.map(w => (w.vf && w.vf.s2 && w.vf.s2.cites) || 0).sort((a, b) => b - a), s2h = s2cs.filter((c, i) => c >= i + 1).length;
-  const pst = DD.perfil.stats;
+  const pst = DD.perfil.stats, s2err = (est.s2 || {}).estado === 'error';
   return `<div class="wrap page">${pageHead(t('nav.sources'), t('src.sub'), prov(true, t('synced'), GEN))}
   <section class="sec"><h2 class="h2" style="margin-bottom:18px">${t('how')}</h2><div class="steps">${cat.pasos.map((p, i) => `<div><b>0${i + 1}</b><h3>${esc(L(p[0]))}</h3><p>${esc(L(p[1]))}</p></div>`).join('')}</div></section>
   <section class="sec"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:18px"><h2 class="h2">${t('srcList')}</h2>
-    <div class="legend2">${['ok', 'wait', 'plan', 'block'].map(k => `<span class="sts" style="font-family:var(--sans);font-size:12.5px"><span class="sq-i ${mark(k)}"></span>${t('st.' + k)}</span>`).join('')}</div></div>
+    <div class="legend2">${['ok', 'plan', 'block'].map(k => `<span class="sts" style="font-family:var(--sans);font-size:12.5px"><span class="sq-i ${mark(k)}"></span>${t('st.' + k)}</span>`).join('')}</div></div>
     <div class="srcgrid">${cat.fuentes.map(s => { const k = st(s), e = est[s.id]; return `<article><div class="top"><h3>${esc(L(s.n))}</h3><span class="sts"><span class="sq-i ${mark(k)}"></span>${t('st.' + k)}</span></div>
       <p>${esc(L(s.what))}</p><p class="h">${esc(L(s.how))}</p>${e ? `<p class="h mono" style="font-size:11px">${fd(e.fecha)} · ${esc(typeof e.resultado === 'number' ? t('resN', { n: e.resultado }) : e.resultado)}</p>` : ''}</article>`; }).join('')}</div></section>
   <div class="vgrid"><div class="box"><h3 style="font-size:20px">${t('seals')}</h3><p class="muted" style="font-size:14px;margin:-8px 0 16px">${t('sealsSub', { n, d: fd(GEN) })}</p>
-      ${Object.entries(VS).map(([k, name]) => `<div class="vrow"><span>${name}</span><span class="bar"><i style="width:${cov(k) / n * 100}%"></i></span><span class="n">${cov(k)} / ${n}</span></div>`).join('')}
-      ${['Scopus', 'Web of Science'].map(x => `<div class="vrow"><span>${x}</span><span class="bar"></span><span class="n">${t('pending')}</span></div>`).join('')}</div>
+      ${Object.entries(VS).map(([k, name]) => `<div class="vrow"><span>${name}</span><span class="bar"><i style="width:${cov(k) / n * 100}%"></i></span><span class="n">${cov(k)} / ${n}</span></div>`).join('')}</div>
     <div class="box rules"><h3 style="font-size:20px">${t('readSeals')}</h3>${cat.reglas_sellos.map((r, i) => `<div><b>0${i + 1}</b><span>${esc(L(r))}</span></div>`).join('')}</div></div>
   <section class="sec"><h2 class="h2" style="margin-bottom:8px">${t('citesBy')}</h2><div class="ctable">
     <div><b>OpenAlex</b><span><span class="big">${pst.cites}</span> <small>${t('cites')}</small></span><span><span class="big">${pst.h}</span> <small>${t('st.h')}</small></span><span class="mono" style="font-size:12px">${fd(DD.perfil.generado)}</span><span class="sts" style="font-size:13px;font-family:var(--sans);color:var(--ink)"><span class="sq-i ok"></span>${t('st.ok')}</span></div>
-    <div><b>Semantic Scholar</b><span><span class="big">${s2c}</span> <small>${t('cites')}</small></span><span><span class="big">${s2h}</span> <small>${t('st.h')}</small></span><span class="mono" style="font-size:12px">${fd((est.s2 || {}).fecha)}</span><span class="sts" style="font-size:13px;font-family:var(--sans);color:var(--ink)"><span class="sq-i ok"></span>${t('st.ok')}</span></div>
-    ${['Google Scholar', 'Web of Science'].map(x => `<div><b>${x}</b><span><span class="big">—</span> <small>${t('cites')}</small></span><span><span class="big">—</span> <small>${t('st.h')}</small></span><span class="muted">—</span><span class="sts" style="font-size:13px;font-family:var(--sans);color:var(--ink)"><span class="sq-i"></span>${t('st.wait')}</span></div>`).join('')}
+    <div><b>Semantic Scholar</b><span><span class="big">${s2c}</span> <small>${t('cites')}</small></span><span><span class="big">${s2h}</span> <small>${t('st.h')}</small></span><span class="mono" style="font-size:12px">${fd((est.s2 || {}).fecha)}</span><span class="sts" style="font-size:13px;font-family:var(--sans);color:var(--ink)"><span class="sq-i ${s2err ? 'err' : 'ok'}"></span>${t(s2err ? 'st.err' : 'st.ok')}</span></div>
   </div><p class="note">${t('citesNote')}</p></section></div>`;
 }
 
@@ -596,10 +594,9 @@ function pSummary(nRev) {
     <section><h2 class="h2" style="font-size:22px;margin-bottom:12px">${t('pendT')}</h2>
       <div class="prow"><b>${nRev}</b><div><div class="t">${t('pend1')}</div><div class="m">${t('pend1s')}</div></div><a class="btn solid sm" href="#panel/pubs">${t('review')}</a></div>
       ${!(PROF.free.subs || []).length ? `<div class="prow"><b>1</b><div><div class="t">${t('pend2')}</div><div class="m">${t('pend2s')}</div></div><a class="btn sm" href="#area-free">${t('configure')}</a></div>` : ''}
-      ${empt.map(([k, ss]) => `<div class="prow"><b>${ss.length}</b><div><div class="t">${t('pend3', { p: esc(L(PROF[k].t)) })}</div><div class="m">${ss.map(s => esc(L(s.t))).join(', ')}.</div></div><a class="btn sm" href="#area-${k}/${ss[0].id}">${t('addContent')}</a></div>`).join('')}
-      <div class="prow"><b>2</b><div><div class="t">${t('pend4')}</div><div class="m">${t('pend4s')}</div></div><a class="btn sm" href="#panel/sources">${t('seeSrc')}</a></div></section>
+      ${empt.map(([k, ss]) => `<div class="prow"><b>${ss.length}</b><div><div class="t">${t('pend3', { p: esc(L(PROF[k].t)) })}</div><div class="m">${ss.map(s => esc(L(s.t))).join(', ')}.</div></div><a class="btn sm" href="#area-${k}/${ss[0].id}">${t('addContent')}</a></div>`).join('')}</section>
     <section class="box"><h2 class="h2" style="font-size:22px;margin-bottom:8px">${t('pSrc')}</h2>
-      ${[['ORCID', 'orcid'], ['OpenAlex', 'openalex'], ['Crossref', 'crossref'], ['Semantic Scholar', 's2'], ['Scopus'], ['Web of Science']].map(([n, id]) => `<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding:11px 0"><span class="sts" style="font:600 15px var(--sans);color:var(--ink)"><span class="sq-i ${id && est[id] ? (est[id].estado === 'ok' ? 'ok' : 'err') : ''}"></span>${n}</span><span class="mono muted" style="font-size:12px">${id && est[id] ? fd(est[id].fecha) : t('pending')}</span></div>`).join('')}</section></div>`;
+      ${[['ORCID', 'orcid'], ['OpenAlex', 'openalex'], ['Crossref', 'crossref'], ['Semantic Scholar', 's2']].map(([n, id]) => `<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding:11px 0"><span class="sts" style="font:600 15px var(--sans);color:var(--ink)"><span class="sq-i ${id && est[id] ? (est[id].estado === 'ok' ? 'ok' : 'err') : ''}"></span>${n}</span><span class="mono muted" style="font-size:12px">${id && est[id] ? fd(est[id].fecha) : t('pending')}</span></div>`).join('')}</section></div>`;
 }
 function pReview() {
   const all = ALL_WORKS, rev = all.filter(w => !w.oculta && w.linea_estado !== 'confirmada'), conf = all.filter(w => w.linea_estado === 'confirmada'), hid = all.filter(w => w.oculta);

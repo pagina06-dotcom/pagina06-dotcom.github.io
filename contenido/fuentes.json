@@ -5,8 +5,8 @@
       "n": "ORCID",
       "st": "ok",
       "what": [
-        "Publications, positions, education, grants, awards and talks.",
-        "Publicaciones, cargos, formación, fondos, premios y charlas."
+        "Publications.",
+        "Publicaciones."
       ],
       "how": [
         "Public ORCID API, queried weekly with his ORCID iD. He keeps his ORCID up to date and the site follows.",
@@ -18,12 +18,12 @@
       "n": "OpenAlex",
       "st": "ok",
       "what": [
-        "Citations, h-index, co-authors, institutions with location, topics.",
-        "Citas, índice h, coautores, instituciones con ubicación, temas."
+        "Citations for each publication, h-index and i10-index, co-authors, and institutions with their location for the map.",
+        "Citas de cada publicación, índice h e i10, coautores, e instituciones con su ubicación para el mapa."
       ],
       "how": [
-        "Open API, no key needed. Works are matched to his author profile and merged with ORCID by DOI.",
-        "API abierta, sin clave. Los trabajos se asocian a su perfil de autor y se unen con ORCID por DOI."
+        "Open API with a free key. Works are matched to his author profile and merged with ORCID by DOI or title.",
+        "API abierta, con clave gratuita. Los trabajos se asocian a su perfil de autor y se unen con ORCID por DOI o título."
       ],
       "id": "openalex"
     },
@@ -31,8 +31,8 @@
       "n": "Crossref",
       "st": "ok",
       "what": [
-        "Official publisher record: confirms the DOI, journal and year.",
-        "Registro oficial de la editorial: confirma el DOI, la revista y el año."
+        "Verification seal: the publisher's official record confirms the DOI and the journal.",
+        "Sello de verificación: el registro oficial de la editorial confirma el DOI y la revista."
       ],
       "how": [
         "Open API, by DOI. Corrects the journal when another source lists a repository instead.",
@@ -44,8 +44,8 @@
       "n": "DataCite",
       "st": "ok",
       "what": [
-        "Confirms DOIs registered by repositories such as arXiv, Figshare or Zenodo.",
-        "Confirma los DOI registrados por repositorios como arXiv, Figshare o Zenodo."
+        "Verification seal for DOIs registered by repositories such as arXiv, Figshare or Zenodo.",
+        "Sello de verificación para los DOI registrados por repositorios como arXiv, Figshare o Zenodo."
       ],
       "how": [
         "Open API, by DOI.",
@@ -57,8 +57,8 @@
       "n": "Semantic Scholar",
       "st": "ok",
       "what": [
-        "Independent index of publications and citations.",
-        "Índice independiente de publicaciones y citas."
+        "Verification seal and a second citation count, compared with OpenAlex on this page.",
+        "Sello de verificación y una segunda cuenta de citas, que se compara con OpenAlex en esta página."
       ],
       "how": [
         "Free API: by DOI, or by title when there is no DOI.",
@@ -70,8 +70,8 @@
       "n": "zbMATH Open",
       "st": "ok",
       "what": [
-        "European reference index for mathematics.",
-        "Índice europeo de referencia en matemáticas."
+        "Verification seal from the European reference index for mathematics.",
+        "Sello de verificación del índice europeo de referencia en matemáticas."
       ],
       "how": [
         "Open API, by DOI.",
@@ -83,12 +83,12 @@
       "n": "arXiv",
       "st": "ok",
       "what": [
-        "Preprint versions, free to read.",
-        "Versiones preprint, de lectura libre."
+        "Verification seal: confirms the publication has a preprint version on arXiv.",
+        "Sello de verificación: confirma que la publicación tiene versión preprint en arXiv."
       ],
       "how": [
-        "Open API, by title.",
-        "API abierta, por título."
+        "Open API, by title. Also uses the arXiv identifier reported by OpenAlex and Semantic Scholar.",
+        "API abierta, por título. También usa el identificador de arXiv que informan OpenAlex y Semantic Scholar."
       ],
       "id": "arxiv"
     },
@@ -96,53 +96,14 @@
       "n": "DBLP",
       "st": "block",
       "what": [
-        "Reference index for computer science.",
-        "Índice de referencia en informática."
+        "Verification seal from the reference index for computer science.",
+        "Sello de verificación del índice de referencia en informática."
       ],
       "how": [
         "Its API currently blocks automated queries; the DBLP identifier is read from Semantic Scholar instead.",
         "Su API hoy bloquea las consultas automáticas; el identificador DBLP se lee desde Semantic Scholar."
       ],
       "id": "dblp"
-    },
-    {
-      "n": "Scopus",
-      "st": "wait",
-      "what": [
-        "Citations, h-index and verification by Elsevier's index.",
-        "Citas, índice h y verificación según el índice de Elsevier."
-      ],
-      "how": [
-        "Elsevier API with an institutional key (VUB or UTEM).",
-        "API de Elsevier con clave institucional (VUB o UTEM)."
-      ],
-      "id": "scopus"
-    },
-    {
-      "n": "Google Scholar",
-      "st": "wait",
-      "what": [
-        "Citation counts according to Google Scholar.",
-        "Citas según Google Scholar."
-      ],
-      "how": [
-        "No official API. Only possible through an intermediary service. Shown separately; the site never depends on it.",
-        "Sin API oficial. Solo es posible mediante un servicio intermediario. Se muestra aparte; el sitio nunca depende de él."
-      ],
-      "id": "scholar"
-    },
-    {
-      "n": "Web of Science",
-      "st": "wait",
-      "what": [
-        "Citation counts according to Web of Science.",
-        "Citas según Web of Science."
-      ],
-      "how": [
-        "Clarivate API with an access key, possibly through VUB or UTEM.",
-        "API de Clarivate con clave de acceso, posiblemente a través de la VUB o la UTEM."
-      ],
-      "id": "wos"
     },
     {
       "n": "Medium · YouTube",
@@ -207,8 +168,8 @@
         "Unificar"
       ],
       [
-        "Duplicates are merged by DOI and title; every field keeps its source.",
-        "Los duplicados se unen por DOI y título; cada campo conserva su fuente."
+        "Duplicates are merged by DOI and title; each publication records which source it comes from.",
+        "Los duplicados se unen por DOI y título; cada publicación indica de qué fuente viene."
       ]
     ],
     [
@@ -227,8 +188,8 @@
         "Publicar"
       ],
       [
-        "The site, the map and the CV PDF are regenerated.",
-        "Se regeneran el sitio, el mapa y el CV en PDF."
+        "The site and map data are regenerated and published.",
+        "Se regeneran y publican los datos del sitio y del mapa."
       ]
     ]
   ],
@@ -244,10 +205,6 @@
     [
       "Publications are matched by DOI, or by title and year when there is no DOI.",
       "Las publicaciones se asocian por DOI, o por título y año cuando no hay DOI."
-    ],
-    [
-      "Scopus and Web of Science will add their seals once institutional access is available.",
-      "Scopus y Web of Science agregarán sus sellos cuando haya acceso institucional."
     ]
   ]
 }
