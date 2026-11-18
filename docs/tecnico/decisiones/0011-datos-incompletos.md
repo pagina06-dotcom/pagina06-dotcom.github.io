@@ -41,6 +41,11 @@ Cada dato cae en uno de tres niveles según lo que le falte:
   - obras que solo están en ORCID y no tienen DOI (se muestran sin citas; con el DOI, el recolector puede buscarlas);
   - contenido manual sin lo esencial;
   - lugares y premios sin coordenadas.
+- **Cada pendiente dice cuáles son** (desplegable «Ver cuáles») y, en el contenido manual, qué le falta a cada uno.
+- **Pistas para encontrar un DOI:** a las obras sin DOI se les agregan pistas verificables, pero **nunca se publican ni se usan como dato**.
+  - Si la obra está en arXiv, su DOI oficial de arXiv (`10.48550/arXiv.<id>`).
+  - Si Semantic Scholar la encuentra en una revista, el nombre de esa revista.
+  - Quien completa el DOI en ORCID es Tomás.
 - **Las coordenadas de la formación** salen de las afiliaciones de OpenAlex, por coincidencia de nombre. ORCID no da coordenadas (sus identificadores son RINGGOLD o FUNDREF, no ROR) y no se ubica nada por nombre en un geocodificador. La coincidencia se hace por el nombre sin tildes, sin mayúsculas y sin «The» inicial.
 - **Los cargos no van al mapa:** las afiliaciones de OpenAlex ya ubican esas instituciones con sus años. Ponerlos también duplicaría los puntos.
 - **Si solo hay año de inicio:** el cargo se muestra como «2013–actualidad» y la formación como «2003–». En el mapa, la formación ocupa solo ese año.

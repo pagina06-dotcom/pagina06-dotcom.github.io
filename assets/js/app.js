@@ -66,7 +66,10 @@ const T = {
   lastYear: ['last year', 'último año'], noAff: ['No affiliations recorded for this year.', 'Sin afiliaciones registradas este año.'],
   fullJ: ['Full journey', 'Trayectoria completa'], eduJ: ['Education and positions', 'Formación y cargos'], edus: ['Education', 'Formación'], jobs: ['Positions', 'Cargos'], kEdu: ['Education', 'Formación'],
   pendOy: ['ORCID entries without a year', 'Entradas de ORCID sin año'], pendOys: ['They appear in Journey without a year and stay off the map. Add the years in ORCID; the site picks them up in the next weekly update.', 'Aparecen en Trayectoria sin año y no entran al mapa. Agrega los años en ORCID; el sitio los toma en la siguiente actualización semanal.'],
-  pendOd: ['ORCID entries without institution or title', 'Entradas de ORCID sin institución o título'], pendOds: ['They are not shown on the site. Complete them in ORCID.', 'No se muestran en el sitio. Complétalas en ORCID.'], fixOrcid: ['Complete in ORCID ↗', 'Completar en ORCID ↗'], langL: ['Language', 'Idioma'],
+  pendOd: ['ORCID entries without institution or title', 'Entradas de ORCID sin institución o título'], pendOds: ['They are not shown on the site. Complete them in ORCID.', 'No se muestran en el sitio. Complétalas en ORCID.'], fixOrcid: ['Complete in ORCID ↗', 'Completar en ORCID ↗'], langL: ['Language', 'Idioma'], seeWhich: ['See which ones', 'Ver cuáles'], missing: ['missing:', 'falta:'],
+  mTitle: ['title', 'título'], mArea: ['area', 'área'], mName: ['name', 'nombre'], mYear: ['year', 'año'],
+  tEv: ['Event', 'Evento'], tPr: ['Project', 'Proyecto'], tWr: ['Writing', 'Escrito'], tLu: ['Place', 'Lugar'], tAw: ['Award', 'Premio'], tJob: ['Position', 'Cargo'],
+  hintArxiv: ['It is on arXiv; its arXiv DOI is {doi}', 'Está en arXiv; su DOI de arXiv es {doi}'], hintS2: ['Semantic Scholar finds it in {v}: it probably has a DOI from that journal', 'Semantic Scholar la encuentra en {v}: probablemente tiene DOI de esa revista'],
   pendOw: ['Works only in ORCID without a DOI', 'Obras solo en ORCID sin DOI'], pendOws: ['They are shown without citations. If they have a DOI, add it in ORCID so the site can look up their citations.', 'Se muestran sin citas. Si tienen DOI, agrégalo en ORCID para que el sitio pueda buscar sus citas.'],
   pendMd: ['Hand-entered items missing essential data', 'Contenido cargado a mano sin datos esenciales'], pendMds: ['They are not shown. They lack a title, an area or, for places and awards, the year.', 'No se muestran. Les falta el título, el área o, en lugares y premios, el año.'],
   pendMl: ['Places and awards without a location', 'Lugares y premios sin ubicación'], pendMls: ['They appear in Journey but not on the map. Add their coordinates in the hand-entered content.', 'Aparecen en Trayectoria pero no en el mapa. Agrega sus coordenadas en el contenido manual.'], seeMan: ['See content', 'Ver contenido'], present: ['present', 'actualidad'], mapBase: ['Base map', 'Mapa base'],
@@ -151,13 +154,15 @@ const okLL = ll => Array.isArray(ll) && ll.length === 2 && ll.every(Number.isFin
 const anio = y => { const m = String(y ?? '').match(/\d{4}/); return m ? +m[0] : NaN; };
 const areaOk = s => tiene(s) && !!PROF[String(s).split('.')[0]];
 const MAN_RAW = { ev: C.eventos.eventos, pr: C.proyectos.proyectos, wr: C.escritos.escritos, lu: C.lugares.lugares, aw: C.premios.premios };
-const MAN_OK = {
-  ev: x => tiene(x.title) && areaOk(x.s), pr: x => tiene(x.t) && areaOk(x.s), wr: x => tiene(x.t) && areaOk(x.s),
-  lu: x => tiene(x.n) && Number.isFinite(anio(x.y)), aw: x => tiene(x.t) && Number.isFinite(anio(x.y)),
+const MAN_FALTA = {  // campos esenciales que faltan, por tipo
+  ev: x => [!tiene(x.title) && 'mTitle', !areaOk(x.s) && 'mArea'], pr: x => [!tiene(x.t) && 'mTitle', !areaOk(x.s) && 'mArea'],
+  wr: x => [!tiene(x.t) && 'mTitle', !areaOk(x.s) && 'mArea'],
+  lu: x => [!tiene(x.n) && 'mName', !Number.isFinite(anio(x.y)) && 'mYear'], aw: x => [!tiene(x.t) && 'mTitle', !Number.isFinite(anio(x.y)) && 'mYear'],
 };
-const MAN = Object.fromEntries(Object.entries(MAN_RAW).map(([k, xs]) => [k, (xs || []).filter(MAN_OK[k])]));
-const MAN_OCULTOS = Object.keys(MAN_RAW).reduce((n, k) => n + (MAN_RAW[k] || []).length - MAN[k].length, 0);
-const MAN_SIN_LL = [...MAN.lu, ...MAN.aw].filter(x => !okLL(x.ll)).length;
+const manNombre = (k, x) => L(k === 'ev' ? x.title : k === 'lu' ? x.n : x.t);
+const MAN = Object.fromEntries(Object.entries(MAN_RAW).map(([k, xs]) => [k, (xs || []).filter(x => !MAN_FALTA[k](x).some(Boolean))]));
+const MAN_OCULTOS = Object.entries(MAN_RAW).flatMap(([k, xs]) => (xs || []).map(x => ({ k, x, falta: MAN_FALTA[k](x).filter(Boolean) })).filter(o => o.falta.length));
+const MAN_SIN_LL = [...MAN.lu.map(x => ({ k: 'lu', x })), ...MAN.aw.map(x => ({ k: 'aw', x }))].filter(o => !okLL(o.x.ll));
 const ITEMS = [
   ...MAN.ev.map(x => ({ ...x, typ: 'ev' })),
   ...MAN.pr.map(x => ({ ...x, typ: 'pr' })),
@@ -517,10 +522,10 @@ const ORCID_URL = 'https://orcid.org/0000-0003-3014-8340';
 const normInst = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/^the /, '');
 const mismaInst = (a, b) => { const x = normInst(a), y = normInst(b); return !!x && !!y && (x === y || x.startsWith(y + ' ') || y.startsWith(x + ' ')); };
 function orcidRows() {
-  const o = DD.perfil.orcid || {}, out = { ok: [], sinAnio: 0, sinDatos: 0 };
+  const o = DD.perfil.orcid || {}, out = { ok: [], sinAnio: [], sinDatos: [] };
   [['edu', o.educations_detalle], ['job', o.employments_detalle]].forEach(([k, rows]) => (rows || []).forEach(r => {
-    if (!r.org || (k === 'edu' && !r.rol)) { out.sinDatos++; return; }
-    if (!r.desde && !r.hasta) out.sinAnio++;
+    if (!r.org || (k === 'edu' && !r.rol)) { out.sinDatos.push({ ...r, k }); return; }
+    if (!r.desde && !r.hasta) out.sinAnio.push({ ...r, k });
     out.ok.push({ ...r, k });
   }));
   return out;
@@ -643,7 +648,18 @@ const pTitle = (k, s, right) => `<div style="display:flex;justify-content:space-
 function pSummary(nRev) {
   const st = DD.perfil.stats, next = new Date(GEN); next.setDate(next.getDate() + 7);
   const empt = PK.filter(k => k !== 'research' && (PROF[k].subs || []).length).map(k => [k, PROF[k].subs.filter(s => !ITEMS.some(it => inSub(it, k + '.' + s.id)))]).filter(x => x[1].length);
-  const est = DD.fuentes.estado, oc = orcidRows(), orcSinDoi = VIS.filter(w => w.fuentes.length === 1 && w.fuentes[0] === 'orcid' && !w.doi).length;
+  const est = DD.fuentes.estado, oc = orcidRows();
+  const orcSinDoi = VIS.filter(w => w.fuentes.length === 1 && w.fuentes[0] === 'orcid' && !w.doi).sort((a, b) => (b.y || 0) - (a.y || 0));
+  const orcLabel = r => `${t(r.k === 'edu' ? 'kEdu' : 'tJob')}: ${[r.rol, r.org].filter(Boolean).join(' · ') || '—'}`;
+  const pistaDoi = w => {  // pistas verificables para encontrar el DOI; nunca se publican
+    const ax = w.vf && w.vf.arxiv && w.vf.arxiv.id, s2v = w.vf && w.vf.s2 && w.vf.s2.venue;
+    return [ax ? t('hintArxiv', { doi: '10.48550/arXiv.' + String(ax).replace(/v\d+$/, '') }) : '',
+            s2v && !/arxiv/i.test(s2v) ? t('hintS2', { v: s2v }) : ''].filter(Boolean).join(' · ');
+  };
+  const manLabel = o => `${t({ ev: 'tEv', pr: 'tPr', wr: 'tWr', lu: 'tLu', aw: 'tAw' }[o.k])}: «${manNombre(o.k, o.x) || '—'}»`;
+  const pend = (items, k, href, btn, ext, fmt) => items.length ? `<div class="prow"><b>${items.length}</b><div><div class="t">${t(k)}</div><div class="m">${t(k + 's')}</div>
+    <details class="pdet"><summary>${t('seeWhich')}</summary><ul>${items.map(x => `<li>${fmt(x)}</li>`).join('')}</ul></details></div>
+    <a class="btn sm" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}>${t(btn)}</a></div>` : '';
   return `${pTitle('pSum', t('sumSub'), `<button class="btn" type="button" data-static>${t('updNow')}</button>`)}
   <div class="kpis"><div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('lastUpd')}</span><b>${fd(GEN)}</b><small>■ ${t('correct')}</small></div>
     <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('nextUpd')}</span><b>${fd(next.toISOString().slice(0, 10))}</b><small>${t('weeklyC')}</small></div>
@@ -653,11 +669,11 @@ function pSummary(nRev) {
       <div class="prow"><b>${nRev}</b><div><div class="t">${t('pend1')}</div><div class="m">${t('pend1s')}</div></div><a class="btn solid sm" href="#panel/pubs">${t('review')}</a></div>
       ${!(PROF.free.subs || []).length ? `<div class="prow"><b>1</b><div><div class="t">${t('pend2')}</div><div class="m">${t('pend2s')}</div></div><a class="btn sm" href="#area-free">${t('configure')}</a></div>` : ''}
       ${empt.map(([k, ss]) => `<div class="prow"><b>${ss.length}</b><div><div class="t">${t('pend3', { p: esc(L(PROF[k].t)) })}</div><div class="m">${ss.map(s => esc(L(s.t))).join(', ')}.</div></div><a class="btn sm" href="#area-${k}/${ss[0].id}">${t('addContent')}</a></div>`).join('')}
-      ${oc.sinAnio ? `<div class="prow"><b>${oc.sinAnio}</b><div><div class="t">${t('pendOy')}</div><div class="m">${t('pendOys')}</div></div><a class="btn sm" href="${ORCID_URL}" target="_blank" rel="noopener">${t('fixOrcid')}</a></div>` : ''}
-      ${oc.sinDatos ? `<div class="prow"><b>${oc.sinDatos}</b><div><div class="t">${t('pendOd')}</div><div class="m">${t('pendOds')}</div></div><a class="btn sm" href="${ORCID_URL}" target="_blank" rel="noopener">${t('fixOrcid')}</a></div>` : ''}
-      ${orcSinDoi ? `<div class="prow"><b>${orcSinDoi}</b><div><div class="t">${t('pendOw')}</div><div class="m">${t('pendOws')}</div></div><a class="btn sm" href="${ORCID_URL}" target="_blank" rel="noopener">${t('fixOrcid')}</a></div>` : ''}
-      ${MAN_OCULTOS ? `<div class="prow"><b>${MAN_OCULTOS}</b><div><div class="t">${t('pendMd')}</div><div class="m">${t('pendMds')}</div></div><a class="btn sm" href="#panel/content">${t('seeMan')}</a></div>` : ''}
-      ${MAN_SIN_LL ? `<div class="prow"><b>${MAN_SIN_LL}</b><div><div class="t">${t('pendMl')}</div><div class="m">${t('pendMls')}</div></div><a class="btn sm" href="#panel/content">${t('seeMan')}</a></div>` : ''}</section>
+      ${pend(oc.sinAnio, 'pendOy', ORCID_URL, 'fixOrcid', true, r => esc(orcLabel(r)))}
+      ${pend(oc.sinDatos, 'pendOd', ORCID_URL, 'fixOrcid', true, r => esc(orcLabel(r)))}
+      ${pend(orcSinDoi, 'pendOw', ORCID_URL, 'fixOrcid', true, w => `<b>${esc(w.t)}</b> <span class="muted">· ${w.y || '—'}${w.v ? ' · ' + esc(w.v) : ''}</span>${pistaDoi(w) ? `<br><span class="hint">${esc(pistaDoi(w))}</span>` : ''}`)}
+      ${pend(MAN_OCULTOS, 'pendMd', '#panel/content', 'seeMan', false, o => `${esc(manLabel(o))} <span class="muted">· ${t('missing')} ${o.falta.map(f => t(f)).join(', ')}</span>`)}
+      ${pend(MAN_SIN_LL, 'pendMl', '#panel/content', 'seeMan', false, o => esc(manLabel(o)))}
     <section class="box"><h2 class="h2" style="font-size:22px;margin-bottom:8px">${t('pSrc')}</h2>
       ${[['ORCID', 'orcid'], ['OpenAlex', 'openalex'], ['Crossref', 'crossref'], ['Semantic Scholar', 's2']].map(([n, id]) => `<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding:11px 0"><span class="sts" style="font:600 15px var(--sans);color:var(--ink)"><span class="sq-i ${id && est[id] ? (est[id].estado === 'ok' ? 'ok' : 'err') : ''}"></span>${n}</span><span class="mono muted" style="font-size:12px">${id && est[id] ? fd(est[id].fecha) : t('pending')}</span></div>`).join('')}</section></div>`;
 }
