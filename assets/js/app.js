@@ -11,6 +11,8 @@ const GEN = DD.publicaciones.generado;
 const NOW = +GEN.slice(0, 4);
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+/* Enlaces externos: solo http(s). Lo que llegue por IA o búsqueda web con otro esquema (javascript:, data:…) no se enlaza. */
+const urlSegura = u => { const v = String(u ?? '').trim(); return /^https?:\/\//i.test(v) ? v : ''; };
 const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } },
                 set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } } };
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -238,7 +240,7 @@ function home(line) {
       ${prov(false, t('manual'), P.actualizado)}
     </div>
     <div class="carousel" aria-roledescription="carousel" aria-label="Fotos">
-      <div class="imgw"><img id="carImg" src="${photos[ci].src}" alt="${esc(L(photos[ci].d))}" width="380" height="460">${ADMIN ? `<button class="photobadge" type="button" data-static>${t('photos', { n: photos.length })}</button>` : ''}</div>
+      <div class="imgw"><img id="carImg" src="${esc(photos[ci].src)}" alt="${esc(L(photos[ci].d))}" width="380" height="460">${ADMIN ? `<button class="photobadge" type="button" data-static>${t('photos', { n: photos.length })}</button>` : ''}</div>
       <div class="car-foot"><div class="car-cap" aria-live="polite"><b id="carD">${esc(L(photos[ci].d))}</b><span id="carL">${esc(L(photos[ci].lugar))}</span></div>
         <div class="car-ctl"><button class="sq" type="button" data-car="-1" aria-label="‹">‹</button><span class="mono" id="carN">${ci + 1}/${photos.length}</span><button class="sq" type="button" data-car="1" aria-label="›">›</button></div></div>
       ${prov(false, t('manual'), P.actualizado, t('stopsRM').toLowerCase())}
@@ -316,7 +318,8 @@ function itemCard(it) {
   } else {
     top = [L(it.k), it.y]; title = it.t; place = domain(it.u);
   }
-  const titleH = it.u || it.link ? `<a href="${esc(it.u || it.link)}" target="_blank" rel="noopener" style="text-decoration:none">${esc(title)} ↗</a>` : esc(title);
+  const href = urlSegura(it.u || it.link);
+  const titleH = href ? `<a href="${esc(href)}" target="_blank" rel="noopener" style="text-decoration:none">${esc(title)} ↗</a>` : esc(title);
   const adm = ADMIN ? `<div class="itemadm"><span class="lab">${t('subarea')}</span><span>${subSelect(it.s)}</span><span class="lab">${t('alsoIn')}</span>
     <span style="display:flex;flex-wrap:wrap;gap:6px">${(it.also || []).map(s => `<span class="xchip">${av(profOf(s), 22)}${esc(subName(s))} <button type="button" data-static aria-label="×" style="border:0;background:none">×</button></span>`).join('')}<button class="addchip" type="button" data-static>${t('add')}</button></span></div>` : '';
   return `<article class="ccard">${panel}<div class="cbody"><div class="top"><span>${esc(top[0])}</span><span>${esc(top[1])}</span></div>
@@ -457,7 +460,7 @@ function writingPage() {
   const list = ITEMS.filter(it => it.typ === 'wr').sort((a, b) => b.y - a.y);
   return `<div class="wrap page">${pageHead(t('nav.writing'), t('writing.sub'), prov(false, t('manual'), C.escritos.actualizado, 'Medium · RSS: ' + t('st.plan').toLowerCase()))}
     <div class="wlist">${list.map(it => `<div class="wrow"><div class="y">${esc(it.y)}</div><div><div class="k">${esc(L(it.k))}</div>${tag(it.s)}</div>
-      <div><a class="t" href="${esc(it.u)}" target="_blank" rel="noopener">${esc(it.t)} ↗</a><p class="d">${esc(L(it.d))}</p><div class="u">${esc(domain(it.u))}</div></div></div>`).join('')}</div></div>`;
+      <div>${urlSegura(it.u) ? `<a class="t" href="${esc(urlSegura(it.u))}" target="_blank" rel="noopener">${esc(it.t)} ↗</a>` : `<span class="t">${esc(it.t)}</span>`}<p class="d">${esc(L(it.d))}</p><div class="u">${esc(domain(it.u))}</div></div></div>`).join('')}</div></div>`;
 }
 function workPage() {
   const P = C.perfil, ops = C.oportunidades.oportunidades, marks = ['ok', 'block', ''];
@@ -626,7 +629,7 @@ function pContent() {
     ${arr.length ? arr.map(x => `<div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:10px 0"><span>${fmt(x)}</span><button class="btn lite sm" type="button" data-static>${t('edit')}</button></div>`).join('') : `<div class="empty" style="padding:18px"><span class="muted">${t('noneYet')}</span></div>`}</section>`;
   return `${pTitle('manT', t('manS'))}
   <section style="margin-top:28px"><div class="sec-h" style="margin-bottom:12px"><h2 class="h2" style="font-size:22px">${t('carPh')} <small class="mono muted" style="font-size:13px">${P.fotos.length}</small></h2><button class="btn sm" type="button" data-static>${t('add')}</button></div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">${P.fotos.map((f, i) => `<figure style="margin:0;background:var(--surface);border:1px solid var(--line)"><img src="${f.src}" alt="" style="height:140px;width:100%;object-fit:cover"><figcaption style="padding:8px;font-size:12.5px"><span class="mono muted">⋮⋮ 0${i + 1}</span><br>${esc(L(f.d))}</figcaption></figure>`).join('')}</div></section>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">${P.fotos.map((f, i) => `<figure style="margin:0;background:var(--surface);border:1px solid var(--line)"><img src="${esc(f.src)}" alt="" style="height:140px;width:100%;object-fit:cover"><figcaption style="padding:8px;font-size:12.5px"><span class="mono muted">⋮⋮ 0${i + 1}</span><br>${esc(L(f.d))}</figcaption></figure>`).join('')}</div></section>
   <section style="margin-top:32px"><div class="sec-h" style="margin-bottom:8px"><h2 class="h2" style="font-size:22px">${t('siteTxt')}</h2></div>
     ${[['role', P.rol], ['bio', P.bio]].map(([k, v]) => `<div style="display:grid;grid-template-columns:120px 1fr auto;gap:12px;border-bottom:1px solid var(--line);padding:12px 0;align-items:start"><b>${t(k)}</b><span class="muted" style="font-size:14px">${esc(L(v).slice(0, 160))}${L(v).length > 160 ? '…' : ''}</span><span class="prov">${t('both')} ✓</span></div>`).join('')}</section>
   ${list(t('projectsT'), C.proyectos.proyectos, x => `<b>${esc(x.t)}</b> <span class="muted">· ${esc(x.o)}</span>`)}
