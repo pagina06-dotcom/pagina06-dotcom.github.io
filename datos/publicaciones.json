@@ -220,12 +220,12 @@
     "crossref": {
      "venue": "International Journal of Theoretical Physics"
     },
+    "zbmath": {
+     "id": "8275991"
+    },
     "s2": {
      "venue": "International Journal of Theoretical Physics",
      "cites": 0
-    },
-    "zbmath": {
-     "id": "8275991"
     }
    }
   },
@@ -414,15 +414,15 @@
     "datacite": {
      "pub": "arXiv"
     },
+    "arxiv": {
+     "id": "2402.13615"
+    },
     "s2": {
      "venue": "arXiv.org",
      "cites": 1
     },
     "dblp": {
      "id": "journals/corr/abs-2402-13615"
-    },
-    "arxiv": {
-     "id": "2402.13615"
     }
    }
   },
@@ -899,7 +899,7 @@
     },
     "s2": {
      "venue": "Frontiers in Education",
-     "cites": 43
+     "cites": 44
     }
    }
   },
@@ -1125,12 +1125,12 @@
     "crossref": {
      "venue": "Foundations of Science"
     },
+    "zbmath": {
+     "id": "1490.00060"
+    },
     "s2": {
      "venue": "Foundations of Science",
      "cites": 1
-    },
-    "zbmath": {
-     "id": "1490.00060"
     }
    }
   },
@@ -1165,15 +1165,15 @@
     "crossref": {
      "venue": "Soft Computing"
     },
+    "zbmath": {
+     "id": "1498.00053"
+    },
     "s2": {
      "venue": "Soft Computing - A Fusion of Foundations, Methodologies and Applications",
      "cites": 0
     },
     "dblp": {
      "id": "journals/soco/VelozCM21"
-    },
-    "zbmath": {
-     "id": "1498.00053"
     }
    }
   },
@@ -1364,12 +1364,12 @@
     "crossref": {
      "venue": null
     },
+    "arxiv": {
+     "id": "2006.05357"
+    },
     "s2": {
      "venue": "medRxiv",
      "cites": 3
-    },
-    "arxiv": {
-     "id": "2006.05357"
     }
    }
   },
@@ -1447,15 +1447,15 @@
     "crossref": {
      "venue": "Foundations of Science"
     },
-    "s2": {
-     "venue": "Foundations of Science",
-     "cites": 38
-    },
     "zbmath": {
      "id": "1490.81003"
     },
     "arxiv": {
      "id": "1711.09668"
+    },
+    "s2": {
+     "venue": "Foundations of Science",
+     "cites": 38
     }
    }
   },
@@ -1559,12 +1559,12 @@
     "crossref": {
      "venue": "The European Physical Journal Plus"
     },
+    "arxiv": {
+     "id": "1903.09103"
+    },
     "s2": {
      "venue": "The European Physical Journal Plus",
      "cites": 46
-    },
-    "arxiv": {
-     "id": "1903.09103"
     }
    }
   },
@@ -1598,15 +1598,15 @@
     "crossref": {
      "venue": "Foundations of Science"
     },
-    "s2": {
-     "venue": "Foundations of Science",
-     "cites": 19
-    },
     "zbmath": {
      "id": "1491.92135"
     },
     "arxiv": {
      "id": "1911.08006"
+    },
+    "s2": {
+     "venue": "Foundations of Science",
+     "cites": 19
     }
    }
   },
@@ -1643,15 +1643,15 @@
     "crossref": {
      "venue": "Lecture Notes in Computer Science"
     },
+    "zbmath": {
+     "id": "1525.92025"
+    },
     "s2": {
      "venue": "International Symposium on Molecular Logic and Computational Synthetic Biology",
      "cites": 6
     },
     "dblp": {
      "id": "conf/mlcsb/VelozBMR18"
-    },
-    "zbmath": {
-     "id": "1525.92025"
     }
    }
   },
@@ -1687,12 +1687,12 @@
     "crossref": {
      "venue": "Foundations of Science"
     },
+    "zbmath": {
+     "id": "1490.00061"
+    },
     "s2": {
      "venue": "Foundations of Science",
      "cites": 0
-    },
-    "zbmath": {
-     "id": "1490.00061"
     }
    }
   },
@@ -1729,18 +1729,18 @@
     "crossref": {
      "venue": "STEAM-H: Science, Technology, Engineering, Agriculture, Mathematics &amp; Health"
     },
+    "zbmath": {
+     "id": "1439.81007"
+    },
+    "arxiv": {
+     "id": "1808.03677"
+    },
     "s2": {
      "venue": "STEAM-H: Science, Technology, Engineering, Agriculture, Mathematics & Health",
      "cites": 2
     },
     "dblp": {
      "id": "journals/corr/abs-1808-03677"
-    },
-    "zbmath": {
-     "id": "1439.81007"
-    },
-    "arxiv": {
-     "id": "1808.03677"
     }
    }
   },
@@ -1817,6 +1817,10 @@
     },
     "arxiv": {
      "id": "1805.12122"
+    },
+    "s2": {
+     "venue": "Activitas Nervosa Superior",
+     "cites": 7
     }
    }
   },
@@ -1843,15 +1847,15 @@
     "crossref": {
      "venue": "Complexity"
     },
+    "zbmath": {
+     "id": "1432.92074"
+    },
     "s2": {
      "venue": "Complex",
      "cites": 10
     },
     "dblp": {
      "id": "journals/complexity/LiaoYDZ19"
-    },
-    "zbmath": {
-     "id": "1432.92074"
     }
    }
   },
@@ -1875,12 +1879,12 @@
    "linea_estado": "sugerida",
    "oculta": false,
    "vf": {
+    "arxiv": {
+     "id": "1911.08006v1"
+    },
     "s2": {
      "venue": "Foundations of Science",
      "cites": 19
-    },
-    "arxiv": {
-     "id": "1911.08006v1"
     }
    },
    "sin_doi": {
@@ -1933,18 +1937,18 @@
     "crossref": {
      "venue": "Theoretical Computer Science"
     },
-    "s2": {
-     "venue": "Theoretical Computer Science",
-     "cites": 38
-    },
-    "dblp": {
-     "id": "journals/corr/AertsABBDBSV17"
-    },
     "zbmath": {
      "id": "1407.68052"
     },
     "arxiv": {
      "id": "1703.06642"
+    },
+    "s2": {
+     "venue": "Theoretical Computer Science",
+     "cites": 38
+    },
+    "dblp": {
+     "id": "journals/tcs/AertsABBDBSV18"
     }
    }
   },
@@ -1981,15 +1985,15 @@
     "crossref": {
      "venue": "Foundations of Science"
     },
-    "s2": {
-     "venue": "Foundations of Science",
-     "cites": 31
-    },
     "zbmath": {
      "id": "1490.81002"
     },
     "arxiv": {
      "id": "1807.11036"
+    },
+    "s2": {
+     "venue": "Foundations of Science",
+     "cites": 31
     }
    }
   },
@@ -2029,12 +2033,12 @@
     "crossref": {
      "venue": "Foundations of Science"
     },
+    "arxiv": {
+     "id": "1810.13342"
+    },
     "s2": {
      "venue": "Foundations of Science",
      "cites": 0
-    },
-    "arxiv": {
-     "id": "1810.13342"
     }
    }
   },
@@ -2071,15 +2075,15 @@
     "crossref": {
      "venue": "Theoretical Computer Science"
     },
+    "zbmath": {
+     "id": "1407.68019"
+    },
     "s2": {
      "venue": "Theoretical Computer Science",
      "cites": 4
     },
     "dblp": {
      "id": "journals/tcs/AertsMBSV18"
-    },
-    "zbmath": {
-     "id": "1407.68019"
     }
    }
   },
@@ -2116,18 +2120,18 @@
     "crossref": {
      "venue": "Probing the Meaning of Quantum Mechanics"
     },
+    "zbmath": {
+     "id": "1414.81014"
+    },
+    "arxiv": {
+     "id": "1802.10448"
+    },
     "s2": {
      "venue": "Probing the Meaning of Quantum Mechanics",
      "cites": 4
     },
     "dblp": {
      "id": "journals/corr/abs-1802-10448"
-    },
-    "zbmath": {
-     "id": "1414.81014"
-    },
-    "arxiv": {
-     "id": "1802.10448"
     }
    }
   },
@@ -2199,12 +2203,12 @@
     "crossref": {
      "venue": "Probing the Meaning of Quantum Mechanics"
     },
+    "zbmath": {
+     "id": "1414.81036"
+    },
     "s2": {
      "venue": "Probing the Meaning of Quantum Mechanics",
      "cites": 0
-    },
-    "zbmath": {
-     "id": "1414.81036"
     }
    }
   },
@@ -2247,6 +2251,10 @@
     },
     "arxiv": {
      "id": "1508.00434"
+    },
+    "s2": {
+     "venue": "Foundations of Science",
+     "cites": 29
     }
    }
   },
@@ -2283,7 +2291,7 @@
     },
     "s2": {
      "venue": "Syst.",
-     "cites": 31
+     "cites": 30
     },
     "dblp": {
      "id": "journals/systems/VelozR17"
@@ -2326,12 +2334,12 @@
     "crossref": {
      "venue": "Foundations of Science"
     },
+    "arxiv": {
+     "id": "1706.01188"
+    },
     "s2": {
      "venue": "Foundations of Science",
      "cites": 23
-    },
-    "arxiv": {
-     "id": "1706.01188"
     }
    }
   },
@@ -2411,15 +2419,15 @@
     "crossref": {
      "venue": "Lecture Notes in Computer Science"
     },
+    "arxiv": {
+     "id": "1612.06038"
+    },
     "s2": {
      "venue": "Context",
      "cites": 8
     },
     "dblp": {
      "id": "journals/corr/AertsABBBSV16"
-    },
-    "arxiv": {
-     "id": "1612.06038"
     }
    }
   },
@@ -2457,15 +2465,15 @@
     "crossref": {
      "venue": "Lecture Notes in Computer Science"
     },
+    "arxiv": {
+     "id": "1604.08268"
+    },
     "s2": {
      "venue": "Quantum Interaction",
      "cites": 6
     },
     "dblp": {
-     "id": "journals/corr/AertsBBSV16a"
-    },
-    "arxiv": {
-     "id": "1604.08268"
+     "id": "conf/qi/AertsBBSV16"
     }
    }
   },
@@ -2549,6 +2557,13 @@
     },
     "arxiv": {
      "id": "1609.07721"
+    },
+    "s2": {
+     "venue": "International Journal of Theoretical Physics",
+     "cites": 17
+    },
+    "dblp": {
+     "id": "journals/corr/AertsABBSV16"
     }
    }
   },
@@ -2587,6 +2602,13 @@
     },
     "arxiv": {
      "id": "1505.04981"
+    },
+    "s2": {
+     "venue": "Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences",
+     "cites": 54
+    },
+    "dblp": {
+     "id": "journals/corr/AertsSV15a"
     }
    }
   },
@@ -2610,15 +2632,15 @@
    "linea_estado": "sugerida",
    "oculta": false,
    "vf": {
+    "arxiv": {
+     "id": "1604.08268v1"
+    },
     "s2": {
      "venue": "arXiv.org",
      "cites": 0
     },
     "dblp": {
      "id": "journals/corr/AertsBBSV16"
-    },
-    "arxiv": {
-     "id": "1604.08268v1"
     }
    },
    "sin_doi": {
@@ -2687,15 +2709,15 @@
     "crossref": {
      "venue": "Frontiers in Psychology"
     },
+    "arxiv": {
+     "id": "1503.04260"
+    },
     "s2": {
      "venue": "Frontiers in Psychology",
-     "cites": 32
+     "cites": 33
     },
     "dblp": {
      "id": "journals/corr/AertsSV15"
-    },
-    "arxiv": {
-     "id": "1503.04260"
     }
    }
   },
@@ -2731,18 +2753,18 @@
     "crossref": {
      "venue": "International Journal of Theoretical Physics"
     },
-    "s2": {
-     "venue": "International Journal of Theoretical Physics",
-     "cites": 28
-    },
-    "dblp": {
-     "id": "journals/corr/AertsSV14a"
-    },
     "zbmath": {
      "id": "1329.81089"
     },
     "arxiv": {
      "id": "1412.8704"
+    },
+    "s2": {
+     "venue": "International Journal of Theoretical Physics",
+     "cites": 27
+    },
+    "dblp": {
+     "id": "journals/corr/AertsSV14a"
     }
    }
   },
@@ -2778,15 +2800,18 @@
     "crossref": {
      "venue": "International Journal of Theoretical Physics"
     },
-    "s2": {
-     "venue": "International Journal of Theoretical Physics",
-     "cites": 0
-    },
     "zbmath": {
      "id": "1329.81024"
     },
     "arxiv": {
      "id": "1410.6854"
+    },
+    "s2": {
+     "venue": "International Journal of Theoretical Physics",
+     "cites": 25
+    },
+    "dblp": {
+     "id": "journals/corr/AertsSV14"
     }
    }
   },
@@ -2893,15 +2918,15 @@
     "crossref": {
      "venue": "Soft Computing"
     },
+    "zbmath": {
+     "id": "1383.81016"
+    },
     "s2": {
      "venue": "Soft Computing - A Fusion of Foundations, Methodologies and Applications",
      "cites": 5
     },
     "dblp": {
      "id": "journals/soco/VelozR17"
-    },
-    "zbmath": {
-     "id": "1383.81016"
     }
    }
   },
@@ -3015,12 +3040,12 @@
     "crossref": {
      "venue": "Journal of Mathematical Analysis and Applications"
     },
+    "zbmath": {
+     "id": "1515.35115"
+    },
     "s2": {
      "venue": "",
      "cites": 36
-    },
-    "zbmath": {
-     "id": "1515.35115"
     }
    }
   },
@@ -3093,15 +3118,15 @@
     "crossref": {
      "venue": "Lecture Notes in Computer Science"
     },
+    "arxiv": {
+     "id": "1909.09708v1"
+    },
     "s2": {
      "venue": "Quantum Interaction",
      "cites": 5
     },
     "dblp": {
      "id": "conf/qi/VelozZA13"
-    },
-    "arxiv": {
-     "id": "1909.09708v1"
     }
    }
   },
@@ -3206,6 +3231,13 @@
     },
     "arxiv": {
      "id": "1310.0737"
+    },
+    "s2": {
+     "venue": "Annual Meeting of the Cognitive Science Society",
+     "cites": 12
+    },
+    "dblp": {
+     "id": "conf/cogsci/VelozTG12"
     }
    }
   },
@@ -3244,6 +3276,13 @@
     },
     "arxiv": {
      "id": "1306.2838"
+    },
+    "s2": {
+     "venue": "arXiv.org",
+     "cites": 6
+    },
+    "dblp": {
+     "id": "journals/corr/AertsBSV13"
     }
    }
   },
@@ -3281,6 +3320,13 @@
     },
     "arxiv": {
      "id": "1309.4744"
+    },
+    "s2": {
+     "venue": "AAAI Conference on Artificial Intelligence",
+     "cites": 1
+    },
+    "dblp": {
+     "id": "journals/corr/MithaniVG13"
     }
    }
   },
@@ -3437,15 +3483,15 @@
     "crossref": {
      "venue": "Lecture Notes in Computer Science"
     },
+    "arxiv": {
+     "id": "1208.2362"
+    },
     "s2": {
      "venue": "Quantum Interaction",
      "cites": 41
     },
     "dblp": {
      "id": "conf/qi/AertsBGV12"
-    },
-    "arxiv": {
-     "id": "1208.2362"
     }
    }
   },
@@ -3482,12 +3528,12 @@
     "crossref": {
      "venue": "Journal of Mathematical Biology"
     },
+    "zbmath": {
+     "id": "1312.91018"
+    },
     "s2": {
      "venue": "Journal of Mathematical Biology",
      "cites": 0
-    },
-    "zbmath": {
-     "id": "1312.91018"
     }
    }
   },
@@ -3526,6 +3572,13 @@
     },
     "arxiv": {
      "id": "1104.3344"
+    },
+    "s2": {
+     "venue": "arXiv.org",
+     "cites": 23
+    },
+    "dblp": {
+     "id": "journals/corr/abs-1104-3344"
     }
    }
   },
@@ -3561,13 +3614,6 @@
    "vf": {
     "crossref": {
      "venue": "Lecture Notes in Computer Science"
-    },
-    "s2": {
-     "venue": "Annual Meeting of the Cognitive Science Society",
-     "cites": 11
-    },
-    "dblp": {
-     "id": "conf/cogsci/VelozG11"
     },
     "arxiv": {
      "id": "1310.7981"
@@ -3645,7 +3691,7 @@
    "vf": {
     "s2": {
      "venue": "Annual Meeting of the Cognitive Science Society",
-     "cites": 11
+     "cites": 0
     },
     "dblp": {
      "id": "conf/cogsci/VelozG11"
