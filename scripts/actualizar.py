@@ -19,6 +19,7 @@ Solo usa la biblioteca estándar de Python 3.10+.
 """
 import argparse
 import datetime as dt
+import difflib
 import json
 import os
 import re
@@ -127,6 +128,9 @@ def orcid_obras():
             if e.get("external-id-type") == "doi":
                 doi = doi_limpio(e.get("external-id-value"))
                 break
+        parte = {e.get("external-id-type"): e.get("external-id-value")
+                 for e in (s.get("external-ids") or {}).get("external-id", [])
+                 if e.get("external-id-relationship") == "part-of"}
         fecha = s.get("publication-date") or {}
         anio = (fecha.get("year") or {}).get("value")
         obras.append({
@@ -136,6 +140,8 @@ def orcid_obras():
             "ty": (s.get("type") or "").replace("journal-article", "article").replace("conference-paper", "conference-paper"),
             "v": (s.get("journal-title") or {}).get("value") if s.get("journal-title") else None,
             "put": s.get("put-code"),
+            "issn": parte.get("issn"),  # de la revista o el libro que contiene la obra, si ORCID lo trae
+            "isbn": parte.get("isbn"),
         })
     return obras
 
@@ -534,6 +540,93 @@ def verificar(obras, previas, rapido, estado):
         o.pop("arxiv_oa", None)
 
 
+# ---------------------------------------------------------------- obras sin DOI
+CROSSREF = "https://api.crossref.org/"
+
+
+def parecido(a, b):
+    return difflib.SequenceMatcher(None, norm(sin_tildes(a)), norm(sin_tildes(b))).ratio()
+
+
+def resumen_revista(j):
+    """Lo que responde Crossref sobre una revista, en pocas palabras, para mostrarlo junto a «Comprobar»."""
+    anios = [a for a, n in (j.get("breakdowns") or {}).get("dois-by-issued-year") or [] if n]
+    return {"t": j.get("title"), "ed": j.get("publisher"), "issn": j.get("ISSN") or [],
+            "dois": (j.get("counts") or {}).get("total-dois"), "desde": min(anios) if anios else None}
+
+
+def revisar_una_sin_doi(o, w):
+    """Busca en Crossref si la obra tiene DOI o si su revista o libro usa DOI. Ver revisar_sin_doi."""
+    # 1. La obra misma: título casi igual (tolera ligaduras perdidas como "Identi cation"),
+    #    año ±1 y Tomás entre los autores.
+    titulo = " ".join(re.sub(r"[^\w\s]", " ", o["t"]).split())[:300]
+    r = pedir(CROSSREF + "works?rows=5&select=DOI,title,container-title,issued,author&query.bibliographic=" +
+              urllib.parse.quote(titulo))
+    for it in ((r or {}).get("message") or {}).get("items", []):
+        y = (((it.get("issued") or {}).get("date-parts") or [[None]])[0] or [None])[0]
+        autores = {sin_tildes(a.get("family")) for a in it.get("author") or []}
+        if (parecido(o["t"], (it.get("title") or [""])[0]) >= 0.93 and "veloz" in autores
+                and (not o["y"] or not y or abs(o["y"] - y) <= 1)):
+            return {"estado": "crossref_tiene", "doi": doi_limpio(it["DOI"]),
+                    "en": (it.get("container-title") or [None])[0], "fecha": HOY,
+                    "comprobar": "https://doi.org/" + it["DOI"],
+                    "cr": {"t": (it.get("title") or [None])[0], "en": (it.get("container-title") or [None])[0], "y": y}}
+    # 2. El libro (por ISBN) o la revista (por ISSN o, si ORCID no lo trae, por nombre exacto).
+    if w.get("isbn"):
+        url = CROSSREF + "works?rows=1&select=container-title,publisher&filter=isbn:" + urllib.parse.quote(w["isbn"])
+        m = (pedir(url) or {}).get("message") or {}
+        n, it = m.get("total-results", 0), (m.get("items") or [{}])[0]
+        return {"estado": "fuente_con_doi" if n else "fuente_sin_doi", "tipo": "libro",
+                "id": "ISBN " + w["isbn"], "fecha": HOY, "comprobar": url,
+                "cr": {"t": (it.get("container-title") or [None])[0], "ed": it.get("publisher"), "dois": n} if n else None}
+    if o["ty"] == "article" and o["v"] and not re.search(r"arxiv", o["v"], re.I):
+        if w.get("issn"):
+            issn = re.sub(r"[^0-9Xx]", "", w["issn"]).upper()
+            issn = issn[:4] + "-" + issn[4:]
+            url = CROSSREF + "journals/" + issn
+            j = ((pedir(url) or {}).get("message")) or None
+            ident = "ISSN " + issn
+        else:
+            nombre = re.sub(r"\s+[-–]\s+[A-Z]{2,10}$", "", o["v"]).strip()  # quita siglas finales: "… - MMSB"
+            url = CROSSREF + "journals?rows=20&query=" + urllib.parse.quote(nombre)
+            items = ((pedir(url) or {}).get("message") or {}).get("items", [])
+            j = next((i for i in items if norm(sin_tildes(i.get("title"))) == norm(sin_tildes(nombre))), None)
+            ident = None
+        return {"estado": "fuente_con_doi" if j else "fuente_sin_doi", "tipo": "revista",
+                "id": ident, "fecha": HOY, "comprobar": url, "cr": resumen_revista(j) if j else None}
+    return {"estado": "sin_resultado", "fecha": HOY}
+
+
+def revisar_sin_doi(obras, orc, previas):
+    """Revisa en Crossref las obras que solo trae ORCID y no tienen DOI (ADR 0011).
+
+    Crossref es donde las revistas y editoriales inscriben los DOI de lo que publican. Deja en
+    o["sin_doi"] lo encontrado, con la fecha, la consulta exacta ("comprobar") y un resumen de la
+    respuesta ("cr": título, editorial, ISSN, cuántos DOI) para que Mi panel la muestre y cualquiera
+    pueda repetirla. No cambia ningún dato que se muestre en el sitio.
+      crossref_tiene  Crossref tiene la obra con DOI: falta agregarlo en ORCID (sigue pendiente)
+      fuente_sin_doi  la revista o el libro no está en Crossref: la obra no tiene DOI (no es pendiente)
+      fuente_con_doi  la revista o el libro sí está en Crossref, pero esta obra no apareció (pendiente)
+      sin_resultado   preprints y otros tipos: no se pudo decidir (pendiente)
+    Si Crossref falla con una obra, se conserva lo revisado la semana anterior.
+    """
+    por_id = {f"orcid:{w['put']}": w for w in orc}
+    prev = {o["id"]: o.get("sin_doi") for o in previas}
+    n = 0
+    for o in obras:
+        if o["fuentes"] != ["orcid"] or o["doi"]:
+            continue
+        try:
+            o["sin_doi"] = revisar_una_sin_doi(o, por_id.get(o["id"], {}))
+            n += 1
+        except Exception as e:  # noqa: BLE001
+            log(f"  ! Crossref, obra sin DOI {o['id']}: {e}")
+            if prev.get(o["id"]):
+                o["sin_doi"] = prev[o["id"]]
+        time.sleep(0.1)
+    return n
+
+
 # ---------------------------------------------------------------- perfil
 def armar_perfil(autor, obras, corr, orcid_info):
     unir_ = corr.get("afiliaciones_unir", {})
@@ -641,6 +734,9 @@ def main():
 
     log("Verificación (Crossref, DataCite, Semantic Scholar, zbMATH, arXiv)…")
     verificar(obras, previas, a.rapido, estado)
+
+    log("Obras solo en ORCID sin DOI: revisión en Crossref…")
+    log(f"  {revisar_sin_doi(obras, orc, previas)} revisadas")
 
     perfil = armar_perfil(autor, obras, corr, orcid_info)
     for o in obras:

@@ -70,6 +70,27 @@ const T = {
   mTitle: ['title', 'título'], mArea: ['area', 'área'], mName: ['name', 'nombre'], mYear: ['year', 'año'],
   tEv: ['Event', 'Evento'], tPr: ['Project', 'Proyecto'], tWr: ['Writing', 'Escrito'], tLu: ['Place', 'Lugar'], tAw: ['Award', 'Premio'], tJob: ['Position', 'Cargo'],
   hintArxiv: ['It is on arXiv; its arXiv DOI is {doi}', 'Está en arXiv; su DOI de arXiv es {doi}'], hintS2: ['Semantic Scholar finds it in {v}: it probably has a DOI from that journal', 'Semantic Scholar la encuentra en {v}: probablemente tiene DOI de esa revista'],
+  hintCr: ['Crossref has it in {v} with DOI {doi}: confirm it is the same work and add that DOI in ORCID', 'Crossref la tiene en {v}, con DOI {doi}: confirma que es la misma obra y agrega ese DOI en ORCID'],
+  hintFc: ['Its {f} does use DOIs (it is in Crossref), but this work did not show up: look for the DOI on the article page', 'Su {f} sí usa DOI (está en Crossref), pero esta obra no apareció: busca el DOI en la página de la obra'],
+  crNoJName: ['no journal found with that name', 'no encontró ninguna revista con ese nombre'], crNoJIssn: ['no journal found with that ISSN', 'no encontró ninguna revista con ese ISSN'], crNoBook: ['no book found with that ISBN', 'no encontró ningún libro con ese ISBN'],
+  ckWait: ['Asking Crossref…', 'Preguntando a Crossref…'], ckFail: ['Could not reach Crossref. Try again later.', 'No se pudo conectar con Crossref. Prueba de nuevo más tarde.'],
+  ckJYes: ['Crossref does have the journal «{t}» registered ({ed}), with {n} DOIs since {y}.', 'Crossref sí tiene registrada la revista «{t}» ({ed}), con {n} DOI desde {y}.'],
+  ckJNoName: ['Crossref has no journal called «{q}» registered, so its articles have no DOI.', 'Crossref no tiene registrada ninguna revista llamada «{q}», así que sus artículos no tienen DOI.'],
+  ckJNoIssn: ['Crossref has no journal with ISSN {q} registered, so its articles have no DOI.', 'Crossref no tiene registrada ninguna revista con el ISSN {q}, así que sus artículos no tienen DOI.'],
+  ckBYes: ['Crossref does have the book «{t}» registered, with {n} DOIs.', 'Crossref sí tiene registrado el libro «{t}», con {n} DOI.'],
+  ckBNo: ['Crossref has no book with ISBN {q} registered, so its chapters have no DOI.', 'Crossref no tiene registrado ningún libro con el ISBN {q}, así que sus capítulos no tienen DOI.'],
+  ckWYes: ['Crossref confirms the DOI {doi}: «{t}», in {en}, {y}. Authors include {a}.', 'Crossref confirma el DOI {doi}: «{t}», en {en}, {y}. Entre los autores está {a}.'],
+  ckWNo: ['Crossref no longer finds the DOI {doi}.', 'Crossref ya no encuentra el DOI {doi}.'],
+  ckSame: ['Same result as the check on {d}.', 'Es lo mismo que se revisó el {d}.'],
+  ckDiff: ['This changed since the check on {d}; the panel will update next Monday.', 'Esto cambió desde la revisión del {d}; el panel se actualizará el próximo lunes.'],
+  crDois: ['{n} DOIs registered since {y}', '{n} DOI registrados desde {y}'], crDoisN: ['{n} DOIs registered', '{n} DOI registrados'],
+  fJournal: ['journal', 'revista'], fBook: ['book', 'libro'], check: ['Check', 'Comprobar'], checkedOn: ['checked {d}', 'revisado el {d}'], byName: ['by name', 'por nombre'],
+  ndJournal: ['Journal not registered in Crossref', 'Revista no registrada en Crossref'], ndBook: ['Book not registered in Crossref', 'Libro no registrado en Crossref'],
+  pendNd: ['Works without a DOI because their journal or book does not use DOIs', 'Obras sin DOI porque su revista o libro no usa DOI'],
+  pendNds: ['Nothing to do: they are shown without citations. Checked in Crossref every week.', 'No hay nada que hacer: se muestran sin citas. Se revisa en Crossref cada semana.'],
+  howChecked: ['Which ones and how it was checked', 'Cuáles son y cómo se revisó'],
+  howNd: ['Crossref is the registry where journals and publishers register the DOIs of what they publish. Every Monday the collector looks up the journal there (by ISSN if ORCID provides it, otherwise by its exact name) or the book (by ISBN), and also the work itself by title and author. If the journal or book is not in Crossref and the work does not show up either, the work has no DOI. Under each work is a summary of what Crossref answered. «Check» asks Crossref again right then and answers in one sentence. If the journal ever starts using DOIs, the work goes back to the pending list on its own.',
+          'Crossref es el registro donde las revistas y editoriales inscriben los DOI de lo que publican. Cada lunes el recolector busca ahí la revista (por ISSN si ORCID lo trae; si no, por su nombre exacto) o el libro (por ISBN), y también la obra misma por título y autor. Si la revista o el libro no está en Crossref y la obra tampoco aparece, la obra no tiene DOI. Debajo de cada obra se resume lo que respondió Crossref. «Comprobar» le vuelve a preguntar a Crossref en ese momento y responde en una frase. Si algún día la revista empieza a usar DOI, la obra vuelve sola a los pendientes.'],
   pendOw: ['Works only in ORCID without a DOI', 'Obras solo en ORCID sin DOI'], pendOws: ['They are shown without citations. If they have a DOI, add it in ORCID so the site can look up their citations.', 'Se muestran sin citas. Si tienen DOI, agrégalo en ORCID para que el sitio pueda buscar sus citas.'],
   pendMd: ['Hand-entered items missing essential data', 'Contenido cargado a mano sin datos esenciales'], pendMds: ['They are not shown. They lack a title, an area or, for places and awards, the year.', 'No se muestran. Les falta el título, el área o, en lugares y premios, el año.'],
   pendMl: ['Places and awards without a location', 'Lugares y premios sin ubicación'], pendMls: ['They appear in Journey but not on the map. Add their coordinates in the hand-entered content.', 'Aparecen en Trayectoria pero no en el mapa. Agrega sus coordenadas en el contenido manual.'], seeMan: ['See content', 'Ver contenido'], present: ['present', 'actualidad'], mapBase: ['Base map', 'Mapa base'],
@@ -649,13 +670,34 @@ function pSummary(nRev) {
   const st = DD.perfil.stats, next = new Date(GEN); next.setDate(next.getDate() + 7);
   const empt = PK.filter(k => k !== 'research' && (PROF[k].subs || []).length).map(k => [k, PROF[k].subs.filter(s => !ITEMS.some(it => inSub(it, k + '.' + s.id)))]).filter(x => x[1].length);
   const est = DD.fuentes.estado, oc = orcidRows();
-  const orcSinDoi = VIS.filter(w => w.fuentes.length === 1 && w.fuentes[0] === 'orcid' && !w.doi).sort((a, b) => (b.y || 0) - (a.y || 0));
-  const orcLabel = r => `${t(r.k === 'edu' ? 'kEdu' : 'tJob')}: ${[r.rol, r.org].filter(Boolean).join(' · ') || '—'}`;
-  const pistaDoi = w => {  // pistas verificables para encontrar el DOI; nunca se publican
-    const ax = w.vf && w.vf.arxiv && w.vf.arxiv.id, s2v = w.vf && w.vf.s2 && w.vf.s2.venue;
-    return [ax ? t('hintArxiv', { doi: '10.48550/arXiv.' + String(ax).replace(/v\d+$/, '') }) : '',
-            s2v && !/arxiv/i.test(s2v) ? t('hintS2', { v: s2v }) : ''].filter(Boolean).join(' · ');
+  const orcSinDoiTodas = VIS.filter(w => w.fuentes.length === 1 && w.fuentes[0] === 'orcid' && !w.doi).sort((a, b) => (b.y || 0) - (a.y || 0));
+  const sinDoiFuente = orcSinDoiTodas.filter(w => (w.sin_doi || {}).estado === 'fuente_sin_doi');  // no tienen DOI: no son pendientes
+  const orcSinDoi = orcSinDoiTodas.filter(w => !sinDoiFuente.includes(w));
+  const comprobar = sd => {  // botón que vuelve a preguntar a Crossref en vivo (ver crCheck)
+    if (!sd || !urlSegura(sd.comprobar)) return '';
+    const k = sd.estado === 'crossref_tiene' ? 'obra' : sd.tipo === 'libro' ? 'isbn' : /^ISSN /.test(sd.id || '') ? 'issn' : 'nombre';
+    const hallado = sd.estado === 'crossref_tiene' || sd.estado === 'fuente_con_doi';
+    return ` · <button type="button" class="linkbtn" data-crk="${k}" data-crq="${esc(urlSegura(sd.comprobar))}" data-crdoi="${esc(sd.doi || '')}" data-crid="${esc(sd.id || '')}" data-crantes="${hallado ? 1 : 0}" data-crfecha="${esc(sd.fecha || '')}">${t('check')}</button>`;
   };
+  const crLinea = sd => {  // resumen de lo que respondió Crossref, para no tener que leer el JSON
+    const c = sd.cr;
+    const txt = c && sd.estado === 'crossref_tiene' ? [`«${c.t || '—'}»`, c.en, c.y].filter(Boolean).join(' · ')
+      : c ? [c.t, c.ed, (c.issn || []).length ? 'ISSN ' + c.issn.join(', ') : '', c.dois != null ? t(c.desde ? 'crDois' : 'crDoisN', { n: c.dois, y: c.desde }) : ''].filter(Boolean).join(' · ')
+      : sd.estado === 'fuente_sin_doi' ? t(sd.tipo === 'libro' ? 'crNoBook' : sd.id ? 'crNoJIssn' : 'crNoJName') : '';
+    return txt ? `<br>Crossref: ${esc(txt)}${comprobar(sd)}` : comprobar(sd);
+  };
+  const orcLabel = r => `${t(r.k === 'edu' ? 'kEdu' : 'tJob')}: ${[r.rol, r.org].filter(Boolean).join(' · ') || '—'}`;
+  const pistaDoi = w => {  // pistas verificables para encontrar el DOI; solo en el panel, nunca en el sitio
+    const ax = w.vf && w.vf.arxiv && w.vf.arxiv.id, s2v = w.vf && w.vf.s2 && w.vf.s2.venue, sd = w.sin_doi || {};
+    const cr = sd.estado === 'crossref_tiene' && sd.doi;
+    return [cr ? esc(t('hintCr', { doi: sd.doi, v: sd.en || 'Crossref' })) + crLinea(sd) : '',
+            sd.estado === 'fuente_con_doi' ? esc(t('hintFc', { f: t(sd.tipo === 'libro' ? 'fBook' : 'fJournal') })) + crLinea(sd) : '',
+            ax && !cr ? esc(t('hintArxiv', { doi: '10.48550/arXiv.' + String(ax).replace(/v\d+$/, '') })) : '',
+            s2v && !cr && !/arxiv/i.test(s2v) ? esc(t('hintS2', { v: s2v })) : ''].filter(Boolean).join('<br>');
+  };
+  const sinDoiFila = sinDoiFuente.length ? `<div class="prow info"><b>${sinDoiFuente.length}</b><div><div class="t">${t('pendNd')}</div><div class="m">${t('pendNds')}</div>
+    <details class="pdet"><summary>${t('howChecked')}</summary><p class="hint">${esc(t('howNd'))}</p><ul>${sinDoiFuente.map(w => { const sd = w.sin_doi;
+      return `<li><b>${esc(w.t)}</b> <span class="muted">· ${w.y || '—'}${w.v ? ' · ' + esc(w.v) : ''}</span><br><span class="hint">${esc(t(sd.tipo === 'libro' ? 'ndBook' : 'ndJournal'))} (${esc(sd.id || t('byName'))}) · ${esc(t('checkedOn', { d: fd(sd.fecha) }))}${crLinea(sd)}</span></li>`; }).join('')}</ul></details></div><span></span></div>` : '';
   const manLabel = o => `${t({ ev: 'tEv', pr: 'tPr', wr: 'tWr', lu: 'tLu', aw: 'tAw' }[o.k])}: «${manNombre(o.k, o.x) || '—'}»`;
   const pend = (items, k, href, btn, ext, fmt) => items.length ? `<div class="prow"><b>${items.length}</b><div><div class="t">${t(k)}</div><div class="m">${t(k + 's')}</div>
     <details class="pdet"><summary>${t('seeWhich')}</summary><ul>${items.map(x => `<li>${fmt(x)}</li>`).join('')}</ul></details></div>
@@ -671,9 +713,10 @@ function pSummary(nRev) {
       ${empt.map(([k, ss]) => `<div class="prow"><b>${ss.length}</b><div><div class="t">${t('pend3', { p: esc(L(PROF[k].t)) })}</div><div class="m">${ss.map(s => esc(L(s.t))).join(', ')}.</div></div><a class="btn sm" href="#area-${k}/${ss[0].id}">${t('addContent')}</a></div>`).join('')}
       ${pend(oc.sinAnio, 'pendOy', ORCID_URL, 'fixOrcid', true, r => esc(orcLabel(r)))}
       ${pend(oc.sinDatos, 'pendOd', ORCID_URL, 'fixOrcid', true, r => esc(orcLabel(r)))}
-      ${pend(orcSinDoi, 'pendOw', ORCID_URL, 'fixOrcid', true, w => `<b>${esc(w.t)}</b> <span class="muted">· ${w.y || '—'}${w.v ? ' · ' + esc(w.v) : ''}</span>${pistaDoi(w) ? `<br><span class="hint">${esc(pistaDoi(w))}</span>` : ''}`)}
+      ${pend(orcSinDoi, 'pendOw', ORCID_URL, 'fixOrcid', true, w => `<b>${esc(w.t)}</b> <span class="muted">· ${w.y || '—'}${w.v ? ' · ' + esc(w.v) : ''}</span>${pistaDoi(w) ? `<br><span class="hint">${pistaDoi(w)}</span>` : ''}`)}
+      ${sinDoiFila}
       ${pend(MAN_OCULTOS, 'pendMd', '#panel/content', 'seeMan', false, o => `${esc(manLabel(o))} <span class="muted">· ${t('missing')} ${o.falta.map(f => t(f)).join(', ')}</span>`)}
-      ${pend(MAN_SIN_LL, 'pendMl', '#panel/content', 'seeMan', false, o => esc(manLabel(o)))}
+      ${pend(MAN_SIN_LL, 'pendMl', '#panel/content', 'seeMan', false, o => esc(manLabel(o)))}</section>
     <section class="box"><h2 class="h2" style="font-size:22px;margin-bottom:8px">${t('pSrc')}</h2>
       ${[['ORCID', 'orcid'], ['OpenAlex', 'openalex'], ['Crossref', 'crossref'], ['Semantic Scholar', 's2']].map(([n, id]) => `<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding:11px 0"><span class="sts" style="font:600 15px var(--sans);color:var(--ink)"><span class="sq-i ${id && est[id] ? (est[id].estado === 'ok' ? 'ok' : 'err') : ''}"></span>${n}</span><span class="mono muted" style="font-size:12px">${id && est[id] ? fd(est[id].fecha) : t('pending')}</span></div>`).join('')}</section></div>`;
 }
@@ -768,9 +811,52 @@ function startCar() {
   carTimer = setInterval(() => { if (!carPaused && $('#carImg')) showC(ci + 1); }, 6000);
 }
 
+/* ---------- comprobación en vivo en Crossref (Mi panel, obras sin DOI) ---------- */
+const anioMin = j => { const ys = ((j.breakdowns || {})['dois-by-issued-year'] || []).filter(x => x[1]).map(x => x[0]); return ys.length ? Math.min(...ys) : '—'; };
+const nomCr = s => normInst(s).replace(/ /g, '');
+async function crCheck(btn) {
+  const d = btn.dataset, li = btn.closest('li'), cr = 'https://api.crossref.org/';
+  let box = li.querySelector('.crres');
+  if (!box) { box = document.createElement('span'); box.className = 'crres'; box.setAttribute('role', 'status'); li.appendChild(box); }
+  box.textContent = t('ckWait');
+  const api = d.crk === 'obra' ? cr + 'works/' + encodeURIComponent(d.crdoi) : d.crq;
+  if (!api.startsWith(cr)) return;  // solo se consulta Crossref
+  let msg, hallado;
+  try {
+    let r;
+    for (let i = 0; i < 3; i++) {  // Crossref limita las consultas simultáneas: se reintenta con espera
+      try { r = await fetch(api, { headers: { Accept: 'application/json' } }); } catch (e) { r = null; }
+      if (r && (r.ok || r.status === 404)) break;
+      await new Promise(f => setTimeout(f, 1500 * (i + 1)));
+    }
+    if (!r) throw new Error('red');
+    if (!r.ok && r.status !== 404) throw new Error(r.status);
+    const m = r.ok ? (await r.json()).message || {} : null;
+    if (d.crk === 'obra') {
+      hallado = !!m;
+      const veloz = m && (m.author || []).find(a => nomCr(a.family) === 'veloz');
+      msg = m ? t('ckWYes', { doi: d.crdoi, t: (m.title || ['—'])[0], en: (m['container-title'] || ['—'])[0], y: ((m.issued || {})['date-parts'] || [['—']])[0][0], a: veloz ? [veloz.given, veloz.family].filter(Boolean).join(' ') : '—' })
+        : t('ckWNo', { doi: d.crdoi });
+    } else if (d.crk === 'isbn') {
+      hallado = !!(m && m['total-results']);
+      msg = hallado ? t('ckBYes', { t: ((m.items || [{}])[0]['container-title'] || ['—'])[0], n: m['total-results'] })
+        : t('ckBNo', { q: d.crid.replace(/^ISBN /, '') });
+    } else {
+      const q = d.crk === 'issn' ? d.crid.replace(/^ISSN /, '') : new URL(api).searchParams.get('query');
+      const j = d.crk === 'issn' ? m : m && (m.items || []).find(i => nomCr(i.title) === nomCr(q));
+      hallado = !!j;
+      msg = j ? t('ckJYes', { t: j.title, ed: j.publisher || '—', n: (j.counts || {})['total-dois'] ?? '—', y: anioMin(j) })
+        : t(d.crk === 'issn' ? 'ckJNoIssn' : 'ckJNoName', { q });
+    }
+  } catch (e) { box.textContent = t('ckFail'); return; }
+  const igual = hallado === (d.crantes === '1');
+  box.innerHTML = `${esc(msg)} <span class="muted">${esc(t(igual ? 'ckSame' : 'ckDiff', { d: fd(d.crfecha) }))}</span>`;
+}
+
 /* ---------- eventos ---------- */
 document.addEventListener('click', e => {
   const el = e.target.closest('button,a'); if (!el) return;
+  if (el.dataset.crk) { crCheck(el); return; }
   if (el.dataset.lang) { lang = el.dataset.lang; store.set('lang', lang); document.documentElement.lang = lang; $('.sheet')?.remove(); rerender(); }
   else if ('toggleTheme' in el.dataset) { theme = isDark() ? 'light' : 'dark'; store.set('theme', theme); applyTheme(); rerender(); }
   else if (el.dataset.themeSet) { theme = el.dataset.themeSet; store.set('theme', theme); applyTheme(); $('.sheet')?.remove(); rerender(); }
