@@ -13,7 +13,7 @@ permissions:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 45   # la búsqueda en arXiv por título tarda ~15 min (17,5 min el 17-nov)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
