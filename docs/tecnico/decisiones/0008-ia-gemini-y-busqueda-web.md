@@ -25,10 +25,3 @@ En la revisión del 5-nov, Tomás pidió que el sitio sea **100% automático**. 
 4. Los textos generados llevan una **etiqueta visible** de texto generado con IA.
 5. Solo se regenera cuando cambian los datos. Si falla la API o se agota la cuota, se mantiene el texto anterior; nunca queda una sección vacía.
 6. Solo se envían datos públicos de Tomás, que lo autorizó en la reunión del 5-nov. No se rastrea a otras personas (Ley 21.719 y, por precaución, GDPR; nota 04).
-
-## Consecuencias
-
-- **A favor:** el sitio cubre actividades que hoy no tiene ninguna fuente, sin que Tomás tenga que cargarlas.
-- **En contra:** en el nivel gratuito, Google puede usar lo que se envía para mejorar sus productos. Aceptable para datos públicos y autorizados; en un producto, el plan de pago es obligatorio.
-- **En contra:** la verificación agrega trabajo (semana 5: tarea 4.1) y puede dejar fuera actividades reales cuando la evidencia no es clara.
-- **Pendiente:** confirmar los límites gratuitos al crear la clave de Gemini en AI Studio, y crear la clave de la API de búsqueda. Ambas como secretos ([0007](0007-clave-de-openalex.md)).
