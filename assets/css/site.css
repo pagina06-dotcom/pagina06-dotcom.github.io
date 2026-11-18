@@ -489,6 +489,8 @@ h1,h2,h3,p{margin:0}
 .pdet ul{margin:8px 0 0;padding-left:18px}
 .pdet li{margin:6px 0}
 .pdet .hint{font-size:12.5px;color:var(--muted)}
+.pdet p.hint{margin:8px 0 0;line-height:1.5}
+.prow.info b{color:var(--muted)}
 .ftab{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
 .bulk{background:var(--ink);color:var(--bg);display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px;margin-top:20px}
 .bulk .btn{border-color:var(--bg);color:var(--bg);min-height:38px;font-size:14px}
