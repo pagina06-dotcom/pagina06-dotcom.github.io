@@ -30,14 +30,14 @@ Se usa **GitHub Flow**: una rama corta por tarea, que se integra a `main` cuando
 
 Se usa el formato *Conventional Commits*, en español:
 
-| Prefijo | Para qué | Ejemplo |
-|---|---|---|
-| `feat:` | Función nueva | `feat: recupera citas de obras solo en ORCID buscando por título` |
-| `fix:` | Corrección | `fix: el timelapse se salta el año 2019` |
-| `docs:` | Documentación | `docs: agrega requisitos funcionales` |
-| `refactor:` | Reordenar código sin cambiar comportamiento | `refactor: separa el recolector por fuente` |
-| `chore:` | Configuración y mantenimiento | `chore: actualiza el workflow de Actions` |
-| `datos:` | Solo datos regenerados | `datos: actualización semanal 2026-11-16` (lo usa el proceso semanal) |
+| Prefijo     | Para qué                                    | Ejemplo                                                               |
+|-------------|---------------------------------------------|-----------------------------------------------------------------------|
+| `feat:`     | Función nueva                               | `feat: recupera citas de obras solo en ORCID buscando por título`     |
+| `fix:`      | Corrección                                  | `fix: el timelapse se salta el año 2019`                              |
+| `docs:`     | Documentación                               | `docs: agrega requisitos funcionales`                                 |
+| `refactor:` | Reordenar código sin cambiar comportamiento | `refactor: separa el recolector por fuente`                           |
+| `chore:`    | Configuración y mantenimiento               | `chore: actualiza el workflow de Actions`                             |
+| `datos:`    | Solo datos regenerados                      | `datos: actualización semanal 2026-11-16` (lo usa el proceso semanal) |
 
 - Commits pequeños, con un cambio lógico cada uno.
 - Los datos regenerados (`datos/`) van siempre en un commit aparte del código.
@@ -48,15 +48,8 @@ Se usa el formato *Conventional Commits*, en español:
 
 Al cumplir cada hito se marca la versión con una etiqueta (*tag*):
 
-| Etiqueta | Hito | Fecha prevista |
-|---|---|---|
-| `v0.1-H1` | Sitio en línea | 25-nov-2026 |
-| `v0.2-H2` | Todo automático | 23-dic-2026 |
-| `v1.0-H3` | Entrega del piloto | 21-ene-2027 |
-
-## Consecuencias
-
-- **A favor:** `main` siempre publicable; historial ordenado y ligado a las tareas de la Gantt; se puede volver exactamente a lo entregado en cada hito.
-- **En contra:** los pull requests agregan un paso aunque haya un solo desarrollador.
-- **A tener en cuenta:** si `main` se protege para exigir pull requests, hay que dejar una excepción para el proceso semanal de GitHub Actions, que hace commits directos con los datos.
-- **Mientras no exista la cuenta de GitHub del piloto:** se trabaja igual con ramas locales y el merge se hace en el PC. Al conectar GitHub se sube todo con su historial.
+| Etiqueta  | Hito               | Fecha prevista |
+|-----------|--------------------|----------------|
+| `v0.1-H1` | Sitio en línea     | 25-nov-2026    |
+| `v0.2-H2` | Todo automático    | 23-dic-2026    |
+| `v1.0-H3` | Entrega del piloto | 21-ene-2027    |

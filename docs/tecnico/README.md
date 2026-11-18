@@ -5,7 +5,7 @@ Documentación técnica de la plataforma del piloto: requisitos, arquitectura, t
 | Documento | Contenido | Estado |
 |---|---|---|
 | [modelo-de-datos.md](modelo-de-datos.md) | Estructura del perfil de una persona y procedencia de cada campo, con el flujo de datos | Hecho (semana 4) |
-| [decisiones/](decisiones/) | Registro de decisiones técnicas (ADR): un archivo por decisión, `NNNN-titulo.md` | Al día (semana 4); se agregan a medida que se decide |
+| [decisiones/](decisiones/) | Registro de decisiones técnicas (ADR): un archivo por decisión, `NNNN-titulo.md` | Al día (semana 5); se agregan a medida que se decide |
 | `requisitos.md` | Actores, casos de uso, requisitos funcionales y no funcionales con criterios de aceptación | Pendiente |
 | `arquitectura.md` | Componentes, integraciones externas, despliegue y operación | Pendiente: por ahora, el flujo está en el modelo de datos y las razones en las decisiones |
 | `seguridad-y-privacidad.md` | Manejo de claves, autorización del titular y aviso de privacidad | Pendiente (semana 11, con el aviso de privacidad) |

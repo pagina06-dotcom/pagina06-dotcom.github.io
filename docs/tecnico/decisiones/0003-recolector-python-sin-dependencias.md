@@ -13,9 +13,3 @@ El recolector (`scripts/actualizar.py`) corre cada semana en GitHub Actions sin 
 - No hay `requirements.txt` ni entorno virtual: en Actions basta `actions/setup-python`.
 - Tres modos: completo (unos 5–8 minutos, porque arXiv pide 3 s entre consultas), `--rapido` (sin buscar arXiv por título) y `--sin-red` (solo rearma `datos/sitio.js` después de editar `contenido/`).
 - Las consultas se reintentan ante errores 429 y 5xx, con espera creciente.
-
-## Consecuencias
-
-- **A favor:** nada que instalar ni actualizar; el script corre igual en el PC y en Actions; es fácil de leer para quien continúe el proyecto.
-- **En contra:** algo más de código para cosas que una librería resuelve (reintentos, paginación). Aceptable con un solo script.
-- **Revisar más adelante:** la llamada a Gemini (semana 5) también se hará con `urllib` contra la API REST, para no sumar dependencias. Si el script crece mucho, se puede separar por fuente (`refactor:`) sin cambiar este criterio.

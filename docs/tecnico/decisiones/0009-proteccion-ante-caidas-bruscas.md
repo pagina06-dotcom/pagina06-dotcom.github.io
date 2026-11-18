@@ -52,13 +52,6 @@ Las subidas normales (nuevas citas, una o dos obras nuevas) se publican sin revi
    - una opción `aceptar_cambios` en «Run workflow» que publica aunque se superen los umbrales.
 3. En `datos/fuentes.json`, registrar `"retenido": true` con la fecha, para que la página de Fuentes indique que los datos están en revisión.
 
-## Consecuencias
-
-- **A favor:** caídas como la del 4-nov no se publican sin revisión, y queda un registro (*issue*) de cada caso.
-- **En contra:** requiere que alguien lea el correo o el *issue*. Para el piloto será Victor. Para el producto, habría que decidir quién revisa (la persona o el servicio).
-- **En contra:** los umbrales pueden dar falsas alarmas al principio. Por eso son configurables y se revisan después de las primeras semanas.
-- **Plazo:** la tarea 2.3 cierra el 25-nov. Si se aprueba, se implementa en la semana 5 junto con la prueba del workflow (3.2), o en la semana 6 si la semana 5 se llena con H1.
-
 ## A decidir
 
 - [ ] ¿Opción 2? ¿Los umbrales propuestos sirven como punto de partida?
