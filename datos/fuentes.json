@@ -1,51 +1,51 @@
 {
- "generado": "2026-11-17",
+ "generado": "2026-11-18",
  "estado": {
   "orcid": {
    "estado": "ok",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": 114
   },
   "openalex": {
    "estado": "ok",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": 84,
    "cites": 967,
    "h": 20
   },
   "crossref": {
    "estado": "ok",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": 70
   },
   "datacite": {
    "estado": "ok",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": 9
   },
   "s2": {
    "estado": "error",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": "HTTP Error 429: "
   },
   "dblp": {
    "estado": "error",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": "HTTP Error 429: "
   },
   "zbmath": {
    "estado": "ok",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": 20
   },
   "arxiv": {
    "estado": "ok",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": 34
   },
   "recuperacion": {
    "estado": "ok",
-   "fecha": "2026-11-17",
+   "fecha": "2026-11-18",
    "resultado": 5,
    "citas": 147,
    "duplicadas": 5,
