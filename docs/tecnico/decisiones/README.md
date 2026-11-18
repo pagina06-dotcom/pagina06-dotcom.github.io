@@ -22,3 +22,4 @@ Las decisiones no se borran. Si una cambia, se escribe una nueva que reemplaza a
 | [0008](0008-ia-gemini-y-busqueda-web.md) | IA con Gemini y búsqueda web para completar lo que no tienen las fuentes | Aceptada | 2026-11-09 |
 | [0009](0009-proteccion-ante-caidas-bruscas.md) | Protección ante caídas bruscas en las fuentes | Propuesta | 2026-11-17 |
 | [0010](0010-frontend-sin-frameworks.md) | Frontend en JavaScript sin frameworks ni paso de compilación | Aceptada | 2026-10-29 |
+| [0011](0011-datos-incompletos.md) | Datos incompletos: se muestran sin lo que falta y el aviso va solo en el panel | Aceptada | 2026-11-18 |
