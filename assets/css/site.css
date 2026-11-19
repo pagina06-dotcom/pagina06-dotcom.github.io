@@ -5,7 +5,7 @@
   --bg:#f3f4f6; --surface:#fff; --ink:#101317; --muted:#4f555e; --line:#d9dce1; --hover:#eaecef;
   --p-research:#c03a1a; --p-coop:#2350c8; --p-inter:#7a3db6; --p-free:#59616f;
   --p-research-soft:#fbe8e2; --p-coop-soft:#e5ebfb; --p-inter-soft:#f1e8fa; --p-free-soft:#eceef1;
-  --on-p:#fff; --map-bg:#fafbfc;
+  --on-p:#fff; --map-bg:#fafbfc; --auto:#1b7a4b; --auto-soft:rgba(27,122,75,.08); --man-soft:rgba(79,85,94,.10);
   --sans:'Schibsted Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
   --wrap:1120px; --gut:16px;
   color-scheme:light;
@@ -15,14 +15,14 @@
     --bg:#0e1013; --surface:#161a1f; --ink:#eef0f2; --muted:#a1a7af; --line:#2a2f36; --hover:#1b2027;
     --p-research:#ff8c69; --p-coop:#90acff; --p-inter:#cba3f6; --p-free:#abb3be;
     --p-research-soft:#2b1b16; --p-coop-soft:#192138; --p-inter-soft:#261c33; --p-free-soft:#1d2127;
-    --on-p:#0e1013; --map-bg:#12151a; color-scheme:dark;
+    --on-p:#0e1013; --map-bg:#12151a; --auto:#5fd39a; --auto-soft:rgba(95,211,154,.10); --man-soft:rgba(161,167,175,.12); color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0e1013; --surface:#161a1f; --ink:#eef0f2; --muted:#a1a7af; --line:#2a2f36; --hover:#1b2027;
   --p-research:#ff8c69; --p-coop:#90acff; --p-inter:#cba3f6; --p-free:#abb3be;
   --p-research-soft:#2b1b16; --p-coop-soft:#192138; --p-inter-soft:#261c33; --p-free-soft:#1d2127;
-  --on-p:#0e1013; --map-bg:#12151a; color-scheme:dark;
+  --on-p:#0e1013; --map-bg:#12151a; --auto:#5fd39a; --auto-soft:rgba(95,211,154,.10); --man-soft:rgba(161,167,175,.12); color-scheme:dark;
 }
 
 /* ---------- base ---------- */
@@ -517,3 +517,35 @@ h1,h2,h3,p{margin:0}
 }
 @media (min-width:901px){.panel{background:linear-gradient(90deg,#101317 260px,transparent 260px)}}
 @media (max-width:900px){.sumgrid{grid-template-columns:1fr!important}.panel-main .h1{font-size:34px}.kpis b{font-size:24px}}
+
+/* ---------- herramientas locales (solo file:// o localhost) ---------- */
+.grid-about.solo{grid-template-columns:1fr}
+body.local{padding-bottom:72px}
+.devbar{position:fixed;right:16px;bottom:16px;z-index:1500;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;max-width:calc(100% - 32px);
+  background:var(--surface);border:1px solid var(--ink);padding:8px 12px;font:500 12px/1.4 var(--mono);box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.devbar b{background:var(--ink);color:var(--bg);padding:1px 6px;font-weight:500;letter-spacing:.06em}
+.devbar label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;min-height:28px}
+.devbar input{width:16px;height:16px;margin:0;accent-color:var(--ink)}
+.devbar .leg{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.devbar .leg i{display:inline-block;width:14px;height:14px}
+.devbar .leg i.a{background:var(--auto-soft);outline:2px solid var(--auto)}
+.devbar .leg i.m{background:repeating-linear-gradient(45deg,var(--man-soft) 0 4px,transparent 4px 8px);outline:2px dashed var(--muted)}
+.ver-proc [data-src]{position:relative;outline-offset:3px}
+.ver-proc [data-src="a"]{outline:2px solid var(--auto)}
+.ver-proc [data-src="m"]{outline:2px dashed var(--muted)}
+.ver-proc [data-src]::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:400}
+.ver-proc [data-src="a"]::after{background:var(--auto-soft)}
+.ver-proc [data-src="m"]::after{background:repeating-linear-gradient(45deg,var(--man-soft) 0 8px,transparent 8px 16px)}
+.ver-proc [data-src]::before{content:attr(data-src-l);position:absolute;top:-3px;right:-3px;transform:translateY(-100%);z-index:401;pointer-events:none;
+  font:500 10px/1.5 var(--mono);letter-spacing:.04em;padding:1px 6px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.ver-proc [data-src="a"]::before{background:var(--auto);color:var(--bg)}
+.ver-proc [data-src="m"]::before{background:var(--muted);color:var(--bg)}
+@media print{.devbar{display:none}}
+
+/* ---------- Mi panel: informe de la actualización ---------- */
+.bbar{display:inline-block;vertical-align:middle;width:90px;height:8px;background:var(--hover);margin-right:10px}
+.bbar i{display:block;height:100%;background:var(--ink)}
+.blist{margin:6px 0 18px;padding-left:18px;font-size:14.5px}
+.blist li{margin:3px 0}
+.sumgrid .h3{font-size:16px;margin-top:14px}
+@media (max-width:860px){.sumgrid{grid-template-columns:1fr !important}}
