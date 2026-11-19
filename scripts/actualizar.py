@@ -5,7 +5,8 @@ Consulta las fuentes académicas, une los duplicados y escribe:
   datos/perfil.json          cifras, publicaciones por año, coautores, afiliaciones con ubicación
   datos/fuentes.json         estado y fecha de cada sincronización
   datos/busquedas.json       memoria de las búsquedas en arXiv y zbMATH (no va a la página)
-  datos/sitio.js             publicaciones, perfil y fuentes + contenido/*.json, listo para la página
+  datos/informe.json         cómo fue esta ejecución: etapas, tiempos, consultas y qué cambió (Mi panel)
+  datos/sitio.js             publicaciones, perfil, fuentes e informe + contenido/*.json, listo para la página
 
 Uso:
   python scripts/actualizar.py            recolecta todo (unos 4 minutos; ~15 si datos/busquedas.json no existe)
@@ -52,6 +53,23 @@ HOY = dt.date.today().isoformat()
 # 3 s entre consultas, así que cada semana solo se buscan las obras nuevas y unas pocas ya revisadas, por turno.
 MEMORIA = os.path.join(DATOS, "busquedas.json")
 MEMORIA_FUENTES = ("arxiv", "zbmath")
+
+# Informe de la ejecución (datos/informe.json): qué se consultó, cuánto tardó cada etapa y qué cambió.
+CONSULTAS = {}   # servidor -> [n.º de consultas, segundos esperando la respuesta]
+ETAPAS = []      # [{"n": etapa, "s": segundos, "r": resultado}] en el orden en que corren
+MEMORIA_USO = {}  # fuente -> {"consultadas", "de_memoria"}
+
+
+NOMBRES = {"orcid": "ORCID", "openalex": "OpenAlex", "crossref": "Crossref", "datacite": "DataCite",
+           "s2": "Semantic Scholar", "dblp": "DBLP", "zbmath": "zbMATH Open", "arxiv": "arXiv"}
+SERVIDORES = {"pub.orcid.org": "ORCID", "api.openalex.org": "OpenAlex", "api.crossref.org": "Crossref",
+              "api.datacite.org": "DataCite", "api.semanticscholar.org": "Semantic Scholar",
+              "api.zbmath.org": "zbMATH Open", "export.arxiv.org": "arXiv"}
+SELLOS = ("crossref", "datacite", "s2", "zbmath", "arxiv", "dblp")
+
+
+def etapa(nombre, t0, resultado):
+    ETAPAS.append({"n": nombre, "s": round(time.time() - t0, 1), "r": resultado})
 REVISAR_POR_SEMANA = 8   # obras ya revisadas que se vuelven a buscar cada semana, por fuente (las más antiguas primero)
 REVISAR_DIAS = 28        # y solo si su última búsqueda tiene al menos estos días
 
@@ -69,6 +87,17 @@ def pedir(url, datos=None, cabeceras=None, intentos=4, json_=True):
     if datos is not None:
         cuerpo = json.dumps(datos).encode()
         cab["Content-Type"] = "application/json"
+    servidor = urllib.parse.urlparse(url).netloc
+    c = CONSULTAS.setdefault(servidor, [0, 0.0])
+    c[0] += 1
+    t0 = time.time()
+    try:
+        return _pedir(url, cuerpo, cab, intentos, json_)
+    finally:
+        c[1] += time.time() - t0
+
+
+def _pedir(url, cuerpo, cab, intentos, json_):
     for i in range(intentos):
         try:
             req = urllib.request.Request(url, data=cuerpo, headers=cab)
@@ -496,6 +525,7 @@ def solo_s2():
     ruta_p, ruta_f = os.path.join(DATOS, "publicaciones.json"), os.path.join(DATOS, "fuentes.json")
     pub, fu = leer_json(ruta_p), leer_json(ruta_f)
     obras, estado = pub["obras"], fu["estado"]
+    t0 = time.time()
     antes = {id(o): {k: o["vf"][k] for k in ("s2", "dblp") if k in o["vf"]} for o in obras}
     for o in obras:
         o["vf"].pop("s2", None)
@@ -515,6 +545,13 @@ def solo_s2():
         estado["dblp"] = estado_falla(e)
     escribir_json(ruta_p, pub)
     escribir_json(ruta_f, fu)
+    ruta_i = os.path.join(DATOS, "informe.json")
+    informe = leer_json(ruta_i)
+    if informe:
+        e = estado["s2"]
+        informe["reintento_s2"] = {"fecha": HOY, "s": round(time.time() - t0), "estado": e["estado"],
+                                   "sellos": e["resultado"] if e["estado"] == "ok" else None}
+        escribir_json(ruta_i, informe)
     armar_paquete()
 
 
@@ -549,7 +586,12 @@ def verificar(obras, previas, rapido, estado, memoria):
 
     con_doi = [o for o in obras if o["doi"]]
 
+    def resumen(*fuentes):  # resultado de la etapa para el informe
+        return " · ".join(f"{estado[f]['resultado']} sellos de {NOMBRES[f]}" if estado[f]["estado"] == "ok"
+                          else f"{NOMBRES[f]}: {estado[f]['estado']}" for f in fuentes)
+
     # Crossref y DataCite (por DOI)
+    t0 = time.time()
     try:
         n_cr = n_dc = 0
         for o in con_doi:
@@ -571,8 +613,10 @@ def verificar(obras, previas, rapido, estado, memoria):
     except Exception as e:  # noqa: BLE001 - una fuente caída no detiene el resto
         falla("crossref", e)
         falla("datacite", e)
+    etapa("Sellos: Crossref y DataCite", t0, resumen("crossref", "datacite"))
 
     # Semantic Scholar (por DOI en lote; por título si no hay DOI). Trae también los ID de arXiv y DBLP.
+    t0 = time.time()
     try:
         _, sin_revisar = sellos_s2(obras)
         for o in sin_revisar:  # conservan el sello de la semana anterior
@@ -585,8 +629,10 @@ def verificar(obras, previas, rapido, estado, memoria):
             o.pop("s2", None)
         falla("s2", e, reintento=True)  # si pidió esperar, el flujo semanal lo reintenta (--solo-s2)
         falla("dblp", e, reintento=True)
+    etapa("Sellos: Semantic Scholar y DBLP", t0, resumen("s2", "dblp"))
 
     # zbMATH Open (por DOI), recordado en datos/busquedas.json porque cada consulta tarda varios segundos
+    t0 = time.time()
     try:
         mem = memoria["zbmath"]
         hoy_buscar = a_buscar(con_doi, mem)
@@ -604,13 +650,16 @@ def verificar(obras, previas, rapido, estado, memoria):
             if hallado:
                 o["vf"]["zbmath"] = {"id": hallado}
             time.sleep(0.2)
+        MEMORIA_USO["zbmath"] = {"consultadas": len(hoy_buscar), "de_memoria": len(con_doi) - len(hoy_buscar)}
         log(f"  zbMATH: {len(hoy_buscar)} obras consultadas, {len(con_doi) - len(hoy_buscar)} con la consulta anterior")
         ok("zbmath", sum(1 for o in obras if "zbmath" in o["vf"]))
     except Exception as e:  # noqa: BLE001
         falla("zbmath", e)
+    etapa("Sellos: zbMATH Open", t0, resumen("zbmath"))
 
     # arXiv: primero lo que ya informaron OpenAlex y Semantic Scholar; luego búsqueda por título,
     # que se recuerda en datos/busquedas.json para no repetirla cada semana
+    t0 = time.time()
     try:
         for o in obras:
             if "arxiv" not in o["vf"] and o.get("arxiv_oa"):
@@ -644,11 +693,13 @@ def verificar(obras, previas, rapido, estado, memoria):
             mem[o["id"]] = {"fecha": HOY, "id": hallado}
             if hallado:
                 o["vf"]["arxiv"] = {"id": hallado}
+        MEMORIA_USO["arxiv"] = {"consultadas": len(hoy_buscar), "de_memoria": len(pendientes) - len(hoy_buscar)}
         log(f"  arXiv: {len(hoy_buscar)} obras buscadas por título, "
             f"{len(pendientes) - len(hoy_buscar)} con la búsqueda anterior")
         ok("arxiv", sum(1 for o in obras if "arxiv" in o["vf"]))
     except Exception as e:  # noqa: BLE001
         falla("arxiv", e)
+    etapa("Sellos: arXiv", t0, resumen("arxiv"))
 
     for o in obras:
         o.pop("arxiv_oa", None)
@@ -787,6 +838,77 @@ def armar_perfil(autor, obras, corr, orcid_info):
     }
 
 
+# ---------------------------------------------------------------- informe de la ejecución
+def comparar(previas, obras, perfil_prev, perfil):
+    """Qué cambió respecto de la ejecución anterior: cifras del perfil, obras, citas por obra y sellos.
+    Es la misma comparación que necesita la protección ante caídas bruscas (tarea 2.3, decisión 0009)."""
+    if not previas or not perfil_prev:
+        return None
+    sp, sn = perfil_prev.get("stats", {}), perfil.get("stats", {})
+    cifras = {k: [sp.get(k), sn.get(k)] for k in ("works", "cites", "h", "i10", "cites_recuperadas")
+              if sp.get(k) != sn.get(k)}
+    antes, ahora = {o["id"]: o for o in previas}, {o["id"]: o for o in obras}
+
+    def ficha(o):
+        return {"t": o["t"], "y": o.get("y")}
+
+    citas = sorted(({"t": o["t"], "antes": antes[i].get("c"), "ahora": o.get("c")} for i, o in ahora.items()
+                    if i in antes and antes[i].get("c") != o.get("c")),
+                   key=lambda x: -abs((x["ahora"] or 0) - (x["antes"] or 0)))
+    sellos = {}
+    for k in SELLOS:
+        a, b = (sum(1 for o in xs if k in o.get("vf", {})) for xs in (previas, obras))
+        if a != b:
+            sellos[k] = [a, b]
+    return {"desde": perfil_prev.get("generado"), "cifras": cifras,
+            "obras_nuevas": [ficha(o) for i, o in ahora.items() if i not in antes],
+            "obras_quitadas": [ficha(o) for i, o in antes.items() if i not in ahora],
+            "citas": citas[:15], "obras_con_citas_nuevas": len(citas), "sellos": sellos}
+
+
+def armar_informe(inicio, t0, modo, cambios):
+    manual = {}
+    for f in sorted(os.listdir(CONTENIDO)):
+        d = leer_json(os.path.join(CONTENIDO, f), {}) if f.endswith(".json") else {}
+        if isinstance(d, dict) and d.get("actualizado"):
+            manual[f[:-5]] = d["actualizado"]
+    return {
+        "generado": HOY, "inicio": inicio, "duracion_s": round(time.time() - t0),
+        "donde": "GitHub Actions" if os.environ.get("GITHUB_ACTIONS") else "local", "modo": modo,
+        "etapas": ETAPAS,
+        "consultas": [{"fuente": SERVIDORES.get(h, h), "n": n, "s": round(sg, 1)}
+                      for h, (n, sg) in sorted(CONSULTAS.items(), key=lambda x: -x[1][1])],
+        "memoria": MEMORIA_USO, "cambios": cambios, "manual": manual,
+    }
+
+
+def imprimir_informe(inf):
+    """Resumen en la terminal: lo mismo que muestra Mi panel > Actualización."""
+    log("")
+    log(f"=== Informe · {inf['generado']} · {inf['donde']} · {inf['modo']} · {inf['duracion_s']} s ===")
+    for e in inf["etapas"]:
+        log(f"  {e['s']:6.1f} s  {e['n']}: {e['r']}")
+    for f, m in inf["memoria"].items():
+        log(f"  memoria {NOMBRES[f]}: {m['consultadas']} consultadas, {m['de_memoria']} de la memoria")
+    c = inf["cambios"]
+    if not c:
+        log("  cambios: no hay ejecución anterior con qué comparar")
+        return
+    log(f"  cambios desde el {c['desde']}:")
+    for k, (a, b) in c["cifras"].items():
+        log(f"    {k}: {a} -> {b}")
+    for o in c["obras_nuevas"]:
+        log(f"    + obra nueva: {o['t']} ({o['y']})")
+    for o in c["obras_quitadas"]:
+        log(f"    - obra quitada: {o['t']} ({o['y']})")
+    if c["obras_con_citas_nuevas"]:
+        log(f"    {c['obras_con_citas_nuevas']} obras cambiaron sus citas")
+    for k, (a, b) in c["sellos"].items():
+        log(f"    sellos de {NOMBRES[k]}: {a} -> {b}")
+    if not (c["cifras"] or c["obras_nuevas"] or c["obras_quitadas"] or c["obras_con_citas_nuevas"] or c["sellos"]):
+        log("    sin cambios")
+
+
 # ---------------------------------------------------------------- paquete para la página
 def armar_paquete():
     contenido = {}
@@ -796,6 +918,9 @@ def armar_paquete():
     datos = {k: leer_json(os.path.join(DATOS, k + ".json")) for k in ("publicaciones", "perfil", "fuentes")}
     if not all(datos.values()):
         sys.exit("Faltan archivos en datos/. Ejecuta primero sin --sin-red.")
+    informe = leer_json(os.path.join(DATOS, "informe.json"))
+    if informe:
+        datos["informe"] = informe
     paquete = {"contenido": contenido, "datos": datos}
     with open(os.path.join(DATOS, "sitio.js"), "w", encoding="utf-8") as f:
         f.write("// Generado por scripts/actualizar.py. No editar a mano.\n")
@@ -820,30 +945,41 @@ def main():
         solo_s2()
         return
 
+    t_inicio = time.time()
+    inicio = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     corr = leer_json(os.path.join(CONTENIDO, "correcciones.json"), {})
     lineas = leer_json(os.path.join(CONTENIDO, "lineas.json"), {"reglas": []})
     previas = (leer_json(os.path.join(DATOS, "publicaciones.json"), {}) or {}).get("obras", [])
     estado = (leer_json(os.path.join(DATOS, "fuentes.json"), {}) or {}).get("estado", {})
 
     log("ORCID…")
+    t0 = time.time()
     orc = orcid_obras()
     orcid_info = orcid_secciones()
     estado["orcid"] = {"estado": "ok", "fecha": HOY, "resultado": len(orc)}
+    etapa("ORCID: obras, formación y cargos", t0, f"{len(orc)} obras")
     log(f"  {len(orc)} obras; secciones: " +
         ", ".join(f"{k}={v}" for k, v in orcid_info.items() if not k.endswith("_detalle")))
 
     log("OpenAlex…")
+    t0 = time.time()
     autor = openalex_autor()
     oa = openalex_obras()
+    etapa("OpenAlex: perfil y obras", t0, f"{len(oa)} obras, {autor.get('cited_by_count')} citas")
     estado["openalex"] = {"estado": "ok", "fecha": HOY, "resultado": len(oa),
                           "cites": autor.get("cited_by_count"), "h": autor["summary_stats"].get("h_index")}
     log(f"  {len(oa)} obras, {autor.get('cited_by_count')} citas")
 
+    t0 = time.time()
     obras, solo_orcid = unir(oa, orc, corr, OPENALEX_AUTHOR)
     log(f"Unificadas: {len(obras)} ({solo_orcid} solo en ORCID)")
+    etapa("Unión de ORCID y OpenAlex", t0, f"{len(obras)} obras ({solo_orcid} solo en ORCID)")
 
     log("Recuperación de citas de obras que solo están en ORCID…")
+    t0 = time.time()
     rec, dup, sin_aut = recuperar_citas(obras, previas, OPENALEX_AUTHOR, estado)
+    etapa("Recuperación de citas (obras solo en ORCID)", t0,
+          f"{len(rec)} recuperadas ({sum(o['c'] or 0 for o in rec)} citas), {len(dup)} duplicadas unidas")
     log(f"  {len(rec)} recuperadas ({sum(o['c'] or 0 for o in rec)} citas), {len(dup)} duplicadas unidas")
     for i in sin_aut:
         log(f"  ? {i}: está en OpenAlex pero Tomás no figura como autor. Revisar y, si no es suya, "
@@ -856,9 +992,15 @@ def main():
     verificar(obras, previas, a.rapido, estado, memoria)
 
     log("Obras solo en ORCID sin DOI: revisión en Crossref…")
-    log(f"  {revisar_sin_doi(obras, orc, previas)} revisadas")
+    t0 = time.time()
+    n_sd = revisar_sin_doi(obras, orc, previas)
+    log(f"  {n_sd} revisadas")
+    etapa("Obras sin DOI: revisión en Crossref", t0, f"{n_sd} revisadas")
 
+    t0 = time.time()
     perfil = armar_perfil(autor, obras, corr, orcid_info)
+    etapa("Perfil: cifras, coautores y afiliaciones", t0, f"{len(perfil['afiliaciones'])} afiliaciones")
+    perfil_prev = leer_json(os.path.join(DATOS, "perfil.json"))
     for o in obras:
         o.pop("coau", None)
     escribir_json(os.path.join(DATOS, "publicaciones.json"), {"generado": HOY, "obras": obras})
@@ -870,9 +1012,13 @@ def main():
                  "La usa scripts/actualizar.py para no repetirlas cada semana; la página no la lee.",
         "generado": HOY,
         **{f: {k: v for k, v in sorted(memoria[f].items()) if k in ids} for f in MEMORIA_FUENTES}})
-    cobertura = {k: sum(1 for o in obras if k in o["vf"]) for k in ("crossref", "datacite", "s2", "zbmath", "arxiv", "dblp")}
+    cobertura = {k: sum(1 for o in obras if k in o["vf"]) for k in SELLOS}
     log("Sellos: " + ", ".join(f"{k} {v}" for k, v in cobertura.items()))
+    informe = armar_informe(inicio, t_inicio, "rapido" if a.rapido else "completo",
+                            comparar(previas, obras, perfil_prev, perfil))
+    escribir_json(os.path.join(DATOS, "informe.json"), informe)
     armar_paquete()
+    imprimir_informe(informe)
 
 
 if __name__ == "__main__":
