@@ -1,0 +1,115 @@
+{
+ "generado": "2026-11-19",
+ "inicio": "2026-11-19T14:35:55+00:00",
+ "duracion_s": 174,
+ "donde": "local",
+ "modo": "completo",
+ "etapas": [
+  {
+   "n": "ORCID: obras, formación y cargos",
+   "s": 1.9,
+   "r": "114 obras"
+  },
+  {
+   "n": "OpenAlex: perfil y obras",
+   "s": 2.3,
+   "r": "84 obras, 968 citas"
+  },
+  {
+   "n": "Unión de ORCID y OpenAlex",
+   "s": 0.0,
+   "r": "100 obras (21 solo en ORCID)"
+  },
+  {
+   "n": "Recuperación de citas (obras solo en ORCID)",
+   "s": 13.1,
+   "r": "5 recuperadas (147 citas), 5 duplicadas unidas"
+  },
+  {
+   "n": "Sellos: Crossref y DataCite",
+   "s": 45.7,
+   "r": "70 sellos de Crossref · 9 sellos de DataCite"
+  },
+  {
+   "n": "Sellos: Semantic Scholar y DBLP",
+   "s": 100.0,
+   "r": "79 sellos de Semantic Scholar · 44 sellos de DBLP"
+  },
+  {
+   "n": "Sellos: zbMATH Open",
+   "s": 0.0,
+   "r": "20 sellos de zbMATH Open"
+  },
+  {
+   "n": "Sellos: arXiv",
+   "s": 0.0,
+   "r": "34 sellos de arXiv"
+  },
+  {
+   "n": "Obras sin DOI: revisión en Crossref",
+   "s": 10.3,
+   "r": "8 revisadas"
+  },
+  {
+   "n": "Perfil: cifras, coautores y afiliaciones",
+   "s": 1.1,
+   "r": "12 afiliaciones"
+  }
+ ],
+ "consultas": [
+  {
+   "fuente": "Semantic Scholar",
+   "n": 17,
+   "s": 46.8
+  },
+  {
+   "fuente": "Crossref",
+   "n": 92,
+   "s": 46.4
+  },
+  {
+   "fuente": "OpenAlex",
+   "n": 24,
+   "s": 12.3
+  },
+  {
+   "fuente": "DataCite",
+   "n": 9,
+   "s": 8.3
+  },
+  {
+   "fuente": "ORCID",
+   "n": 7,
+   "s": 1.9
+  }
+ ],
+ "memoria": {
+  "zbmath": {
+   "consultadas": 0,
+   "de_memoria": 79
+  },
+  "arxiv": {
+   "consultadas": 0,
+   "de_memoria": 64
+  }
+ },
+ "cambios": {
+  "desde": "2026-11-19",
+  "cifras": {},
+  "obras_nuevas": [],
+  "obras_quitadas": [],
+  "citas": [],
+  "obras_con_citas_nuevas": 0,
+  "sellos": {}
+ },
+ "manual": {
+  "escritos": "2026-10-19",
+  "eventos": "2026-10-19",
+  "lugares": "2026-10-19",
+  "oportunidades": "2026-10-19",
+  "perfil": "2026-10-19",
+  "perfiles": "2026-10-19",
+  "premios": "2026-10-19",
+  "proyectos": "2026-10-19"
+ }
+}

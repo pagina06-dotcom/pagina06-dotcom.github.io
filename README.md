@@ -16,7 +16,17 @@ Plantillas del sitio según el handoff de Claude Design (dirección «Grilla»),
 
 Doble clic en `index.html` (funciona sin servidor). Para la vista de Tomás, `admin.html`, o el enlace «Vista Tomás (plantilla)» en el pie.
 
-Rutas útiles: `#home/line-cot`, `#area-cooperation/sust`, `#area-free`, `#publications`, `#journey`, `#sources`; en `admin.html` también `#panel`, `#panel/pubs`, `#panel/profiles`, `#panel/content`, `#panel/sources`.
+Rutas útiles: `#home/line-cot`, `#area-cooperation/sust`, `#area-free`, `#publications`, `#journey`, `#sources`; en `admin.html` también `#panel`, `#panel/pubs`, `#panel/profiles`, `#panel/content`, `#panel/sources` y, solo en local, `#panel/build`.
+
+### Solo automático (herramienta local)
+
+Al abrir el sitio desde este computador (doble clic en `index.html`, o `localhost`) aparece abajo a la derecha una barra **LOCAL** con la casilla **Solo automático**. El sitio publicado nunca la muestra.
+
+Oculta todo lo cargado a mano en `contenido/` (portada, «Acerca de», perfiles, charlas, proyectos, escritos, «Trabaja conmigo», residencias y premios) y muestra cómo se ve el sitio solo con lo que trae el recolector. Se recuerda en el navegador hasta desactivarla. A medida que una sección pase a generarse sola (IA, búsqueda web…), deja de ocultarse.
+
+### Cómo se construyó el sitio
+
+Cada ejecución del recolector escribe `datos/informe.json` y lo imprime en la terminal: los pasos en orden con su tiempo y resultado, cuántas consultas se hicieron a cada fuente, cuánto se tomó de la memoria de búsquedas, **qué cambió respecto de la ejecución anterior** (cifras, obras nuevas o quitadas, citas por obra, sellos) y la fecha del contenido manual. En el sitio se ve en `admin.html#panel/build` (Mi panel → Actualización), **solo en local**: es una herramienta de desarrollo y el sitio publicado no muestra esa pestaña.
 
 ## Actualizar datos
 

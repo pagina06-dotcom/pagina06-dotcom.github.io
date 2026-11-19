@@ -45,6 +45,8 @@ flowchart LR
     PF --> SJ
     F --> SJ
     R <--> BM[datos/busquedas.json<br/>memoria de búsquedas]
+    R --> IN[datos/informe.json<br/>cómo fue la ejecución]
+    IN --> SJ
     C --> SJ
     SJ --> W[index.html + app.js<br/>GitHub Pages]
 ```
@@ -146,6 +148,31 @@ Dos fuentes de sellos son lentas: zbMATH tarda unos 7 s por DOI y arXiv pide 3 s
 - Las obras que no se buscan esa semana usan el resultado guardado.
 - En arXiv no se busca por título lo que ya trae un ID de arXiv desde OpenAlex o Semantic Scholar.
 - Se olvidan las obras que salen de la lista.
+
+### 3.6 `informe.json`: cómo fue la última ejecución
+
+```json
+{ "generado": "2026-11-19", "inicio": "2026-11-19T14:35:02+00:00", "duracion_s": 174,
+  "donde": "GitHub Actions", "modo": "completo",
+  "etapas": [ { "n": "ORCID: obras, formación y cargos", "s": 1.9, "r": "114 obras" }, ... ],
+  "consultas": [ { "fuente": "Crossref", "n": 92, "s": 46.4 }, ... ],
+  "memoria": { "zbmath": { "consultadas": 8, "de_memoria": 71 }, ... },
+  "cambios": { "desde": "2026-11-18", "cifras": { "cites": [967, 968] }, "obras_nuevas": [], "obras_quitadas": [],
+               "citas": [ { "t": "…", "antes": 71, "ahora": 72 } ], "obras_con_citas_nuevas": 1, "sellos": {} },
+  "manual": { "eventos": "2026-10-19", ... },
+  "reintento_s2": { "fecha": "2026-11-23", "s": 95, "estado": "ok", "sellos": 79 } }
+```
+
+| Campo | Significado |
+|---|---|
+| `etapas` | Cada paso del recolector, en orden, con sus segundos (`s`) y su resultado (`r`) |
+| `consultas` | Consultas a cada fuente y segundos esperando su respuesta, con los reintentos |
+| `memoria` | Cuántas obras se buscaron hoy en zbMATH y arXiv y cuántas salieron de `busquedas.json` |
+| `cambios` | Diferencias con la ejecución anterior: cifras del perfil, obras nuevas y quitadas, las 15 obras con más cambio de citas y la cobertura de cada sello. `null` si no hay ejecución anterior. Es la comparación que usará la protección ante caídas bruscas ([0009](decisiones/0009-proteccion-ante-caidas-bruscas.md)) |
+| `manual` | Fecha `actualizado` de cada archivo de `contenido/` |
+| `reintento_s2` | Solo si el flujo reintentó Semantic Scholar (`--solo-s2`) |
+
+Entra en `sitio.js` y se muestra en Mi panel → Actualización, solo al abrir el sitio en local (herramienta de desarrollo). El recolector imprime el mismo resumen en la terminal.
 
 ## 4. Contenido editable (`contenido/`)
 
