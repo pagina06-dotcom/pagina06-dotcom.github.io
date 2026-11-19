@@ -1,51 +1,53 @@
 {
- "generado": "2026-11-18",
+ "generado": "2026-11-19",
  "estado": {
   "orcid": {
    "estado": "ok",
-   "fecha": "2026-11-18",
+   "fecha": "2026-11-19",
    "resultado": 114
   },
   "openalex": {
    "estado": "ok",
-   "fecha": "2026-11-18",
+   "fecha": "2026-11-19",
    "resultado": 84,
-   "cites": 967,
+   "cites": 968,
    "h": 20
   },
   "crossref": {
    "estado": "ok",
-   "fecha": "2026-11-18",
+   "fecha": "2026-11-19",
    "resultado": 70
   },
   "datacite": {
    "estado": "ok",
-   "fecha": "2026-11-18",
+   "fecha": "2026-11-19",
    "resultado": 9
   },
   "s2": {
    "estado": "ok",
-   "fecha": "2026-11-18",
-   "resultado": 79
+   "fecha": "2026-11-19",
+   "resultado": 79,
+   "sin_revisar": 6
   },
   "dblp": {
    "estado": "ok",
-   "fecha": "2026-11-18",
-   "resultado": 44
+   "fecha": "2026-11-19",
+   "resultado": 44,
+   "sin_revisar": 6
   },
   "zbmath": {
    "estado": "ok",
-   "fecha": "2026-11-18",
+   "fecha": "2026-11-19",
    "resultado": 20
   },
   "arxiv": {
    "estado": "ok",
-   "fecha": "2026-11-18",
+   "fecha": "2026-11-19",
    "resultado": 34
   },
   "recuperacion": {
    "estado": "ok",
-   "fecha": "2026-11-18",
+   "fecha": "2026-11-19",
    "resultado": 5,
    "citas": 147,
    "duplicadas": 5,

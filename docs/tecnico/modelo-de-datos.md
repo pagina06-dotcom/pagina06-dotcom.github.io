@@ -44,6 +44,7 @@ flowchart LR
     P --> SJ[datos/sitio.js]
     PF --> SJ
     F --> SJ
+    R <--> BM[datos/busquedas.json<br/>memoria de búsquedas]
     C --> SJ
     SJ --> W[index.html + app.js<br/>GitHub Pages]
 ```
@@ -104,8 +105,8 @@ Cada sello indica que una fuente independiente confirma que la obra existe. Solo
 | `datacite` | `{"pub": editor}` | Por DOI, si Crossref no lo tiene (DOI de repositorios como Zenodo o arXiv) |
 | `s2` | `{"venue", "cites"}`: revista y citas según Semantic Scholar | DOI en lote; título si no hay DOI |
 | `dblp` | `{"id"}` | Viene dentro de la respuesta de Semantic Scholar |
-| `zbmath` | `{"id"}` | Por DOI |
-| `arxiv` | `{"id"}` | Lo que informan OpenAlex o Semantic Scholar; si no, búsqueda por título exacto en arXiv |
+| `zbmath` | `{"id"}` | Por DOI, recordado en `busquedas.json` (ver 3.5) |
+| `arxiv` | `{"id"}` | Lo que informan OpenAlex o Semantic Scholar; si no, búsqueda por título exacto en arXiv, recordada en `busquedas.json` (ver 3.5) |
 
 Si una fuente falla, se conservan sus sellos de la semana anterior y `datos/fuentes.json` lo indica.
 
@@ -130,6 +131,21 @@ Si una fuente falla, se conservan sus sellos de la semana anterior y `datos/fuen
 ```
 
 Una entrada por fuente (`orcid`, `openalex`, `crossref`, `datacite`, `s2`, `dblp`, `zbmath`, `arxiv`) y por proceso (`recuperacion`). `estado` es `ok` o `error`; `resultado` es el número de registros o el mensaje de error. La página de Fuentes del sitio lee este archivo.
+
+### 3.5 `busquedas.json`: memoria de las búsquedas lentas
+
+```json
+{ "generado": "2026-11-19",
+  "arxiv":  { "10.1234/abc": { "fecha": "2026-11-18", "id": null }, ... },
+  "zbmath": { "10.1234/abc": { "fecha": "2026-11-19", "id": "1234.56789" }, ... } }
+```
+
+Dos fuentes de sellos son lentas: zbMATH tarda unos 7 s por DOI y arXiv pide 3 s entre consultas. Sin memoria, la actualización semanal tardaba unos 14 minutos, casi todo en zbMATH. Para cada obra se guarda la `fecha` de su última búsqueda en cada fuente y el `id` encontrado (`null` si no se encontró). Solo lo usa el recolector; **no entra en `sitio.js`**.
+
+- Cada semana se buscan las obras que nunca se buscaron y, de las demás, las 8 con la búsqueda más antigua, si tiene al menos 28 días (`REVISAR_POR_SEMANA` y `REVISAR_DIAS` en el script). Así cada obra se vuelve a revisar más o menos cada dos meses, por si zbMATH la indexa o se sube una versión a arXiv.
+- Las obras que no se buscan esa semana usan el resultado guardado.
+- En arXiv no se busca por título lo que ya trae un ID de arXiv desde OpenAlex o Semantic Scholar.
+- Se olvidan las obras que salen de la lista.
 
 ## 4. Contenido editable (`contenido/`)
 
