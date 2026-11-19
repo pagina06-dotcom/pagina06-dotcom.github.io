@@ -172,7 +172,7 @@ Dos fuentes de sellos son lentas: zbMATH tarda unos 7 s por DOI y arXiv pide 3 s
 | `manual` | Fecha `actualizado` de cada archivo de `contenido/` |
 | `reintento_s2` | Solo si el flujo reintentó Semantic Scholar (`--solo-s2`) |
 
-Entra en `sitio.js` y se muestra en Mi panel → Actualización. El recolector imprime el mismo resumen en la terminal.
+Entra en `sitio.js` y se muestra en Mi panel → Actualización, solo al abrir el sitio en local (herramienta de desarrollo). El recolector imprime el mismo resumen en la terminal.
 
 ## 4. Contenido editable (`contenido/`)
 

@@ -152,7 +152,7 @@ const T = {
   thSrc: ['SOURCE', 'FUENTE'], thSt: ['STATE', 'ESTADO'], thLast: ['LAST SYNC', 'ÚLTIMA SINCRONIZACIÓN'], thRes: ['RESULT', 'RESULTADO'], resN: ['{n} records', '{n} registros'],
   /* informe de la actualización (Mi panel) */
   pBuild: ['Update', 'Actualización'], seeBuild: ['How it went →', 'Cómo fue →'],
-  bT: ['Last update', 'Última actualización'], bS: ['How the site was built in the last run of the collector: what it queried, how long each step took and what changed since the previous run.', 'Cómo se armó el sitio en la última ejecución del recolector: qué consultó, cuánto tardó cada paso y qué cambió desde la ejecución anterior.'],
+  bT: ['Last update', 'Última actualización'], bDev: ['Developer tool: only visible when the site is opened on this computer.', 'Herramienta de desarrollo: solo se ve al abrir el sitio en este computador.'], bS: ['How the site was built in the last run of the collector: what it queried, how long each step took and what changed since the previous run.', 'Cómo se armó el sitio en la última ejecución del recolector: qué consultó, cuánto tardó cada paso y qué cambió desde la ejecución anterior.'],
   bNone: ['There is no report yet. It appears after the next run of the collector (scripts/actualizar.py).', 'Aún no hay informe. Aparece después de la próxima ejecución del recolector (scripts/actualizar.py).'],
   bWhen: ['RUN', 'EJECUCIÓN'], bWhere: ['WHERE', 'DÓNDE'], bDur: ['DURATION', 'DURACIÓN'], bLocal: ['On a computer (local)', 'En un computador (local)'],
   bFull: ['full', 'completa'], bFast: ['fast (no arXiv title search)', 'rápida (sin buscar arXiv por título)'], bMode: ['mode', 'modo'],
@@ -693,12 +693,12 @@ function sourcesPage() {
 /* ---------- Mi panel (plantillas estáticas) ---------- */
 function panel(sec) {
   const nRev = VIS.filter(w => w.linea_estado !== 'confirmada').length;
-  const nav = [['', 'pSum'], ['pubs', 'pPubs', nRev], ['profiles', 'pProf'], ['content', 'pMan'], ['sources', 'pSrc'], ['build', 'pBuild']];
+  const nav = [['', 'pSum'], ['pubs', 'pPubs', nRev], ['profiles', 'pProf'], ['content', 'pMan'], ['sources', 'pSrc'], ...(LOCAL ? [['build', 'pBuild', t('devK')]] : [])];  // Actualización: herramienta de desarrollo, solo en local
   const side = `<aside class="panel-side"><div class="b">${esc(C.perfil.nombre)}</div><div class="s">${t('panelS')}</div>
     <nav>${nav.map(([id, k, c]) => `<a href="#panel${id ? '/' + id : ''}" ${sec === id ? 'aria-current="page"' : ''}>${t(k)}${c ? `<small>${c}</small>` : ''}</a>`).join('')}</nav>
     <div class="vista">${t('view')}<div class="vsw"><a class="on" href="#home">Tomás</a><a href="index.html#home">${t('visitor')}</a></div>
       <div style="margin-top:14px">${t('langL')}</div><div class="vsw" role="group" aria-label="Language / Idioma">${['en', 'es'].map(l => `<button type="button" data-lang="${l}" class="${lang === l ? 'on' : ''}" aria-pressed="${lang === l}">${l.toUpperCase()}</button>`).join('')}</div></div></aside>`;
-  const body = { '': pSummary, pubs: pReview, profiles: pProfiles, content: pContent, sources: pSources, build: pBuild }[sec] || pSummary;
+  const body = { '': pSummary, pubs: pReview, profiles: pProfiles, content: pContent, sources: pSources, build: LOCAL ? pBuild : pSummary }[sec] || pSummary;
   return `<div class="panel">${side}<main class="panel-main">${body(nRev)}</main></div>`;
 }
 const pTitle = (k, s, right) => `<div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap"><div><h1 class="h1">${t(k)}</h1><p class="lead" style="margin-top:6px;font-size:15px">${s}</p></div>${right || ''}</div>`;
@@ -739,7 +739,7 @@ function pSummary(nRev) {
     <details class="pdet"><summary>${t('seeWhich')}</summary><ul>${items.map(x => `<li>${fmt(x)}</li>`).join('')}</ul></details></div>
     <a class="btn sm" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}>${t(btn)}</a></div>` : '';
   return `${pTitle('pSum', t('sumSub'))}
-  <div class="kpis"><div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('lastUpd')}</span><b>${fd(GEN)}</b><small>■ ${t('correct')}${DD.informe ? ` · <a href="#panel/build">${t('seeBuild')}</a>` : ''}</small></div>
+  <div class="kpis"><div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('lastUpd')}</span><b>${fd(GEN)}</b><small>■ ${t('correct')}${DD.informe && LOCAL ? ` · <a href="#panel/build">${t('seeBuild')}</a>` : ''}</small></div>
     <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('nextUpd')}</span><b>${fd(proxAct())}</b><small>${t('weeklyC')}</small></div>
     <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('pubFigs')}</span><b>${st.works} · ${st.cites} · ${st.h} · ${st.i10}</b><small>${t('figsNote')}</small></div></div>
   <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;margin-top:40px" class="sumgrid">
@@ -822,7 +822,7 @@ function pBuild() {
   const r2 = I.reintento_s2;
   const hoy = new Date(GEN + 'T00:00:00Z');
   const man = Object.entries(I.manual || {}).map(([k, d]) => `<tr><td class="mono">contenido/${esc(k)}.json</td><td class="mono">${fd(d)}</td><td class="muted">${t('bDays', { n: Math.round((hoy - new Date(d + 'T00:00:00Z')) / 864e5) })}</td></tr>`);
-  return `${pTitle('bT', t('bS'))}
+  return `${pTitle('bT', t('bS'))}<p class="prov" style="margin-top:10px"><b>${t('devK')}</b>${t('bDev')}</p>
   <div class="kpis"><div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('bWhen')}</span><b>${fd(I.generado)}</b><small>${hora ? hora + ' UTC · ' : ''}${t('bMode')}: ${t(I.modo === 'rapido' ? 'bFast' : 'bFull')}</small></div>
     <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('bWhere')}</span><b style="font-size:22px">${I.donde === 'local' ? t('bLocal') : esc(I.donde)}</b><small>scripts/actualizar.py</small></div>
     <div><span class="eyebrow" style="font-size:11px;color:var(--muted)">${t('bDur')}</span><b>${dur(I.duracion_s)}</b><small>${t('nextUpd')}: ${fd(proxAct())}</small></div></div>
