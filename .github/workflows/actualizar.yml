@@ -13,7 +13,7 @@ permissions:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 75   # arXiv por título tarda ~15 min (17,5 el 17-nov) + posible reintento de Semantic Scholar (~20 min)
+    timeout-minutes: 75   # margen: ~15 min si datos/busquedas.json no existe (zbMATH y arXiv) + posible reintento de Semantic Scholar (~20 min)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

@@ -4,10 +4,11 @@ Consulta las fuentes académicas, une los duplicados y escribe:
   datos/publicaciones.json   lista unificada con línea sugerida y sellos de verificación
   datos/perfil.json          cifras, publicaciones por año, coautores, afiliaciones con ubicación
   datos/fuentes.json         estado y fecha de cada sincronización
-  datos/sitio.js             todo lo anterior + contenido/*.json, listo para la página
+  datos/busquedas.json       memoria de las búsquedas en arXiv y zbMATH (no va a la página)
+  datos/sitio.js             publicaciones, perfil y fuentes + contenido/*.json, listo para la página
 
 Uso:
-  python scripts/actualizar.py            recolecta todo (5-8 minutos, arXiv es lento)
+  python scripts/actualizar.py            recolecta todo (unos 4 minutos; ~15 si datos/busquedas.json no existe)
   python scripts/actualizar.py --rapido   sin la búsqueda de arXiv por título
   python scripts/actualizar.py --sin-red  solo vuelve a armar datos/sitio.js (tras editar contenido/)
   python scripts/actualizar.py --solo-s2  solo reintenta Semantic Scholar (lo usa el flujo si pidió esperar)
@@ -46,6 +47,13 @@ UA = "tveloz-sitio/1.0 (sitio académico; GitHub Actions)" + (f" mailto:{CONTACT
 # compartido por todos los que salen por la misma IP, y en GitHub Actions las IP son compartidas.
 OPENALEX_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
 HOY = dt.date.today().isoformat()
+
+# Memoria de las búsquedas lentas (datos/busquedas.json): zbMATH tarda unos 7 s por DOI y arXiv pide
+# 3 s entre consultas, así que cada semana solo se buscan las obras nuevas y unas pocas ya revisadas, por turno.
+MEMORIA = os.path.join(DATOS, "busquedas.json")
+MEMORIA_FUENTES = ("arxiv", "zbmath")
+REVISAR_POR_SEMANA = 8   # obras ya revisadas que se vuelven a buscar cada semana, por fuente (las más antiguas primero)
+REVISAR_DIAS = 28        # y solo si su última búsqueda tiene al menos estos días
 
 
 # ---------------------------------------------------------------- utilidades
@@ -510,8 +518,21 @@ def solo_s2():
     armar_paquete()
 
 
-def verificar(obras, previas, rapido, estado):
-    """Agrega los sellos: Crossref, DataCite, Semantic Scholar, zbMATH, arXiv, DBLP."""
+def a_buscar(pendientes, memoria):
+    """Qué obras se buscan hoy en una fuente lenta: todas las que nunca se buscaron y, de las ya
+    buscadas, las REVISAR_POR_SEMANA más antiguas cuya última búsqueda tiene al menos REVISAR_DIAS días."""
+    hoy = dt.date.fromisoformat(HOY)
+    nuevas = [o for o in pendientes if o["id"] not in memoria]
+    vencidas = sorted((o for o in pendientes if o["id"] in memoria and
+                       (hoy - dt.date.fromisoformat(memoria[o["id"]]["fecha"])).days >= REVISAR_DIAS),
+                      key=lambda o: memoria[o["id"]]["fecha"])
+    return nuevas + vencidas[:REVISAR_POR_SEMANA]
+
+
+def verificar(obras, previas, rapido, estado, memoria):
+    """Agrega los sellos: Crossref, DataCite, Semantic Scholar, zbMATH, arXiv, DBLP.
+
+    memoria ({"arxiv"|"zbmath": {id de obra: {"fecha", "id"}}}) se actualiza con las búsquedas de hoy."""
     prev = {o["id"]: o.get("vf", {}) for o in previas}
     for o in obras:
         o["vf"] = {}
@@ -565,45 +586,66 @@ def verificar(obras, previas, rapido, estado):
         falla("s2", e, reintento=True)  # si pidió esperar, el flujo semanal lo reintenta (--solo-s2)
         falla("dblp", e, reintento=True)
 
-    # zbMATH Open (por DOI)
+    # zbMATH Open (por DOI), recordado en datos/busquedas.json porque cada consulta tarda varios segundos
     try:
-        n = 0
-        for o in con_doi:
+        mem = memoria["zbmath"]
+        hoy_buscar = a_buscar(con_doi, mem)
+        ids_hoy = {o["id"] for o in hoy_buscar}
+        for o in con_doi:  # las que no se buscan hoy usan lo encontrado la última vez
+            m = mem.get(o["id"])
+            if o["id"] not in ids_hoy and m and m["id"]:
+                o["vf"]["zbmath"] = {"id": m["id"]}
+        for o in hoy_buscar:
             r = pedir("https://api.zbmath.org/v1/document/_structured_search?page=0&results_per_page=1&DOI=" +
                       urllib.parse.quote(o["doi"]))
             res = (r or {}).get("result") or []
-            if res:
-                o["vf"]["zbmath"] = {"id": res[0].get("identifier") or str(res[0].get("id"))}
-                n += 1
+            hallado = (res[0].get("identifier") or str(res[0].get("id"))) if res else None
+            mem[o["id"]] = {"fecha": HOY, "id": hallado}
+            if hallado:
+                o["vf"]["zbmath"] = {"id": hallado}
             time.sleep(0.2)
-        ok("zbmath", n)
+        log(f"  zbMATH: {len(hoy_buscar)} obras consultadas, {len(con_doi) - len(hoy_buscar)} con la consulta anterior")
+        ok("zbmath", sum(1 for o in obras if "zbmath" in o["vf"]))
     except Exception as e:  # noqa: BLE001
         falla("zbmath", e)
 
-    # arXiv: primero lo que ya informaron OpenAlex y Semantic Scholar; luego búsqueda por título
+    # arXiv: primero lo que ya informaron OpenAlex y Semantic Scholar; luego búsqueda por título,
+    # que se recuerda en datos/busquedas.json para no repetirla cada semana
     try:
         for o in obras:
             if "arxiv" not in o["vf"] and o.get("arxiv_oa"):
                 o["vf"]["arxiv"] = {"id": o["arxiv_oa"]}
-        if not rapido:
-            ns = {"a": "http://www.w3.org/2005/Atom"}
-            for o in obras:
-                if "arxiv" in o["vf"]:
-                    continue
-                titulo = re.sub(r"[^\w\s]", " ", o["t"])[:200]
-                q = urllib.parse.quote(f'ti:"{titulo}"')
-                xml = pedir(f"https://export.arxiv.org/api/query?search_query={q}&max_results=3", json_=False,
-                            cabeceras={"Accept": "application/atom+xml"})
-                time.sleep(3.1)  # límite pedido por arXiv
-                for e in ET.fromstring(xml).findall("a:entry", ns):
-                    t = e.findtext("a:title", "", ns)
-                    if norm(t) == norm(o["t"]):
-                        o["vf"]["arxiv"] = {"id": e.findtext("a:id", "", ns).rsplit("/abs/", 1)[-1]}
-                        break
-        elif prev:
-            for o in obras:  # en modo rápido se reutiliza lo encontrado antes
-                if "arxiv" not in o["vf"] and "arxiv" in prev.get(o["id"], {}):
-                    o["vf"]["arxiv"] = prev[o["id"]]["arxiv"]
+        pendientes = [o for o in obras if "arxiv" not in o["vf"]]
+        mem = memoria["arxiv"]
+        hoy_buscar = [] if rapido else a_buscar(pendientes, mem)
+        ids_hoy = {o["id"] for o in hoy_buscar}
+        for o in pendientes:  # las que no se buscan hoy usan lo encontrado la última vez
+            if o["id"] in ids_hoy:
+                continue
+            m = mem.get(o["id"])
+            if m:
+                if m["id"]:
+                    o["vf"]["arxiv"] = {"id": m["id"]}
+            elif "arxiv" in prev.get(o["id"], {}):  # modo rápido, obra aún sin memoria
+                o["vf"]["arxiv"] = prev[o["id"]]["arxiv"]
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        for o in hoy_buscar:
+            titulo = re.sub(r"[^\w\s]", " ", o["t"])[:200]
+            q = urllib.parse.quote(f'ti:"{titulo}"')
+            xml = pedir(f"https://export.arxiv.org/api/query?search_query={q}&max_results=3", json_=False,
+                        cabeceras={"Accept": "application/atom+xml"})
+            time.sleep(3.1)  # límite pedido por arXiv
+            hallado = None
+            for e in ET.fromstring(xml).findall("a:entry", ns):
+                t = e.findtext("a:title", "", ns)
+                if norm(t) == norm(o["t"]):
+                    hallado = e.findtext("a:id", "", ns).rsplit("/abs/", 1)[-1]
+                    break
+            mem[o["id"]] = {"fecha": HOY, "id": hallado}
+            if hallado:
+                o["vf"]["arxiv"] = {"id": hallado}
+        log(f"  arXiv: {len(hoy_buscar)} obras buscadas por título, "
+            f"{len(pendientes) - len(hoy_buscar)} con la búsqueda anterior")
         ok("arxiv", sum(1 for o in obras if "arxiv" in o["vf"]))
     except Exception as e:  # noqa: BLE001
         falla("arxiv", e)
@@ -809,7 +851,9 @@ def main():
     asignar_lineas(obras, lineas)
 
     log("Verificación (Crossref, DataCite, Semantic Scholar, zbMATH, arXiv)…")
-    verificar(obras, previas, a.rapido, estado)
+    previa = leer_json(MEMORIA, {}) or {}
+    memoria = {f: previa.get(f, {}) for f in MEMORIA_FUENTES}
+    verificar(obras, previas, a.rapido, estado, memoria)
 
     log("Obras solo en ORCID sin DOI: revisión en Crossref…")
     log(f"  {revisar_sin_doi(obras, orc, previas)} revisadas")
@@ -820,6 +864,12 @@ def main():
     escribir_json(os.path.join(DATOS, "publicaciones.json"), {"generado": HOY, "obras": obras})
     escribir_json(os.path.join(DATOS, "perfil.json"), perfil)
     escribir_json(os.path.join(DATOS, "fuentes.json"), {"generado": HOY, "estado": estado})
+    ids = {o["id"] for o in obras}  # se olvidan las obras que ya no están en la lista
+    escribir_json(MEMORIA, {
+        "_nota": "Última búsqueda de cada obra en las fuentes lentas (id: el encontrado, o null). "
+                 "La usa scripts/actualizar.py para no repetirlas cada semana; la página no la lee.",
+        "generado": HOY,
+        **{f: {k: v for k, v in sorted(memoria[f].items()) if k in ids} for f in MEMORIA_FUENTES}})
     cobertura = {k: sum(1 for o in obras if k in o["vf"]) for k in ("crossref", "datacite", "s2", "zbmath", "arxiv", "dblp")}
     log("Sellos: " + ", ".join(f"{k} {v}" for k, v in cobertura.items()))
     armar_paquete()

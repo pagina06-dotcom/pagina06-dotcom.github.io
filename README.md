@@ -21,12 +21,14 @@ Rutas útiles: `#home/line-cot`, `#area-cooperation/sust`, `#area-free`, `#publi
 ## Actualizar datos
 
 ```
-python scripts/actualizar.py            # todo (unos 5 min; arXiv pide 3 s entre consultas)
+python scripts/actualizar.py            # todo (unos 4 min; arXiv pide 3 s entre consultas)
 python scripts/actualizar.py --rapido   # sin buscar arXiv por título
 python scripts/actualizar.py --sin-red  # solo rearma datos/sitio.js después de editar contenido/
 ```
 
 Fuentes que consulta: ORCID y OpenAlex (base de la lista), Crossref, DataCite, Semantic Scholar, zbMATH Open y arXiv (sellos de verificación). DBLP se lee desde Semantic Scholar. Las ubicaciones del mapa vienen de las instituciones de OpenAlex.
+
+**Búsquedas lentas.** zbMATH tarda unos 7 s por DOI y arXiv pide 3 s entre consultas por título. `datos/busquedas.json` recuerda la última búsqueda de cada obra en esas dos fuentes, así que cada semana solo se buscan las obras nuevas y, por turno, las 8 revisadas hace más tiempo (al menos 4 semanas). Si se borra ese archivo, la siguiente ejecución vuelve a buscarlas todas (unos 15 minutos).
 
 Si una fuente falla, se conservan sus sellos anteriores y la página de Fuentes lo indica. Si ORCID u OpenAlex fallan, no se sobrescribe nada.
 
