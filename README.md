@@ -18,12 +18,11 @@ Doble clic en `index.html` (funciona sin servidor). Para la vista de Tomás, `ad
 
 Rutas útiles: `#home/line-cot`, `#area-cooperation/sust`, `#area-free`, `#publications`, `#journey`, `#sources`; en `admin.html` también `#panel`, `#panel/pubs`, `#panel/profiles`, `#panel/content`, `#panel/sources`, `#panel/build`.
 
-### Herramientas locales
+### Solo automático (herramienta local)
 
-Al abrir el sitio desde este computador (doble clic en `index.html`, o `localhost`) aparece abajo a la derecha una barra **LOCAL**. El sitio publicado nunca la muestra.
+Al abrir el sitio desde este computador (doble clic en `index.html`, o `localhost`) aparece abajo a la derecha una barra **LOCAL** con la casilla **Solo automático**. El sitio publicado nunca la muestra.
 
-- **Solo automático:** oculta todo lo cargado a mano en `contenido/` (portada, «Acerca de», perfiles, charlas, proyectos, escritos, «Trabaja conmigo», residencias y premios). Muestra cómo se vería el sitio solo con lo que trae el recolector. Se recuerda en el navegador hasta desactivarlo.
-- **Ver procedencia:** colorea cada bloque según de dónde vienen sus datos: verde y borde continuo = automático (con su fuente); rayado y borde punteado = cargado a mano (con su archivo).
+Oculta todo lo cargado a mano en `contenido/` (portada, «Acerca de», perfiles, charlas, proyectos, escritos, «Trabaja conmigo», residencias y premios) y muestra cómo se ve el sitio solo con lo que trae el recolector. Se recuerda en el navegador hasta desactivarla. A medida que una sección pase a generarse sola (IA, búsqueda web…), deja de ocultarse.
 
 ### Cómo se construyó el sitio
 

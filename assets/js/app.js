@@ -167,10 +167,8 @@ const T = {
   bRetry: ['Semantic Scholar retry', 'Reintento de Semantic Scholar'], bRetryR: ['{d} · {s} s · {r}', '{d} · {s} s · {r}'],
   bMan: ['Hand-entered content used', 'Contenido cargado a mano que se usó'], bManS: ['It does not come from any source; the date is its last edit.', 'No viene de ninguna fuente; la fecha es su última edición.'], bDays: ['{n} days ago', 'hace {n} días'], thFile: ['FILE', 'ARCHIVO'], thEdit: ['LAST EDIT', 'ÚLTIMA EDICIÓN'],
   /* barra local (solo en este computador) */
-  devK: ['LOCAL', 'LOCAL'], devAuto: ['Automatic only', 'Solo automático'], devProv: ['Show provenance', 'Ver procedencia'],
+  devK: ['LOCAL', 'LOCAL'], devAuto: ['Automatic only', 'Solo automático'],
   devAutoH: ['Hides everything entered by hand (only on this computer)', 'Oculta todo lo cargado a mano (solo en este computador)'],
-  devProvH: ['Colors each block by where its data comes from', 'Colorea cada bloque según de dónde vienen sus datos'],
-  devLegA: ['automatic', 'automático'], devLegM: ['by hand', 'a mano'], srcA: ['AUTOMATIC', 'AUTOMÁTICO'], srcM: ['BY HAND', 'A MANO'],
 };
 const t = (k, v) => { let s = L(T[k]) ?? k; if (v) for (const x in v) s = s.replace('{' + x + '}', v[x]); return s; };
 
@@ -179,15 +177,13 @@ const MES = { en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'
 const fd = iso => { if (!iso) return '—'; const [y, m, d] = iso.split('-').map(Number); return `${d} ${MES[lang][m - 1]} ${y}`; };
 const prov = (auto, label, date, extra) => `<span class="prov"><b>${auto ? '■' : '□'}</b>${esc(label)}${date ? ' · ' + fd(date) : ''}${extra ? ' · ' + esc(extra) : ''}</span>`;
 
-/* ---------- herramientas locales ----------
-   Solo al abrir el sitio desde este computador (file:// o localhost); el sitio publicado nunca las muestra.
-   - «Solo automático» oculta todo lo cargado a mano en contenido/ (se recuerda en este navegador).
-   - «Ver procedencia» colorea cada bloque marcado con src(): verde = automático, rayado = a mano. */
+/* ---------- herramienta local: «Solo automático» ----------
+   Solo al abrir el sitio desde este computador (file:// o localhost); el sitio publicado nunca la muestra.
+   Oculta todo lo cargado a mano en contenido/ (se recuerda en este navegador). Cuando algo pase a ser
+   automático (IA, búsqueda web…), se quita su M() o su página de PAG_MANUAL para que vuelva a verse. */
 const LOCAL = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
 const SOLO_AUTO = LOCAL && store.get('soloAuto') === '1';
-let verProc = LOCAL && store.get('verProc') === '1';
 const M = html => SOLO_AUTO ? '' : html;  // bloque cargado a mano: desaparece en «Solo automático»
-const src = (auto, label) => ` data-src="${auto ? 'a' : 'm'}" data-src-l="${esc(t(auto ? 'srcA' : 'srcM') + (label ? ' · ' + label : ''))}"`;
 const PAG_MANUAL = ['talks', 'projects', 'writing', 'work'];  // páginas hechas solo de contenido a mano
 
 /* ---------- datos ---------- */
@@ -311,7 +307,7 @@ function home(line) {
   const upnext = [...MAN.ev].sort((a, b) => (anio(b.y) || 0) - (anio(a.y) || 0)).slice(0, 3);
   return `${M(`<div class="wrap">
   <section class="hero">
-    <div class="hero-txt"${src(false, 'contenido/perfil.json')}>
+    <div class="hero-txt">
       <div class="eyebrow" style="color:var(--p-research)">${av('research', 22)}${t('mainP')} · ${t('researcher')}</div>
       <h1>${esc(P.titulo)}</h1>
       ${ed('p', 'role', esc(L(P.rol)))}
@@ -320,31 +316,31 @@ function home(line) {
         <span class="ids"><a href="https://orcid.org/0000-0003-3014-8340" target="_blank" rel="noopener">ORCID ↗</a><a href="https://scholar.google.com/citations?user=q7HbZQ4AAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a><a href="https://www.scopus.com/authid/detail.uri?authorId=36873504800" target="_blank" rel="noopener">Scopus ↗</a></span></div>
       ${prov(false, t('manual'), P.actualizado)}
     </div>
-    <div class="carousel" aria-roledescription="carousel" aria-label="Fotos"${src(false, 'contenido/perfil.json')}>
+    <div class="carousel" aria-roledescription="carousel" aria-label="Fotos">
       <div class="imgw"><img id="carImg" src="${esc(photos[ci].src)}" alt="${esc(L(photos[ci].d))}" width="380" height="460">${ADMIN ? `<button class="photobadge" type="button" data-static>${t('photos', { n: photos.length })}</button>` : ''}</div>
       <div class="car-foot"><div class="car-cap" aria-live="polite"><b id="carD">${esc(L(photos[ci].d))}</b><span id="carL">${esc(L(photos[ci].lugar))}</span></div>
         <div class="car-ctl"><button class="sq" type="button" data-car="-1" aria-label="‹">‹</button><span class="mono" id="carN">${ci + 1}/${photos.length}</span><button class="sq" type="button" data-car="1" aria-label="›">›</button></div></div>
       ${prov(false, t('manual'), P.actualizado, t('stopsRM').toLowerCase())}
     </div>
   </section>
-  <div class="pcards"${src(false, 'contenido/perfiles.json')}>${others.map(k => profileCard(k)).join('')}</div>
+  <div class="pcards">${others.map(k => profileCard(k)).join('')}</div>
   </div>`)}
-  <section class="stats"${src(true, 'OpenAlex')}><div class="wrap stats-in">
+  <section class="stats"><div class="wrap stats-in">
     ${[['works', st.works], ['cites', st.cites], ['h', st.h], ['i10', st.i10]].map(([k, v]) => `<div class="stat"><b>${v ?? '—'}</b><span>${t('st.' + k)}</span></div>`).join('')}
     ${prov(true, 'OpenAlex', DD.perfil.generado, t('weekly'))}
   </div></section>
   <div class="wrap">
   <div class="grid-about sec${SOLO_AUTO ? ' solo' : ''}">
-    ${M(`<section class="about"${src(false, 'contenido/perfil.json')}><div class="sec-h"><h2 class="h2">${t('about')}</h2>${prov(false, t('manual'), P.actualizado)}</div>
+    ${M(`<section class="about"><div class="sec-h"><h2 class="h2">${t('about')}</h2>${prov(false, t('manual'), P.actualizado)}</div>
       ${ADMIN ? aboutEditor() : `<p>${esc(L(P.bio))}</p>`}</section>`)}
-    <section class="latest"${src(true, 'OpenAlex')}><div class="sec-h"><h2 class="h2">${t('latest')}</h2>${prov(true, 'OpenAlex')}</div>
+    <section class="latest"><div class="sec-h"><h2 class="h2">${t('latest')}</h2>${prov(true, 'OpenAlex')}</div>
       ${latest.map(w => `<a href="${w.doi ? 'https://doi.org/' + esc(w.doi) : '#publications'}" ${w.doi ? 'target="_blank" rel="noopener"' : ''}><div class="t">${esc(w.t)}</div><div class="m">${w.y || ''}${w.v ? ' · ' + esc(venue(w)) : ''}</div></a>`).join('')}
       <a class="more" href="#publications">${t('seeAll', { n: VIS.length })}</a></section>
   </div>
-  <section class="sec" id="lines"${src(true, 'OpenAlex + contenido/lineas.json')}><div class="sec-h" style="margin-bottom:4px"><h2 class="h2">${t('lines')}</h2>${prov(true, t('autoAssign'))}</div>
+  <section class="sec" id="lines"><div class="sec-h" style="margin-bottom:4px"><h2 class="h2">${t('lines')}</h2>${prov(true, t('autoAssign'))}</div>
     <p class="muted" style="font-size:14.5px;margin-bottom:16px">${t('linesSub')}</p>
     ${linesList(line)}${line ? linePanel(line) : ''}</section>
-  ${M(`<section class="sec"${src(false, 'contenido/eventos.json')}><div class="sec-h"><h2 class="h2">${t('upnext')}</h2>${prov(false, t('manual'), C.eventos.actualizado)}</div>
+  ${M(`<section class="sec"><div class="sec-h"><h2 class="h2">${t('upnext')}</h2>${prov(false, t('manual'), C.eventos.actualizado)}</div>
     <div class="upnext">${upnext.map(e => `<article style="--pc:${pc(profOf(e.s))}"><div class="eyebrow" style="font-size:11px;color:var(--muted)">${av(profOf(e.s), 22)}${esc(L(e.kind))}</div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.when)} · ${esc(e.place)}</div></article>`).join('')}</div></section>`)}
   </div>`;
 }
@@ -377,8 +373,8 @@ function linePanel(id) {
       ${top.map(w => `<div class="mini"><div><div class="t">${esc(w.t)}</div><div class="m">${w.y || ''} · ✓ ${vcount(w)} ${t('sources')}</div></div><div class="c">${w.c ?? '—'}</div></div>`).join('')}
       <a class="more" style="font-size:13.5px" href="#publications/line-${id}">${t('seeLine', { n: ws.length })}</a></div>
     <div><div class="figs"><div><b>${ws.length}</b><span>${t('inLine')}</span></div><div><b>${cites}</b><span>${t('cites')} · ■ OpenAlex</span></div></div>
-      ${M(`<div${src(false, 'contenido/')}><div class="sub-eb">${t('projTalks')} · ${prov(false, t('manual'))}</div>
-      ${rel.length ? rel.map(it => `<a class="rel" href="${subHref(it.s)}">${av(profOf(it.s), 22)}<div><div class="k">${kindLabel(it)}${it.s !== 'research.' + id ? ' · ' + t('alsoLine') : ''}</div><div class="t">${esc(it.t || it.title)}</div><div class="m">${esc(it.typ === 'pr' ? `${it.o} · ${L(it.y)}` : `${it.when} · ${it.place}`)}</div></div></a>`).join('') : `<p class="muted" style="font-size:14px">${t('nothingLine')}</p>`}</div>`)}</div>
+      ${M(`<div class="sub-eb">${t('projTalks')} · ${prov(false, t('manual'))}</div>
+      ${rel.length ? rel.map(it => `<a class="rel" href="${subHref(it.s)}">${av(profOf(it.s), 22)}<div><div class="k">${kindLabel(it)}${it.s !== 'research.' + id ? ' · ' + t('alsoLine') : ''}</div><div class="t">${esc(it.t || it.title)}</div><div class="m">${esc(it.typ === 'pr' ? `${it.o} · ${L(it.y)}` : `${it.when} · ${it.place}`)}</div></div></a>`).join('') : `<p class="muted" style="font-size:14px">${t('nothingLine')}</p>`}`)}</div>
   </div>`;
 }
 function venue(w) {
@@ -442,7 +438,7 @@ function profilePage(k, sub) {
         + (ADMIN ? `<div class="addpanel"><b>${t('addContent')}</b> <span class="muted">${t('addTo', { s: esc(L(s.t)) })}</span><div class="opts">${['oProj', 'oTalk', 'oWr', 'oWork'].map(x => `<button type="button" data-static>+ ${t(x)}</button>`).join('')}</div><button class="btn lite sm" type="button" data-static style="margin-top:10px">${t('pickExisting')}</button></div>` : '');
     }
   }
-  return `<div class="wrap page"${src(false, 'contenido/perfiles.json')}>${crumb}${head}${tabs}${body}${ADMIN ? `<p class="note">${t('oneSub')}</p>` : ''}${others}</div>`;
+  return `<div class="wrap page">${crumb}${head}${tabs}${body}${ADMIN ? `<p class="note">${t('oneSub')}</p>` : ''}${others}</div>`;
 }
 function freeConfig() {
   const ic = ['squares', 'rings', 'diamond', 'research', 'cooperation', 'inter'];
@@ -474,7 +470,7 @@ function pubsPage(line) {
   const co = DD.perfil.coautores, cmax = co[0] ? co[0][1] : 1;
   const types = [...new Set(WORKS.map(w => w.ty))];
   const conf = VIS.filter(w => w.linea_estado === 'confirmada').length, hid = ALL_WORKS.filter(w => w.oculta).length;
-  return `<div class="wrap page"${src(true, 'OpenAlex + ORCID')}>${pageHead(t('nav.pubs'), t('pubs.sub'), prov(true, 'OpenAlex + ORCID', GEN))}
+  return `<div class="wrap page">${pageHead(t('nav.pubs'), t('pubs.sub'), prov(true, 'OpenAlex + ORCID', GEN))}
   ${ADMIN ? `<div class="admsum"><span class="big">${conf} / ${VIS.length}</span><span>${t('confirmedN')} · ${hid} ${t('hiddenN')}</span><span class="bar"><i style="width:${conf / VIS.length * 100}%"></i></span><button class="btn solid sm" type="button" data-static>${t('acceptAll')}</button><a class="btn sm" href="#panel/pubs">${t('bulkRev')}</a></div>` : `
   <div class="charts"><div class="box"><h3>${t('perYear')}</h3>${chart}</div>
     <div class="box"><h3>${t('coauthors')}</h3>${co.map(([n, c]) => `<div class="coa"><span>${esc(n)}</span><span class="bar"><i style="width:${c / cmax * 100}%"></i></span><span class="n">${c}</span></div>`).join('')}</div></div>`}
@@ -526,26 +522,26 @@ function profChips(page, list) {
 function talksPage() {
   const list = ITEMS.filter(it => it.typ === 'ev').sort((a, b) => b.y - a.y);
   const vis = list.filter(it => !PF.talks || profOf(it.s) === PF.talks);
-  return `<div class="wrap page"${src(false, 'contenido/eventos.json')}>${pageHead(t('nav.talks'), t('talks.sub'), prov(false, t('manual'), C.eventos.actualizado))}${profChips('talks', list)}
+  return `<div class="wrap page">${pageHead(t('nav.talks'), t('talks.sub'), prov(false, t('manual'), C.eventos.actualizado))}${profChips('talks', list)}
     <div class="cards">${vis.map(itemCard).join('')}</div><p class="note">${t('talks.note')}</p></div>`;
 }
 function projectsPage() {
   const list = ITEMS.filter(it => it.typ === 'pr');
   const vis = list.filter(it => !PF.projects || profOf(it.s) === PF.projects);
-  return `<div class="wrap page"${src(false, 'contenido/proyectos.json')}>${pageHead(t('nav.projects'), t('proj.sub'), prov(false, t('manual'), C.proyectos.actualizado, 'ORCID Funding = 0'))}${profChips('projects', list)}
+  return `<div class="wrap page">${pageHead(t('nav.projects'), t('proj.sub'), prov(false, t('manual'), C.proyectos.actualizado, 'ORCID Funding = 0'))}${profChips('projects', list)}
     <div class="fused">${vis.map(it => `<article style="--pc:${pc(profOf(it.s))}"><div class="top" style="display:flex;justify-content:space-between;gap:10px;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)"><span>${esc(L(it.k))}</span><span class="st" style="color:var(--ink)"><span class="sq-i ${it.st === 'on' ? 'ok' : ''}"></span>${t(it.st === 'on' ? 'on' : 'done')}</span></div>
       <div class="t">${esc(it.t)}</div><div class="o">${esc(it.o)} · <span class="mono">${esc(L(it.y))}</span></div><p class="d">${esc(L(it.d))}</p>
       <div class="tagrow">${tag(it.s)}${alsoTags(it)}</div>${ADMIN ? `<div style="margin-top:8px">${subSelect(it.s)}</div>` : ''}</article>`).join('')}</div></div>`;
 }
 function writingPage() {
   const list = ITEMS.filter(it => it.typ === 'wr').sort((a, b) => b.y - a.y);
-  return `<div class="wrap page"${src(false, 'contenido/escritos.json')}>${pageHead(t('nav.writing'), t('writing.sub'), prov(false, t('manual'), C.escritos.actualizado, 'Medium · RSS: ' + t('st.plan').toLowerCase()))}
+  return `<div class="wrap page">${pageHead(t('nav.writing'), t('writing.sub'), prov(false, t('manual'), C.escritos.actualizado, 'Medium · RSS: ' + t('st.plan').toLowerCase()))}
     <div class="wlist">${list.map(it => `<div class="wrow"><div class="y">${esc(it.y)}</div><div><div class="k">${esc(L(it.k))}</div>${tag(it.s)}</div>
       <div>${urlSegura(it.u) ? `<a class="t" href="${esc(urlSegura(it.u))}" target="_blank" rel="noopener">${esc(it.t)} ↗</a>` : `<span class="t">${esc(it.t)}</span>`}<p class="d">${esc(L(it.d))}</p><div class="u">${esc(domain(it.u))}</div></div></div>`).join('')}</div></div>`;
 }
 function workPage() {
   const P = C.perfil, ops = C.oportunidades.oportunidades, marks = ['ok', 'block', ''];
-  return `<div class="wrap page"${src(false, 'contenido/oportunidades.json')}>${pageHead(t('nav.work'), t('work.sub'), prov(false, t('manual'), C.oportunidades.actualizado))}
+  return `<div class="wrap page">${pageHead(t('nav.work'), t('work.sub'), prov(false, t('manual'), C.oportunidades.actualizado))}
     <div class="work"><div class="modes">${ops.map((o, i) => `<div class="mode"><div class="top"><span>0${i + 1}</span><span class="badge"><span class="sq-i ${marks[i]}"></span>${esc(L(o.s))}</span></div>
       ${ed('h3', '', esc(L(o.t)))}<p>${esc(L(o.d))}</p></div>`).join('')}</div>
     <aside class="contact"><div class="eyebrow" style="font-size:11px;color:var(--muted)">${t('contact')}</div><div class="em">${esc(P.email)}</div><div class="muted">${esc(P.sedes)}</div>
@@ -604,14 +600,14 @@ function journeyPage() {
   const byY = Object.fromEntries(DD.perfil.por_anio), mx = Math.max(...Object.values(byY));
   const ys = []; for (let y = y0; y <= y1; y++) ys.push(y);
   const ps = places().sort((a, b) => b.a - a.a || b.b - a.b);
-  return `<div class="wrap page"${src(true, 'OpenAlex + ORCID')}>${pageHead(t('nav.journey'), t('journey.sub'), prov(true, 'OpenAlex + ORCID', GEN))}
+  return `<div class="wrap page">${pageHead(t('nav.journey'), t('journey.sub'), prov(true, 'OpenAlex + ORCID', GEN))}
   <div class="jgrid"><div class="mapbox" id="mapbox" tabindex="0" aria-label="${t('nav.journey')}"><div id="map"><div class="bigyear" id="bigY">${year}</div></div>
     <div class="ctl"><button class="sq" type="button" data-y="-1" aria-label="${t('prevY')}">‹</button><button class="play" type="button" data-play>${playing ? t('pause') : t('play')}</button><button class="sq" type="button" data-y="1" aria-label="${t('nextY')}">›</button><span class="stat-t" id="playSt"></span></div>
     <div class="hist" role="slider" aria-valuemin="${y0}" aria-valuemax="${y1}" aria-valuenow="${year}" aria-label="${t('nav.journey')}">${ys.map(y => `<button type="button" data-year="${y}" style="height:${Math.max(8, (byY[y] || 0) / mx * 100)}%" aria-label="${y}"></button>`).join('')}</div>
     <div class="hlab">${ys.map(y => `<span>${y % 3 === y0 % 3 ? "'" + String(y).slice(2) : ''}</span>`).join('')}</div>
     <div class="legend"><span><i style="background:var(--p-research)"></i>${t('kAff')}</span>${M(`<span><i style="background:var(--p-coop)"></i>${t('kEv')}</span><span><i style="background:var(--p-inter)"></i>${t('kAw')}</span>`)}${ps.some(p => p.k === 'edu' && okLL(p.ll)) ? `<span><i style="background:var(--p-free)"></i>${t('kEdu')}</span>` : ''}<span><i style="border:1.5px solid var(--muted)"></i>${t('pastYears')}</span><span>${t('stopsRM')}</span></div></div>
     <div class="ypanel" id="ypanel" aria-live="polite"></div></div>
-  <section class="sec"><h2 class="h2" style="margin-bottom:8px">${t('fullJ')}</h2><div class="tl">${ps.map(p => `<div${p.k === 'ev' || p.k === 'aw' ? src(false, 'contenido/') : ''}><span class="y">${p.a}${p.b !== p.a ? '–' + (p.b >= NOW - 1 && p.k === 'aff' ? t('present') : p.b) : ''}</span><i style="background:var(${KCOL[p.k]})"></i><span><span class="t">${esc(p.n)}</span><br><span class="m">${[esc(p.c), t(KLAB[p.k])].filter(Boolean).join(' · ')}</span></span></div>`).join('')}</div></section>
+  <section class="sec"><h2 class="h2" style="margin-bottom:8px">${t('fullJ')}</h2><div class="tl">${ps.map(p => `<div><span class="y">${p.a}${p.b !== p.a ? '–' + (p.b >= NOW - 1 && p.k === 'aff' ? t('present') : p.b) : ''}</span><i style="background:var(${KCOL[p.k]})"></i><span><span class="t">${esc(p.n)}</span><br><span class="m">${[esc(p.c), t(KLAB[p.k])].filter(Boolean).join(' · ')}</span></span></div>`).join('')}</div></section>
   ${orcidSection()}</div>`;
 }
 function initMap() {
@@ -652,7 +648,7 @@ function yearPanel() {
   const ps = places(), ws = VIS.filter(w => w.y === year);
   const act = ps.filter(p => p.a <= year && year <= p.b);
   const top = [...ws].sort((a, b) => (b.c || 0) - (a.c || 0))[0];
-  const grp = (k, title) => { const xs = act.filter(p => p.k === k); return xs.length ? `<div class="sub-eb">${title}</div>${xs.map(p => `<div class="yi"${p.k === 'ev' || p.k === 'aw' ? src(false, 'contenido/') : ''}><i style="background:var(${KCOL[p.k]})"></i><div><div class="t">${esc(p.n)}${p.a === year ? `<span class="new">${t('new')}</span>` : ''}</div><div class="m">${[esc(p.c), p.b === year && year < NOW ? t('lastYear') : ''].filter(Boolean).join(' · ')}</div></div></div>`).join('')}` : ''; };
+  const grp = (k, title) => { const xs = act.filter(p => p.k === k); return xs.length ? `<div class="sub-eb">${title}</div>${xs.map(p => `<div class="yi"><i style="background:var(${KCOL[p.k]})"></i><div><div class="t">${esc(p.n)}${p.a === year ? `<span class="new">${t('new')}</span>` : ''}</div><div class="m">${[esc(p.c), p.b === year && year < NOW ? t('lastYear') : ''].filter(Boolean).join(' · ')}</div></div></div>`).join('')}` : ''; };
   $('#ypanel').innerHTML = `<div class="yh"><b>${year}</b><div class="n"><b>${ws.length}</b>${t('pubsYear')}</div></div>
     ${grp('aff', t('affs')) || `<p class="muted" style="font-size:14px;margin-top:14px">${t('noAff')}</p>`}${grp('ev', t('evs'))}${grp('aw', t('aws'))}${grp('edu', t('edus'))}
     ${top ? `<div class="sub-eb" style="border-top:1px solid var(--line);padding-top:14px">${t('topYear')}</div><div class="yi"><i style="background:var(--p-research)"></i><div><div class="t">${esc(top.t)}</div><div class="m">${esc(venue(top) || '')} · ${top.c ?? '—'} ${t('cites')} · ■ OpenAlex</div></div></div>` : ''}`;
@@ -679,7 +675,7 @@ function sourcesPage() {
   const s2c = VIS.reduce((s, w) => s + ((w.vf && w.vf.s2 && w.vf.s2.cites) || 0), 0);
   const s2cs = VIS.map(w => (w.vf && w.vf.s2 && w.vf.s2.cites) || 0).sort((a, b) => b - a), s2h = s2cs.filter((c, i) => c >= i + 1).length;
   const pst = DD.perfil.stats, s2k = estK(est.s2) || 'ok';
-  return `<div class="wrap page"${src(true, t('synced'))}>${pageHead(t('nav.sources'), t('src.sub'), prov(true, t('synced'), GEN))}
+  return `<div class="wrap page">${pageHead(t('nav.sources'), t('src.sub'), prov(true, t('synced'), GEN))}
   <section class="sec"><h2 class="h2" style="margin-bottom:18px">${t('how')}</h2><div class="steps">${cat.pasos.map((p, i) => `<div><b>0${i + 1}</b><h3>${esc(L(p[0]))}</h3><p>${esc(L(p[1]))}</p></div>`).join('')}</div></section>
   <section class="sec"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:18px"><h2 class="h2">${t('srcList')}</h2>
     <div class="legend2">${['ok', 'plan', 'block'].map(k => `<span class="sts" style="font-family:var(--sans);font-size:12.5px"><span class="sq-i ${mark(k)}"></span>${t('st.' + k)}</span>`).join('')}</div></div>
@@ -845,18 +841,15 @@ function pSources() {
       <td class="mono">${e ? fd(e.fecha) : '—'}</td><td>${e ? esc(estRes(e)) : '—'}</td></tr>`; }).join('')}</tbody></table></div>`;
 }
 
-/* ---------- barra local («Solo automático» y «Ver procedencia») ---------- */
+/* ---------- barra local («Solo automático») ---------- */
 function devBar() {
   if (!LOCAL) return;
   document.body.classList.add('local');
-  document.body.classList.toggle('ver-proc', verProc);
   let bar = $('.devbar');
   if (!bar) { bar = document.createElement('div'); bar.className = 'devbar'; bar.setAttribute('role', 'region'); document.body.append(bar); }
   bar.setAttribute('aria-label', t('devK'));
   bar.innerHTML = `<b>${t('devK')}</b>
-    <label title="${esc(t('devAutoH'))}"><input type="checkbox" data-dev="soloAuto" ${SOLO_AUTO ? 'checked' : ''}> ${t('devAuto')}</label>
-    <label title="${esc(t('devProvH'))}"><input type="checkbox" data-dev="verProc" ${verProc ? 'checked' : ''}> ${t('devProv')}</label>
-    ${verProc ? `<span class="leg"><i class="a"></i>${t('devLegA')} <i class="m"></i>${t('devLegM')}</span>` : ''}`;
+    <label title="${esc(t('devAutoH'))}"><input type="checkbox" data-dev="soloAuto" ${SOLO_AUTO ? 'checked' : ''}> ${t('devAuto')}</label>`;
 }
 
 /* ---------- enrutador ---------- */
@@ -971,7 +964,6 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('change', e => {
   if (e.target.dataset.dev === 'soloAuto') { store.set('soloAuto', e.target.checked ? '1' : '0'); location.reload(); return; }
-  if (e.target.dataset.dev === 'verProc') { verProc = e.target.checked; store.set('verProc', verProc ? '1' : '0'); devBar(); return; }
   if ('static' in e.target.dataset) { toast(t('staticT')); return; }
   const m = { ft: 'type', fl: 'line', fv: 'verify', fs: 'sort' }[e.target.id];
   if (m) { F[m] = e.target.value; $('#publist').innerHTML = pubList(); }
