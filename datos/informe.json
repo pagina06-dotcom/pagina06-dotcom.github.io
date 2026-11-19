@@ -1,18 +1,18 @@
 {
  "generado": "2026-11-19",
- "inicio": "2026-11-19T14:35:55+00:00",
- "duracion_s": 174,
- "donde": "local",
+ "inicio": "2026-11-19T15:01:56+00:00",
+ "duracion_s": 158,
+ "donde": "GitHub Actions",
  "modo": "completo",
  "etapas": [
   {
    "n": "ORCID: obras, formación y cargos",
-   "s": 1.9,
+   "s": 1.7,
    "r": "114 obras"
   },
   {
    "n": "OpenAlex: perfil y obras",
-   "s": 2.3,
+   "s": 1.2,
    "r": "84 obras, 968 citas"
   },
   {
@@ -22,17 +22,17 @@
   },
   {
    "n": "Recuperación de citas (obras solo en ORCID)",
-   "s": 13.1,
+   "s": 10.3,
    "r": "5 recuperadas (147 citas), 5 duplicadas unidas"
   },
   {
    "n": "Sellos: Crossref y DataCite",
-   "s": 45.7,
+   "s": 18.8,
    "r": "70 sellos de Crossref · 9 sellos de DataCite"
   },
   {
    "n": "Sellos: Semantic Scholar y DBLP",
-   "s": 100.0,
+   "s": 110.6,
    "r": "79 sellos de Semantic Scholar · 44 sellos de DBLP"
   },
   {
@@ -47,12 +47,12 @@
   },
   {
    "n": "Obras sin DOI: revisión en Crossref",
-   "s": 10.3,
+   "s": 15.0,
    "r": "8 revisadas"
   },
   {
    "n": "Perfil: cifras, coautores y afiliaciones",
-   "s": 1.1,
+   "s": 0.7,
    "r": "12 afiliaciones"
   }
  ],
@@ -60,27 +60,27 @@
   {
    "fuente": "Semantic Scholar",
    "n": 17,
-   "s": 46.8
+   "s": 45.4
   },
   {
    "fuente": "Crossref",
    "n": 92,
-   "s": 46.4
+   "s": 28.2
   },
   {
    "fuente": "OpenAlex",
    "n": 24,
-   "s": 12.3
+   "s": 7.9
   },
   {
    "fuente": "DataCite",
    "n": 9,
-   "s": 8.3
+   "s": 4.3
   },
   {
    "fuente": "ORCID",
    "n": 7,
-   "s": 1.9
+   "s": 1.7
   }
  ],
  "memoria": {

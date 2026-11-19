@@ -27,13 +27,13 @@
    "estado": "ok",
    "fecha": "2026-11-19",
    "resultado": 79,
-   "sin_revisar": 2
+   "sin_revisar": 8
   },
   "dblp": {
    "estado": "ok",
    "fecha": "2026-11-19",
    "resultado": 44,
-   "sin_revisar": 2
+   "sin_revisar": 8
   },
   "zbmath": {
    "estado": "ok",
